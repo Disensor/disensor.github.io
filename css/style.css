@@ -10,6 +10,12 @@ body {
   background: #f9f9fb;
   color: #222;
   line-height: 1.7;
+
+  background: url('../images/bg-engineering.png') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #f3f3f3;
+
 }
 
 /* HEADER */
