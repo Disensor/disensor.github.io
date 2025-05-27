@@ -99,3 +99,11 @@ footer {
   text-align: center;
   font-size: 0.9em;
 }
+
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin: 40px 0;
+}
+
