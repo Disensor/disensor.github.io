@@ -176,3 +176,46 @@ footer {
   font-size: 0.9em;
   border-top: 1px solid #ccc;
 }
+
+.contact-section {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  max-width: 700px;
+  margin: 40px auto;
+}
+
+.styled-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.styled-form input,
+.styled-form select,
+.styled-form textarea {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  background-color: #fefefe;
+  transition: 0.2s;
+}
+
+.styled-form input:focus,
+.styled-form textarea:focus,
+.styled-form select:focus {
+  outline: none;
+  border-color: #ff6600;
+  box-shadow: 0 0 5px rgba(255, 102, 0, 0.2);
+}
+
+.styled-form label {
+  font-weight: 600;
+}
+
+.styled-form .cta-button {
+  align-self: flex-start;
+}
+
