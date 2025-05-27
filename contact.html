@@ -7,10 +7,37 @@
 
 <main>
   <h2>Contact</h2>
-  <form action="https://formspree.io/f/xblondrz" method="POST">
-    <label>Nom :<br><input type="text" name="nom" required></label><br><br>
-    <label>Email :<br><input type="email" name="email" required></label><br><br>
-    <label>Message :<br><textarea name="message" rows="5" required></textarea></label><br><br>
-    <button type="submit">Envoyer</button>
-  </form>
+  <form action="https://formspree.io/f/VOTRE_CODE_FORM" method="POST">
+
+  <label>Nom complet :<br>
+    <input type="text" name="nom" required>
+  </label><br><br>
+
+  <label>Adresse e-mail :<br>
+    <input type="email" name="email" required pattern="[^@]+@[^@]+\.[^@]+">
+    <input type="email" name="email" required pattern="^[a-zA-Z0-9._%+-]+@(?!mailinator|tempmail|10minutemail|yopmail)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+  </label><br>
+  <small>(Les e-mails invalides ne seront pas traités)</small><br><br>
+
+  <label>Type de demande :<br>
+    <select name="type" required>
+      <option value="" disabled selected>Choisir un type</option>
+      <option value="produit">Produit</option>
+      <option value="service">Service</option>
+      <option value="fichier">Téléchargement / Fichier</option>
+      <option value="autre">Autre</option>
+    </select>
+  </label><br><br>
+
+  <label>Message :<br>
+    <textarea name="message" rows="6" required></textarea>
+  </label><br><br>
+
+  <!-- Anti-spam field (invisible to users) -->
+  <input type="text" name="_gotcha" style="display:none">
+
+  <button type="submit">Envoyer</button>
+
+</form>
+
 </main>
