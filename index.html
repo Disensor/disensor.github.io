@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Site personnel de Luan - projets, fichiers 3D, services et blog.">
-  <title>Accueil - Luan</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Site personnel de Luan - Projets d'ingénierie, fichiers 3D, services et blog.">
+  <title>Luan - Ingénieur créatif</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
 
@@ -16,6 +17,8 @@
       <a href="about.html">À propos</a>
       <a href="projets.html">Projets</a>
       <a href="shop.html">Boutique</a>
+      <a href="services.html">Services</a>
+      <a href="download.html">Téléchargements</a>
       <a href="contact.html">Contact</a>
     </nav>
   </header>
@@ -23,36 +26,49 @@
   <main>
 
     <section class="hero">
-      <h2>Bienvenue sur mon site</h2>
-      <p>Ingénieur passionné de conception, de 3D, d’outillage, de projets DIY et de solutions techniques utiles. Tu trouveras ici mes projets, services et fichiers à télécharger.</p>
+      <h2>Bienvenue !</h2>
+      <p>Je suis Luan, ingénieur passionné par la mécanique, l'impression 3D, la conception et les projets utiles. Ici, tu trouveras mes réalisations, des fichiers à télécharger, mes services pro et quelques idées partagées dans mon blog personnel.</p>
+      <a class="cta-button" href="projets.html">Voir mes projets</a>
     </section>
 
-    <section class="services">
-      <h2>💼 Mes services</h2>
+    <section class="highlight">
+      <h2>📦 Téléchargements gratuits</h2>
+      <p>Récupère des fichiers STL ou documents utiles en remplissant un petit formulaire. Simple et rapide !</p>
+      <a href="download.html" class="button-secondary">Accéder aux fichiers</a>
+    </section>
 
-      <div class="card">
-        <h3>⚙️ Conseil en conception mécanique</h3>
-        <p>Optimise ton projet avec un regard d'ingénieur : choix de matériaux, assemblages, réduction des coûts…</p>
-        <a href="contact.html">Me contacter</a>
+    <section class="services-preview">
+      <h2>💼 Services professionnels</h2>
+      <div class="services-grid">
+        <div class="card">
+          <h3>🧠 Modélisation CAO</h3>
+          <p>Conception ou modification de modèles 3D personnalisés</p>
+          <p><strong>30€/h</strong></p>
+        </div>
+        <div class="card">
+          <h3>⚙️ Études mécaniques</h3>
+          <p>Optimisation, assemblages, prototypage</p>
+          <p><strong>40€/h</strong></p>
+        </div>
+        <div class="card">
+          <h3>🖨️ Impression 3D</h3>
+          <p>Impression de tes fichiers ou pièces conçues sur-mesure</p>
+          <p><strong>20€/h</strong></p>
+        </div>
       </div>
+      <a href="services.html" class="button-secondary">Voir tous les services</a>
+    </section>
 
-      <div class="card">
-        <h3>🧠 Assistance CAO 3D</h3>
-        <p>Je modélise ou corrige tes fichiers STL, STEP ou SolidWorks selon ton besoin. En ligne ou en asynchrone.</p>
-        <a href="contact.html">Demander un devis</a>
-      </div>
-
-      <div class="card">
-        <h3>🖨️ Accompagnement impression 3D</h3>
-        <p>Des conseils personnalisés pour bien paramétrer tes impressions et résoudre tes problèmes techniques.</p>
-        <a href="contact.html">Réserver une session</a>
-      </div>
+    <section class="shop-preview">
+      <h2>🛒 Boutique</h2>
+      <p>Fichiers STL premium, outils, supports imprimables et ressources exclusives</p>
+      <a href="shop.html" class="cta-button">Accéder à la boutique</a>
     </section>
 
     <section class="blog">
       <h2>📝 Derniers articles</h2>
       <ul>
-        <li><a href="#">🧩 Pourquoi j’ai voulu créer mon propre serveur maison</a></li>
+        <li><a href="#">🧩 Pourquoi j’ai créé mon serveur maison</a></li>
         <li><a href="#">🛠️ Mes 3 outils 3D préférés à utiliser en atelier</a></li>
         <li><a href="#">🚀 5 idées simples pour te lancer dans un projet perso utile</a></li>
       </ul>
@@ -62,7 +78,8 @@
   </main>
 
   <footer>
-    <p>© 2025 Luan – Site personnel et professionnel • Contact : <a href="contact.html">Formulaire</a></p>
+    <p>© 2025 Luan – Site personnel & professionnel</p>
+    <p><a href="contact.html">Me contacter</a> • <a href="https://github.com/tonpseudo">GitHub</a></p>
   </footer>
 
 </body>
