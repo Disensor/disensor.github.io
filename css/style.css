@@ -25,6 +25,18 @@ header {
   padding: 20px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+
+ 
+  background: #111;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3)
+
+}
+
+header img {
+  display: block;
+  margin: auto;
+  padding-bottom: 10px;
 }
 
 nav {
