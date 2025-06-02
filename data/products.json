@@ -1,0 +1,18 @@
+[
+  {
+    "id": "support-telephone",
+    "name": "Support téléphone 3D",
+    "price": "3€",
+    "description": "Fichier STL pour imprimer un support de téléphone personnalisable.",
+    "image": "images/products/support-telephone.jpg",
+    "link": "https://buy.stripe.com/xxxxx"
+  },
+  {
+    "id": "adaptateur-usb",
+    "name": "Adaptateur USB 3D",
+    "price": "2€",
+    "description": "Un petit adaptateur USB à imprimer pour tenir les câbles.",
+    "image": "images/products/adaptateur-usb.jpg",
+    "link": "https://buy.stripe.com/yyyyy"
+  }
+]
