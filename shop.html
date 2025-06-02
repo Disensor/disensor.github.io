@@ -1,28 +1,68 @@
-<main>
-  <h2>Mes fichiers & services</h2>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Boutique – Disensor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🛒 Boutique</h1>
+    <p>Commandez vos fichiers 3D, guides ou modèles CAO personnalisés</p>
+  </header>
 
-  <section>
-    <h3>Support téléphone imprimé en 3D</h3>
-    <img src="images/support-3d.jpg" width="200" alt="Support téléphone">
-    <p>Fichier STL à imprimer chez vous – <strong>3€</strong></p>
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-      <input type="hidden" name="cmd" value="_s-xclick">
-      <input type="hidden" name="hosted_button_id" value="TON_ID_BOUTON_PAYPAL">
-      <input type="submit" value="Acheter avec PayPal">
-    </form>
-    <br>
-    <a href="https://buy.stripe.com/TON_CODE_STRIPE" target="_blank">Acheter avec Stripe</a>
+  <section class="filters">
+    <label for="typeFilter">Filtrer par type :</label>
+    <select id="typeFilter">
+      <option value="all">Tous</option>
+      <option value="STL">STL</option>
+      <option value="STEP">STEP</option>
+      <option value="PDF">PDF</option>
+    </select>
   </section>
 
-  <section>
-    <h3>Coaching impression 3D à distance (1h)</h3>
-    <p>Session personnalisée via visio pour t’aider sur tes impressions – <strong>15€</strong></p>
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-      <input type="hidden" name="cmd" value="_s-xclick">
-      <input type="hidden" name="hosted_button_id" value="TON_AUTRE_ID_PAYPAL">
-      <input type="submit" value="Réserver avec PayPal">
-    </form>
-    <br>
-    <a href="https://buy.stripe.com/TON_AUTRE_CODE_STRIPE" target="_blank">Réserver avec Stripe</a>
+  <section class="products" id="productList">
+    <!-- Produits chargés dynamiquement -->
   </section>
-</main>
+
+  <footer>
+    <p>© Disensor – Créations techniques par Luan</p>
+  </footer>
+
+  <script>
+    async function loadProducts() {
+      const response = await fetch('data/products.json');
+      const products = await response.json();
+      const productList = document.getElementById('productList');
+
+      function renderProducts(filteredProducts) {
+        productList.innerHTML = '';
+        filteredProducts.forEach(product => {
+          productList.innerHTML += `
+            <div class="product-card">
+              <img src="${product.image}" alt="${product.name}">
+              <h3>${product.name}</h3>
+              <p>${product.description}</p>
+              <p><strong>Réf : ${product.ref}</strong></p>
+              <p>💾 Type : ${product.type}</p>
+              <p>💰 ${product.price}</p>
+              <a href="${product.link}" class="order-button">Commander</a>
+            </div>
+          `;
+        });
+      }
+
+      document.getElementById('typeFilter').addEventListener('change', (e) => {
+        const value = e.target.value;
+        if (value === 'all') renderProducts(products);
+        else renderProducts(products.filter(p => p.type === value));
+      });
+
+      renderProducts(products); // initial render
+    }
+
+    loadProducts();
+  </script>
+</body>
+</html>
