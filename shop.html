@@ -7,59 +7,75 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>🛒 Boutique</h1>
-    <p>Commandez vos fichiers 3D, guides ou modèles CAO personnalisés</p>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="logo"><img src="images/logo-disensor.png" alt="Logo Disensor"></a>
+      <nav>
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="shop.html" class="active">Boutique</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <section class="filters">
-    <label for="typeFilter">Filtrer par type :</label>
-    <select id="typeFilter">
-      <option value="all">Tous</option>
-      <option value="STL">STL</option>
-      <option value="STEP">STEP</option>
-      <option value="PDF">PDF</option>
-    </select>
-  </section>
+  <!-- BOUTIQUE -->
+  <main class="shop-container">
+    <h1>Boutique</h1>
+    <p class="intro-text">Commandez vos fichiers 3D, plans techniques ou guides numériques en un clic.</p>
 
-  <section class="products" id="productList">
-    <!-- Produits chargés dynamiquement -->
-  </section>
+    <div class="filters">
+      <label for="typeFilter">Filtrer par type :</label>
+      <select id="typeFilter">
+        <option value="all">Tous</option>
+        <option value="STL">STL</option>
+        <option value="STEP">STEP</option>
+        <option value="PDF">PDF</option>
+      </select>
+    </div>
 
-  <footer>
-    <p>© Disensor – Créations techniques par Luan</p>
+    <section class="products" id="productList">
+      <!-- Produits insérés dynamiquement ici -->
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>© Disensor – Créé par Luan · Tous droits réservés</p>
   </footer>
 
+  <!-- SCRIPT -->
   <script>
     async function loadProducts() {
       const response = await fetch('data/products.json');
       const products = await response.json();
       const productList = document.getElementById('productList');
 
-      function renderProducts(filteredProducts) {
+      function renderProducts(filtered) {
         productList.innerHTML = '';
-        filteredProducts.forEach(product => {
+        filtered.forEach(p => {
           productList.innerHTML += `
             <div class="product-card">
-              <img src="${product.image}" alt="${product.name}">
-              <h3>${product.name}</h3>
-              <p>${product.description}</p>
-              <p><strong>Réf : ${product.ref}</strong></p>
-              <p>💾 Type : ${product.type}</p>
-              <p>💰 ${product.price}</p>
-              <a href="${product.link}" class="order-button">Commander</a>
+              <img src="${p.image}" alt="${p.name}">
+              <h3>${p.name}</h3>
+              <p class="description">${p.description}</p>
+              <p><strong>Réf :</strong> ${p.ref}</p>
+              <p><strong>Type :</strong> ${p.type} · <strong>Prix :</strong> ${p.price}</p>
+              <a class="order-button" href="${p.link}">Commander</a>
             </div>
           `;
         });
       }
 
       document.getElementById('typeFilter').addEventListener('change', (e) => {
-        const value = e.target.value;
-        if (value === 'all') renderProducts(products);
-        else renderProducts(products.filter(p => p.type === value));
+        const type = e.target.value;
+        renderProducts(type === "all" ? products : products.filter(p => p.type === type));
       });
 
-      renderProducts(products); // initial render
+      renderProducts(products);
     }
 
     loadProducts();
