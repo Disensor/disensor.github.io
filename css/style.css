@@ -141,7 +141,7 @@ p {
   margin-bottom: 40px;
 }
 
-.services-grid .card {
+.card {
   background: rgba(255, 255, 255, 0.95);
   color: #111;
   padding: 25px;
@@ -151,16 +151,16 @@ p {
   text-align: left;
 }
 
-.services-grid .card h3 {
+.card h3 {
   font-size: 1.3em;
   margin-bottom: 10px;
 }
 
-.services-grid .card p {
+.card p {
   margin-bottom: 10px;
 }
 
-.services-grid .card:hover {
+.card:hover {
   transform: translateY(-5px);
 }
 
