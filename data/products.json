@@ -1,18 +1,29 @@
 [
   {
-    "id": "support-telephone",
+    "ref": "DIS-001",
     "name": "Support téléphone 3D",
+    "type": "STL",
     "price": "3€",
-    "description": "Fichier STL pour imprimer un support de téléphone personnalisable.",
+    "description": "Support téléphone simple à imprimer. Fichier STL prêt à l’emploi.",
     "image": "images/products/support-telephone.jpg",
-    "link": "https://buy.stripe.com/xxxxx"
+    "link": "mailto:luan@example.com?subject=Commande DIS-001 - Support téléphone"
   },
   {
-    "id": "adaptateur-usb",
-    "name": "Adaptateur USB 3D",
+    "ref": "DIS-002",
+    "name": "Boîte technique à clips",
+    "type": "STEP",
+    "price": "5€",
+    "description": "Boîte avec couvercle clipsable pour montage électronique.",
+    "image": "images/products/boite-technique.jpg",
+    "link": "mailto:luan@example.com?subject=Commande DIS-002 - Boîte technique"
+  },
+  {
+    "ref": "DIS-003",
+    "name": "Guide PDF – Débuter en CAO",
+    "type": "PDF",
     "price": "2€",
-    "description": "Un petit adaptateur USB à imprimer pour tenir les câbles.",
-    "image": "images/products/adaptateur-usb.jpg",
-    "link": "https://buy.stripe.com/yyyyy"
+    "description": "Guide au format PDF pour apprendre les bases de la conception 3D.",
+    "image": "images/products/guide-cao.jpg",
+    "link": "mailto:luan@example.com?subject=Commande DIS-003 - Guide PDF"
   }
 ]
