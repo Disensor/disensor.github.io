@@ -467,3 +467,49 @@ footer {
   background: #005fa3;
 }
 /*Fin projects*/
+
+
+
+
+/* MODALE DE PROJET---------------------------------------------------- */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 30px;
+  max-width: 700px;
+  width: 100%;
+  border-radius: 12px;
+  text-align: left;
+  position: relative;
+  color: #222;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.modal-content img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.close-button {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #666;
+}
+/*Fin MODALE------------------------------*/
