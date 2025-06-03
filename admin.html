@@ -6,17 +6,21 @@
   <title>Admin Disensor</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    body { padding: 40px; max-width: 700px; margin: auto; background: #fff; color: #222; font-family: sans-serif; }
+    body { padding: 40px; max-width: 900px; margin: auto; background: #fff; color: #222; font-family: sans-serif; }
     label, input, textarea, select { display: block; width: 100%; margin-bottom: 15px; font-size: 1em; }
     input, textarea, select { padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
-    button { padding: 12px 24px; font-size: 1em; background: #007acc; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+    button { padding: 10px 20px; font-size: 1em; background: #007acc; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
     button:hover { background: #005fa3; }
     .hidden { display: none; }
+    .product-list { margin-top: 40px; }
+    .product-item { border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; border-radius: 6px; background: #f9f9f9; display: flex; justify-content: space-between; align-items: center; }
+    .product-actions button { margin-left: 10px; }
+    .product-name { font-weight: bold; }
   </style>
 </head>
 <body>
 
-  <h1>Interface admin : Ajouter un produit</h1>
+  <h1>Interface admin : Ajouter ou modifier un produit</h1>
 
   <div id="auth">
     <label for="token">Entre ton token GitHub :</label>
@@ -44,111 +48,162 @@
     <label for="description">Description</label>
     <textarea id="description" rows="4" required></textarea>
 
-    <label for="imageUpload">Image à téléverser</label>
-    <input type="file" id="imageUpload" accept="image/*" required>
+    <label for="imageUpload">Image (laisser vide pour ne pas changer)</label>
+    <input type="file" id="imageUpload" accept="image/*">
 
-    <button type="submit">Ajouter le produit</button>
+    <button type="submit" id="submitBtn">Ajouter</button>
   </form>
+
+  <div class="product-list hidden" id="productList"></div>
 
   <script>
     let githubToken = '';
     const repoOwner = "LuanCaillavet";
     const repoName = "disensor.github.io";
+    const dataPath = "data/products.json";
+    const imageFolder = "images/products/";
+    let productData = [];
+    let currentSha = "";
 
     function auth() {
-      const inputToken = document.getElementById('token').value.trim();
-      if (!inputToken.startsWith('gh')) {
-        alert("❌ Token GitHub invalide.");
+      githubToken = document.getElementById('token').value.trim();
+      if (!githubToken.startsWith('gh')) {
+        alert("❌ Token invalide");
         return;
       }
-      githubToken = inputToken;
       document.getElementById('auth').classList.add('hidden');
       document.getElementById('adminForm').classList.remove('hidden');
+      document.getElementById('productList').classList.remove('hidden');
+      loadProducts();
+    }
+
+    async function loadProducts() {
+      const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dataPath}`;
+      const res = await fetch(dataUrl, {
+        headers: { Authorization: `Bearer ${githubToken}`, Accept: 'application/vnd.github+json' }
+      });
+      const json = await res.json();
+      productData = JSON.parse(atob(json.content));
+      currentSha = json.sha;
+      renderProductList();
+    }
+
+    function renderProductList() {
+      const list = document.getElementById('productList');
+      list.innerHTML = '<h2>Produits existants</h2>';
+      productData.forEach((prod, i) => {
+        const item = document.createElement('div');
+        item.className = 'product-item';
+        item.innerHTML = `
+          <span class="product-name">${prod.ref} – ${prod.name}</span>
+          <div class="product-actions">
+            <button onclick="editProduct(${i})">✏️ Modifier</button>
+            <button onclick="deleteProduct(${i})">🗑️ Supprimer</button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function editProduct(index) {
+      const p = productData[index];
+      document.getElementById('ref').value = p.ref;
+      document.getElementById('name').value = p.name;
+      document.getElementById('type').value = p.type;
+      document.getElementById('price').value = p.price;
+      document.getElementById('description').value = p.description;
+      document.getElementById('submitBtn').textContent = "Mettre à jour";
+    }
+
+    async function deleteProduct(index) {
+      const confirmDelete = confirm(`⚠️ Supprimer le produit "${productData[index].name}" ?`);
+      if (!confirmDelete) return;
+      productData.splice(index, 1);
+      await saveProductData();
+      loadProducts();
+      alert("✅ Produit supprimé.");
+    }
+
+    async function saveProductData() {
+      const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dataPath}`;
+      const res = await fetch(dataUrl, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${githubToken}`,
+          Accept: 'application/vnd.github+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: 'Mise à jour produit',
+          content: btoa(JSON.stringify(productData, null, 2)),
+          sha: currentSha
+        })
+      });
+      const resJson = await res.json();
+      currentSha = resJson.content?.sha || currentSha;
     }
 
     document.getElementById('adminForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-
+      const ref = document.getElementById('ref').value;
       const file = document.getElementById('imageUpload').files[0];
-      if (!file) return alert("Sélectionne une image.");
+      const isUpdate = productData.some(p => p.ref === ref);
 
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        const base64Image = reader.result.split(',')[1];
-        const imagePath = `images/products/${file.name}`;
+      let imagePath;
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+          const base64Image = reader.result.split(',')[1];
+          imagePath = imageFolder + file.name;
 
-        const imageUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${imagePath}`;
-        const imageUploadRes = await fetch(imageUrl, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${githubToken}`,
-            'Accept': 'application/vnd.github+json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: `Ajout image ${file.name}`,
-            content: base64Image
-          })
-        });
+          const uploadImageUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${imagePath}`;
+          await fetch(uploadImageUrl, {
+            method: 'PUT',
+            headers: {
+              Authorization: `Bearer ${githubToken}`,
+              Accept: 'application/vnd.github+json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              message: `Ajout image ${file.name}`,
+              content: base64Image
+            })
+          });
 
-        if (!imageUploadRes.ok) {
-          console.error("Erreur upload image :", await imageUploadRes.text());
-          return alert("❌ Échec de l'envoi de l'image.");
-        }
-
-        const product = {
-          ref: document.getElementById('ref').value,
-          name: document.getElementById('name').value,
-          type: document.getElementById('type').value,
-          price: document.getElementById('price').value,
-          description: document.getElementById('description').value,
-          image: imagePath,
-          link: `mailto:luan@example.com?subject=Commande ${document.getElementById('ref').value} - ${document.getElementById('name').value}`
+          finishAddProduct(imagePath, isUpdate);
         };
+        reader.readAsDataURL(file);
+      } else {
+        const existing = productData.find(p => p.ref === ref);
+        imagePath = existing?.image || "";
+        finishAddProduct(imagePath, isUpdate);
+      }
+    });
 
-        const dataPath = "data/products.json";
-        const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dataPath}`;
-        const jsonGetRes = await fetch(dataUrl, {
-          headers: {
-            'Authorization': `Bearer ${githubToken}`,
-            'Accept': 'application/vnd.github+json'
-          }
-        });
-
-        if (!jsonGetRes.ok) {
-          console.error("Erreur récupération JSON :", await jsonGetRes.text());
-          return alert("❌ Échec de la récupération du fichier JSON.");
-        }
-
-        const jsonData = await jsonGetRes.json();
-        const contentArray = JSON.parse(atob(jsonData.content));
-        contentArray.push(product);
-
-        const jsonUpdateRes = await fetch(dataUrl, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${githubToken}`,
-            'Accept': 'application/vnd.github+json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: `Ajout produit ${product.ref}`,
-            content: btoa(JSON.stringify(contentArray, null, 2)),
-            sha: jsonData.sha
-          })
-        });
-
-        if (jsonUpdateRes.ok) {
-          alert("✅ Produit et image ajoutés !");
-          document.getElementById('adminForm').reset();
-        } else {
-          console.error("Erreur écriture JSON :", await jsonUpdateRes.text());
-          alert("❌ Échec lors de l'enregistrement JSON.");
-        }
+    async function finishAddProduct(imagePath, isUpdate) {
+      const newProduct = {
+        ref: document.getElementById('ref').value,
+        name: document.getElementById('name').value,
+        type: document.getElementById('type').value,
+        price: document.getElementById('price').value,
+        description: document.getElementById('description').value,
+        image: imagePath,
+        link: `mailto:luan@example.com?subject=Commande ${document.getElementById('ref').value} - ${document.getElementById('name').value}`
       };
 
-      reader.readAsDataURL(file);
-    });
+      const existingIndex = productData.findIndex(p => p.ref === newProduct.ref);
+      if (existingIndex !== -1) {
+        productData[existingIndex] = newProduct;
+      } else {
+        productData.push(newProduct);
+      }
+
+      await saveProductData();
+      document.getElementById('adminForm').reset();
+      document.getElementById('submitBtn').textContent = "Ajouter";
+      loadProducts();
+      alert("✅ Produit ajouté ou mis à jour !");
+    }
   </script>
 </body>
 </html>
