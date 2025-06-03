@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Disensor</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { padding: 40px; max-width: 700px; margin: auto; background: #fff; color: #222; font-family: sans-serif; }
+    label, input, textarea, select { display: block; width: 100%; margin-bottom: 15px; font-size: 1em; }
+    input, textarea, select { padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    button { padding: 12px 24px; font-size: 1em; background: #007acc; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+    button:hover { background: #005fa3; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <h1>Interface admin : Ajouter un produit</h1>
+
+  <div id="auth">
+    <label for="token">Entre ton token GitHub :</label>
+    <input type="password" id="token" placeholder="ghp_...">
+    <button onclick="auth()">Se connecter</button>
+  </div>
+
+  <form id="adminForm" class="hidden">
+    <label for="ref">Référence</label>
+    <input type="text" id="ref" required>
+
+    <label for="name">Nom du produit</label>
+    <input type="text" id="name" required>
+
+    <label for="type">Type de fichier</label>
+    <select id="type">
+      <option value="STL">STL</option>
+      <option value="STEP">STEP</option>
+      <option value="PDF">PDF</option>
+    </select>
+
+    <label for="price">Prix</label>
+    <input type="text" id="price" required>
+
+    <label for="description">Description</label>
+    <textarea id="description" rows="4" required></textarea>
+
+    <label for="image">Nom du fichier image (dans /images/products/)</label>
+    <input type="text" id="image" placeholder="support-telephone.jpg" required>
+
+    <button type="submit">Ajouter le produit</button>
+  </form>
+
+  <script>
+    let githubToken = '';
+
+    function auth() {
+      githubToken = document.getElementById('token').value.trim();
+      if (!githubToken.startsWith('gh')) return alert("Token invalide");
+      document.getElementById('auth').classList.add('hidden');
+      document.getElementById('adminForm').classList.remove('hidden');
+    }
+
+    document.getElementById('adminForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const product = {
+        ref: document.getElementById('ref').value,
+        name: document.getElementById('name').value,
+        type: document.getElementById('type').value,
+        price: document.getElementById('price').value,
+        description: document.getElementById('description').value,
+        image: `images/products/${document.getElementById('image').value}`,
+        link: `mailto:luan@example.com?subject=Commande ${document.getElementById('ref').value} - ${document.getElementById('name').value}`
+      };
+
+      const repo = "disensor.github.io";
+      const path = "data/products.json";
+      const apiUrl = `https://api.github.com/repos/LuanCaillavet/${repo}/contents/${path}`;
+
+      const res = await fetch(apiUrl, {
+        headers: { Authorization: `Bearer ${githubToken}` }
+      });
+      const data = await res.json();
+      const content = JSON.parse(atob(data.content));
+      content.push(product);
+
+      const update = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${githubToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: `Ajout produit ${product.ref}`,
+          content: btoa(JSON.stringify(content, null, 2)),
+          sha: data.sha
+        })
+      });
+
+      if (update.ok) {
+        alert("✅ Produit ajouté avec succès !");
+        document.getElementById('adminForm').reset();
+      } else {
+        alert("❌ Échec lors de l'enregistrement.");
+      }
+    });
+  </script>
+</body>
+</html>
