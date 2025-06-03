@@ -44,8 +44,8 @@
     <label for="description">Description</label>
     <textarea id="description" rows="4" required></textarea>
 
-    <label for="image">Nom du fichier image (dans /images/products/)</label>
-    <input type="text" id="image" placeholder="support-telephone.jpg" required>
+    <label for="image">Image à téléverser</label>
+    <input type="file" id="imageUpload" accept="image/*" required>
 
     <button type="submit">Ajouter le produit</button>
   </form>
@@ -63,46 +63,73 @@
     document.getElementById('adminForm').addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      const product = {
-        ref: document.getElementById('ref').value,
-        name: document.getElementById('name').value,
-        type: document.getElementById('type').value,
-        price: document.getElementById('price').value,
-        description: document.getElementById('description').value,
-        image: `images/products/${document.getElementById('image').value}`,
-        link: `mailto:luan@example.com?subject=Commande ${document.getElementById('ref').value} - ${document.getElementById('name').value}`
+      const file = document.getElementById('imageUpload').files[0];
+      if (!file) return alert("Sélectionne une image.");
+
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64Image = reader.result.split(',')[1];
+        const imagePath = `images/products/${file.name}`;
+
+        // 1. Upload image
+        const repo = "disensor.github.io";
+        const imageUrl = `https://api.github.com/repos/LuanCaillavet/${repo}/contents/${imagePath}`;
+        const uploadRes = await fetch(imageUrl, {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${githubToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: `Ajout image ${file.name}`,
+            content: base64Image
+          })
+        });
+
+        if (!uploadRes.ok) return alert("Échec de l'envoi de l'image.");
+
+        // 2. Ajouter produit au JSON
+        const product = {
+          ref: document.getElementById('ref').value,
+          name: document.getElementById('name').value,
+          type: document.getElementById('type').value,
+          price: document.getElementById('price').value,
+          description: document.getElementById('description').value,
+          image: imagePath,
+          link: `mailto:luan@example.com?subject=Commande ${document.getElementById('ref').value} - ${document.getElementById('name').value}`
+        };
+
+        const dataPath = "data/products.json";
+        const dataUrl = `https://api.github.com/repos/LuanCaillavet/${repo}/contents/${dataPath}`;
+        const dataRes = await fetch(dataUrl, {
+          headers: { Authorization: `Bearer ${githubToken}` }
+        });
+        const data = await dataRes.json();
+        const content = JSON.parse(atob(data.content));
+        content.push(product);
+
+        const update = await fetch(dataUrl, {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${githubToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: `Ajout produit ${product.ref}`,
+            content: btoa(JSON.stringify(content, null, 2)),
+            sha: data.sha
+          })
+        });
+
+        if (update.ok) {
+          alert("✅ Produit et image ajoutés !");
+          document.getElementById('adminForm').reset();
+        } else {
+          alert("❌ Échec lors de l'enregistrement JSON.");
+        }
       };
 
-      const repo = "disensor.github.io";
-      const path = "data/products.json";
-      const apiUrl = `https://api.github.com/repos/LuanCaillavet/${repo}/contents/${path}`;
-
-      const res = await fetch(apiUrl, {
-        headers: { Authorization: `Bearer ${githubToken}` }
-      });
-      const data = await res.json();
-      const content = JSON.parse(atob(data.content));
-      content.push(product);
-
-      const update = await fetch(apiUrl, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${githubToken}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          message: `Ajout produit ${product.ref}`,
-          content: btoa(JSON.stringify(content, null, 2)),
-          sha: data.sha
-        })
-      });
-
-      if (update.ok) {
-        alert("✅ Produit ajouté avec succès !");
-        document.getElementById('adminForm').reset();
-      } else {
-        alert("❌ Échec lors de l'enregistrement.");
-      }
+      reader.readAsDataURL(file);
     });
   </script>
 </body>
