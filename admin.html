@@ -67,10 +67,11 @@
 
     function auth() {
       githubToken = document.getElementById('token').value.trim();
-      if (!githubToken.startsWith('gh')) {
-        alert("❌ Token invalide");
-        return;
-      }
+    if (!githubToken.startsWith('gh') && !githubToken.startsWith('github_pat_')) {
+  alert("❌ Token invalide ou insuffisamment autorisé.");
+  return;
+}
+
       document.getElementById('auth').classList.add('hidden');
       document.getElementById('adminForm').classList.remove('hidden');
       document.getElementById('productList').classList.remove('hidden');
