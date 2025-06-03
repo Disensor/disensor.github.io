@@ -44,7 +44,7 @@
     <label for="description">Description</label>
     <textarea id="description" rows="4" required></textarea>
 
-    <label for="image">Image à téléverser</label>
+    <label for="imageUpload">Image à téléverser</label>
     <input type="file" id="imageUpload" accept="image/*" required>
 
     <button type="submit">Ajouter le produit</button>
@@ -52,10 +52,16 @@
 
   <script>
     let githubToken = '';
+    const repoOwner = "LuanCaillavet";
+    const repoName = "disensor.github.io";
 
     function auth() {
-      githubToken = document.getElementById('token').value.trim();
-      if (!githubToken.startsWith('gh')) return alert("Token invalide");
+      const inputToken = document.getElementById('token').value.trim();
+      if (!inputToken.startsWith('gh')) {
+        alert("❌ Token GitHub invalide.");
+        return;
+      }
+      githubToken = inputToken;
       document.getElementById('auth').classList.add('hidden');
       document.getElementById('adminForm').classList.remove('hidden');
     }
@@ -71,13 +77,12 @@
         const base64Image = reader.result.split(',')[1];
         const imagePath = `images/products/${file.name}`;
 
-        // 1. Upload image
-        const repo = "disensor.github.io";
-        const imageUrl = `https://api.github.com/repos/LuanCaillavet/${repo}/contents/${imagePath}`;
-        const uploadRes = await fetch(imageUrl, {
+        const imageUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${imagePath}`;
+        const imageUploadRes = await fetch(imageUrl, {
           method: 'PUT',
           headers: {
-            Authorization: `Bearer ${githubToken}`,
+            'Authorization': `Bearer ${githubToken}`,
+            'Accept': 'application/vnd.github+json',
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
@@ -86,9 +91,11 @@
           })
         });
 
-        if (!uploadRes.ok) return alert("Échec de l'envoi de l'image.");
+        if (!imageUploadRes.ok) {
+          console.error("Erreur upload image :", await imageUploadRes.text());
+          return alert("❌ Échec de l'envoi de l'image.");
+        }
 
-        // 2. Ajouter produit au JSON
         const product = {
           ref: document.getElementById('ref').value,
           name: document.getElementById('name').value,
@@ -100,31 +107,42 @@
         };
 
         const dataPath = "data/products.json";
-        const dataUrl = `https://api.github.com/repos/LuanCaillavet/${repo}/contents/${dataPath}`;
-        const dataRes = await fetch(dataUrl, {
-          headers: { Authorization: `Bearer ${githubToken}` }
+        const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dataPath}`;
+        const jsonGetRes = await fetch(dataUrl, {
+          headers: {
+            'Authorization': `Bearer ${githubToken}`,
+            'Accept': 'application/vnd.github+json'
+          }
         });
-        const data = await dataRes.json();
-        const content = JSON.parse(atob(data.content));
-        content.push(product);
 
-        const update = await fetch(dataUrl, {
+        if (!jsonGetRes.ok) {
+          console.error("Erreur récupération JSON :", await jsonGetRes.text());
+          return alert("❌ Échec de la récupération du fichier JSON.");
+        }
+
+        const jsonData = await jsonGetRes.json();
+        const contentArray = JSON.parse(atob(jsonData.content));
+        contentArray.push(product);
+
+        const jsonUpdateRes = await fetch(dataUrl, {
           method: 'PUT',
           headers: {
-            Authorization: `Bearer ${githubToken}`,
+            'Authorization': `Bearer ${githubToken}`,
+            'Accept': 'application/vnd.github+json',
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             message: `Ajout produit ${product.ref}`,
-            content: btoa(JSON.stringify(content, null, 2)),
-            sha: data.sha
+            content: btoa(JSON.stringify(contentArray, null, 2)),
+            sha: jsonData.sha
           })
         });
 
-        if (update.ok) {
+        if (jsonUpdateRes.ok) {
           alert("✅ Produit et image ajoutés !");
           document.getElementById('adminForm').reset();
         } else {
+          console.error("Erreur écriture JSON :", await jsonUpdateRes.text());
           alert("❌ Échec lors de l'enregistrement JSON.");
         }
       };
