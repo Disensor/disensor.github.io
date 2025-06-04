@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Disensor</title>
   <link rel="stylesheet" href="style.css" />
   <style>
@@ -40,11 +40,19 @@
     .hidden {
       display: none;
     }
+    .status {
+      margin: 20px 0;
+      font-weight: bold;
+      color: green;
+    }
+    .error {
+      color: red;
+    }
   </style>
 </head>
 <body>
 
-<h1>Interface admin : Ajouter ou modifier un produit</h1>
+<h1>Interface admin : Ajouter un produit</h1>
 
 <div id="auth">
   <label for="token">Entre ton token GitHub :</label>
@@ -72,119 +80,116 @@
   <label for="description">Description</label>
   <textarea id="description" rows="4"></textarea>
 
-  <label for="imageUpload">Image à téléverser (optionnel)</label>
+  <label for="imageUpload">Image à téléverser</label>
   <input type="file" id="imageUpload" accept="image/*">
 
-  <button type="submit">Valider</button>
+  <button type="submit">Ajouter le produit</button>
 </form>
+<div id="status" class="status hidden"></div>
 
 <script>
-  let githubToken = '';
-  const repoOwner = 'LuanCaillavet';
-  const repoName = 'disensor.github.io';
+let githubToken = '';
+const repoOwner = 'LuanCaillavet';
+const repoName = 'disensor.github.io';
 
-  async function auth() {
-    githubToken = document.getElementById('token').value.trim();
-    const response = await fetch("https://api.github.com/user", {
-      headers: {
-        Authorization: `Bearer ${githubToken}`,
-        Accept: 'application/vnd.github+json'
-      }
-    });
-
-    if (response.ok) {
+function auth() {
+  githubToken = document.getElementById('token').value.trim();
+  fetch("https://api.github.com/user", {
+    headers: {
+      Authorization: `Bearer ${githubToken}`,
+      Accept: 'application/vnd.github+json'
+    }
+  }).then(res => {
+    if (res.ok) {
       document.getElementById('auth').classList.add('hidden');
       document.getElementById('adminForm').classList.remove('hidden');
     } else {
-      alert("❌ Token invalide ou non autorisé.");
+      alert("Token invalide ou non autorisé.");
     }
-  }
+  });
+}
 
 document.getElementById('adminForm').addEventListener('submit', async function (e) {
   e.preventDefault();
+  const status = document.getElementById('status');
+  status.classList.remove('hidden');
+  status.textContent = 'Traitement en cours...';
 
   const file = document.getElementById('imageUpload').files[0];
-  const imagePath = file ? `images/products/${file.name}` : null;
   const ref = document.getElementById('ref').value.trim();
   const name = document.getElementById('name').value.trim();
+  const imagePath = file ? `images/products/${file.name}` : "";
   const product = {
     ref,
     name,
     type: document.getElementById('type').value,
     price: document.getElementById('price').value.trim(),
     description: document.getElementById('description').value.trim(),
-    image: imagePath || "",
+    image: imagePath,
     link: `mailto:luan@example.com?subject=Commande ${ref} - ${name}`
   };
 
-  const dataPath = "data/products.json";
-  const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dataPath}`;
-
-  // 1. Récupération du contenu JSON actuel
-  const dataRes = await fetch(dataUrl, {
-    headers: { Authorization: `Bearer ${githubToken}` }
-  });
-  const data = await dataRes.json();
-  const content = JSON.parse(atob(data.content));
-  content.push(product);
-
-  const updateJson = async () => {
-    const update = await fetch(dataUrl, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${githubToken}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        message: `Ajout produit ${product.ref}`,
-        content: btoa(JSON.stringify(content, null, 2)),
-        sha: data.sha
-      })
+  try {
+    const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/data/products.json`;
+    const dataRes = await fetch(dataUrl, {
+      headers: { Authorization: `Bearer ${githubToken}` }
     });
+    const data = await dataRes.json();
+    const content = JSON.parse(atob(data.content));
+    content.push(product);
 
-    if (update.ok) {
-      alert("✅ Produit ajouté avec succès !");
-      document.getElementById('adminForm').reset();
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64Image = reader.result.split(',')[1];
+        const imageUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${imagePath}`;
+        await fetch(imageUrl, {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${githubToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: `Ajout image ${file.name}`,
+            content: base64Image
+          })
+        });
+        updateJson(content, data.sha, status);
+      };
+      reader.readAsDataURL(file);
     } else {
-      const err = await update.json();
-      console.error("Erreur mise à jour JSON:", err);
-      alert("❌ Erreur lors de l'enregistrement JSON.");
+      updateJson(content, data.sha, status);
     }
-  };
-
-  // 2. Upload image si présente
-  if (file) {
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      const base64Image = reader.result.split(',')[1];
-      const imageUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${imagePath}`;
-
-      const uploadRes = await fetch(imageUrl, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${githubToken}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          message: `Ajout image ${file.name}`,
-          content: base64Image
-        })
-      });
-
-      if (!uploadRes.ok) {
-        const err = await uploadRes.json();
-        console.error("Erreur envoi image:", err);
-        return alert("❌ Échec de l'envoi de l'image.");
-      }
-
-      updateJson(); // si image ok, on écrit dans le JSON
-    };
-    reader.readAsDataURL(file);
-  } else {
-    updateJson(); // sinon on passe directement à la mise à jour JSON
+  } catch (err) {
+    status.textContent = "Erreur : " + err.message;
+    status.classList.add('error');
   }
 });
 
+async function updateJson(content, sha, statusEl) {
+  const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/data/products.json`;
+  const res = await fetch(dataUrl, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${githubToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message: 'Ajout nouveau produit',
+      content: btoa(JSON.stringify(content, null, 2)),
+      sha
+    })
+  });
+
+  if (res.ok) {
+    statusEl.textContent = "✅ Produit ajouté avec succès !";
+    document.getElementById('adminForm').reset();
+  } else {
+    const err = await res.json();
+    statusEl.textContent = "❌ Erreur : " + err.message;
+    statusEl.classList.add('error');
+  }
+}
 </script>
 
 </body>
