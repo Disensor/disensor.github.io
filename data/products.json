@@ -12,10 +12,10 @@
     "ref": "DIS-003",
     "name": "Guide PDF – Débuter en CAO",
     "type": "PDF",
-    "price": "2€",
+    "price": "29,99€",
     "description": "Guide au format PDF pour apprendre les bases de la conception 3D.",
-    "image": "images/products/guide-cao.jpg",
-    "link": "mailto:luan@example.com?subject=Commande DIS-003 - Guide PDF"
+    "image": "",
+    "link": "mailto:luan@example.com?subject=Commande DIS-003 - Guide PDF – Débuter en CAO"
   },
   {
     "ref": "Test",
