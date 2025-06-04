@@ -97,6 +97,13 @@ const repoOwner = 'Disensor';
 const repoName = 'disensor.github.io';
 let editIndex = null;
 
+function decodeBase64Utf8(base64) {
+  const binaryString = atob(base64.replace(/\n/g, ""));
+  const bytes = new Uint8Array([...binaryString].map(c => c.charCodeAt(0)));
+  const decoder = new TextDecoder("utf-8");
+  return decoder.decode(bytes);
+}
+  
 function auth() {
   githubToken = document.getElementById('token').value.trim();
   fetch("https://api.github.com/user", {
@@ -143,8 +150,8 @@ document.getElementById('adminForm').addEventListener('submit', async function (
     });
     const data = await dataRes.json();
 
-    const rawContent = atob(data.content.replace(/\n/g, ''));
-    const content = JSON.parse(rawContent);
+    const content = JSON.parse(decodeBase64Utf8(data.content));
+
 
     if (editIndex !== null) {
       content[editIndex] = product;
@@ -219,8 +226,7 @@ async function loadProducts() {
   }
 
   const data = await res.json();
-  const rawContent = atob(data.content.replace(/\n/g, ''));
-  const products = JSON.parse(rawContent);
+  const products = JSON.parse(decodeBase64Utf8(data.content));
 
   const container = document.getElementById("productList");
   container.innerHTML = '';
