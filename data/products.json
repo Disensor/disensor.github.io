@@ -1,14 +1,5 @@
 [
   {
-    "ref": "DIS-001",
-    "name": "Support téléphone 3D",
-    "type": "STL",
-    "price": "3€",
-    "description": "Support téléphone simple à imprimer. Fichier STL prêt à l’emploi.",
-    "image": "images/products/support-telephone.jpg",
-    "link": "mailto:luan@example.com?subject=Commande DIS-001 - Support téléphone"
-  },
-  {
     "ref": "DIS-002",
     "name": "Boîte technique à clips",
     "type": "STEP",
@@ -34,14 +25,5 @@
     "description": "d",
     "image": "",
     "link": "mailto:luan@example.com?subject=Commande d - d"
-  },
-  {
-    "ref": "AA",
-    "name": "AA",
-    "type": "STEP",
-    "price": "AA",
-    "description": "AA",
-    "image": "images/products/doc2.jpg",
-    "link": "mailto:luan@example.com?subject=Commande AA - AA"
   }
 ]
