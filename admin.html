@@ -200,8 +200,8 @@ async function updateJson(content, sha, statusEl) {
 }
 </script>
 
-// Panneau de modification et suppression produits
-<!-- Ajout à la fin du body de admin.html -->
+
+<!-- Panneau de modification et supression produits -->
 <hr>
 <h2>Produits existants</h2>
 <div id="productList">Chargement...</div>
@@ -219,7 +219,9 @@ async function updateJson(content, sha, statusEl) {
     }
 
     const data = await res.json();
-    const products = JSON.parse(atob(data.content));
+    const decodedContent = new TextDecoder("utf-8").decode(Uint8Array.from(atob(data.content), c => c.charCodeAt(0)));
+    const content = JSON.parse(decodedContent);
+
 
     const container = document.getElementById("productList");
     container.innerHTML = '';
@@ -293,7 +295,7 @@ async function updateJson(content, sha, statusEl) {
   };
 </script>
 
-// Fin panneau de modification et supression produits
+<!-- FIN Panneau de modification et supression produits -->
   
 </body>
 </html>
