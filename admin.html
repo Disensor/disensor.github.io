@@ -48,6 +48,9 @@
     .error {
       color: red;
     }
+    #productList {
+  display: none;
+}
   </style>
 </head>
 <body>
@@ -102,7 +105,8 @@ function auth() {
   }).then(res => {
     if (res.ok) {
       document.getElementById('auth').classList.add('hidden');
-      document.getElementById('adminForm').classList.remove('hidden');
+      document.getElementById('adminForm').classList.remove('hidden');//MONTRE LE FORMULAIRE APRES CONNEXION
+      document.getElementById('productList').style.display = 'block';//MONTRE LA LISTE MODIFIER SUPPRIMER APRES CONNEXION
     } else {
       alert("Token invalide ou non autorisé.");
     }
