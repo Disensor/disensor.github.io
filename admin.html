@@ -83,14 +83,19 @@
   <label for="imageUpload">Image à téléverser</label>
   <input type="file" id="imageUpload" accept="image/*">
 
-  <button type="submit">Ajouter le produit</button>
+  <button type="submit">Ajouter / Mettre à jour le produit</button>
 </form>
 <div id="status" class="status hidden"></div>
+
+<hr>
+<h2 id="productsTitle" class="hidden">Produits existants</h2>
+<div id="productList">Chargement...</div>
 
 <script>
 let githubToken = '';
 const repoOwner = 'Disensor';
 const repoName = 'disensor.github.io';
+let editIndex = null;
 
 function auth() {
   githubToken = document.getElementById('token').value.trim();
@@ -103,6 +108,8 @@ function auth() {
     if (res.ok) {
       document.getElementById('auth').classList.add('hidden');
       document.getElementById('adminForm').classList.remove('hidden');
+      document.getElementById('productsTitle').classList.remove('hidden');
+      loadProducts();
     } else {
       alert("Token invalide ou non autorisé.");
     }
@@ -134,17 +141,18 @@ document.getElementById('adminForm').addEventListener('submit', async function (
     const dataRes = await fetch(dataUrl, {
       headers: { Authorization: `Bearer ${githubToken}` }
     });
-   const data = await dataRes.json();
+    const data = await dataRes.json();
 
-// 🔧 On supprime les sauts de ligne du contenu base64
-const rawContent = data.content.replace(/\n/g, '');
+    const binary = Uint8Array.from(atob(data.content.replace(/\n/g, "")), c => c.charCodeAt(0));
+    const decodedContent = new TextDecoder("utf-8").decode(binary);
+    const content = JSON.parse(decodedContent);
 
-// 🔓 Ensuite on décode proprement et on parse en JSON
-const content = JSON.parse(atob(rawContent));
-
-    console.log("✅ Contenu JSON décodé :", content);
-
-    content.push(product);
+    if (editIndex !== null) {
+      content[editIndex] = product;
+      editIndex = null;
+    } else {
+      content.push(product);
+    }
 
     if (file) {
       const reader = new FileReader();
@@ -183,122 +191,99 @@ async function updateJson(content, sha, statusEl) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      message: 'Ajout nouveau produit',
+      message: 'Ajout ou mise à jour de produit',
       content: btoa(JSON.stringify(content, null, 2)),
       sha
     })
   });
 
   if (res.ok) {
-    statusEl.textContent = "✅ Produit ajouté avec succès !";
+    statusEl.textContent = "✅ Produit ajouté / mis à jour avec succès !";
     document.getElementById('adminForm').reset();
+    loadProducts();
   } else {
     const err = await res.json();
     statusEl.textContent = "❌ Erreur : " + err.message;
     statusEl.classList.add('error');
   }
 }
-</script>
 
+async function loadProducts() {
+  const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/data/products.json`;
+  const res = await fetch(dataUrl, {
+    headers: { Authorization: `Bearer ${githubToken}` }
+  });
 
-<hr>
-<h2>Produits existants</h2>
-<div id="productList">Chargement...</div>
+  if (!res.ok) {
+    document.getElementById("productList").textContent = "Erreur de chargement";
+    return;
+  }
 
-<script>
-  async function loadProducts() {
-    const dataUrl = `https://api.github.com/repos/Disensor/disensor.github.io/contents/data/products.json`;
-    const res = await fetch(dataUrl, {
-      headers: { Authorization: `Bearer ${githubToken}` }
-    });
+  const data = await res.json();
+  const binary = Uint8Array.from(atob(data.content.replace(/\n/g, "")), c => c.charCodeAt(0));
+  const decodedContent = new TextDecoder("utf-8").decode(binary);
+  const products = JSON.parse(decodedContent);
 
-    if (!res.ok) {
-      document.getElementById("productList").textContent = "Erreur de chargement";
-      return;
-    }
+  const container = document.getElementById("productList");
+  container.innerHTML = '';
 
-    const data = await res.json();
-    try {
-    const binary = Uint8Array.from(atob(data.content.replace(/\n/g, "")), c => c.charCodeAt(0));
-    const decodedContent = new TextDecoder("utf-8").decode(binary);
-    const content = JSON.parse(decodedContent);
+  products.forEach((prod, index) => {
+    const div = document.createElement("div");
+    div.style.border = "1px solid #ddd";
+    div.style.marginBottom = "10px";
+    div.style.padding = "10px";
+    div.innerHTML = `
+      <strong>${prod.name}</strong> (${prod.ref}) - ${prod.price} <br>
+      <button onclick="editProduct(${index})">✏️ Modifier</button>
+      <button onclick="deleteProduct(${index})">🗑️ Supprimer</button>
+    `;
+    container.appendChild(div);
+  });
 
-
-    const container = document.getElementById("productList");
-    container.innerHTML = '';
-
-    content.forEach((prod, index) => {
-      const div = document.createElement("div");
-      div.style.border = "1px solid #ddd";
-      div.style.marginBottom = "10px";
-      div.style.padding = "10px";
-      div.innerHTML = `
-        <strong>${prod.name}</strong> (${prod.ref}) - ${prod.price} <br>
-        <button onclick="editProduct(${index})">✏️ Modifier</button>
-        <button onclick="deleteProduct(${index})">🗑️ Supprimer</button>
-      `;
-      container.appendChild(div);
-    });
-
-    window.currentProducts = content;
-    window.currentSha = data.sha;
-      } catch (e) {
-  console.error("Erreur de décodage JSON :", e);
-  document.getElementById("productList").textContent = "Erreur de décodage JSON.";
+  window.currentProducts = products;
+  window.currentSha = data.sha;
 }
+
+function editProduct(index) {
+  const p = window.currentProducts[index];
+  document.getElementById("ref").value = p.ref;
+  document.getElementById("name").value = p.name;
+  document.getElementById("type").value = p.type;
+  document.getElementById("price").value = p.price;
+  document.getElementById("description").value = p.description;
+  editIndex = index;
+  alert("✏️ Modifie les champs et clique sur 'Ajouter / Mettre à jour le produit'.");
+}
+
+async function deleteProduct(index) {
+  if (!confirm("❌ Confirmer la suppression de ce produit ?")) return;
+  window.currentProducts.splice(index, 1);
+  await saveProducts("Suppression d'un produit");
+}
+
+async function saveProducts(message) {
+  const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/data/products.json`;
+  const res = await fetch(dataUrl, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${githubToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message,
+      content: btoa(JSON.stringify(window.currentProducts, null, 2)),
+      sha: window.currentSha
+    })
+  });
+
+  if (res.ok) {
+    alert("✅ Produit supprimé avec succès !");
+    document.getElementById('adminForm').reset();
+    loadProducts();
+  } else {
+    alert("❌ Erreur lors de l'enregistrement JSON.");
   }
-
-  async function deleteProduct(index) {
-    if (!confirm("Confirmer la suppression de ce produit ?")) return;
-    window.currentProducts.splice(index, 1);
-    await saveProducts("Suppression d'un produit");
-  }
-
-  function editProduct(index) {
-    const p = window.currentProducts[index];
-    document.getElementById("ref").value = p.ref;
-    document.getElementById("name").value = p.name;
-    document.getElementById("type").value = p.type;
-    document.getElementById("price").value = p.price;
-    document.getElementById("description").value = p.description;
-
-    alert("Modifie les champs et clique sur 'Ajouter' pour enregistrer la mise à jour. La nouvelle image remplacera l'ancienne.");
-
-    // Supprimer l'ancien produit pour le remplacer par la nouvelle version 
-    window.currentProducts.splice(index, 1);
-  }
-
-  async function saveProducts(message) {
-    const dataUrl = `https://api.github.com/repos/Disensor/disensor.github.io/contents/data/products.json`;
-    const update = await fetch(dataUrl, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${githubToken}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        message: message,
-        content: btoa(JSON.stringify(window.currentProducts, null, 2)),
-        sha: window.currentSha
-      })
-    });
-
-    if (update.ok) {
-      alert("✅ Produit modifié ou supprimé avec succès");
-      document.getElementById('adminForm').reset();
-      loadProducts();
-    } else {
-      alert("❌ Erreur lors de l'enregistrement JSON.");
-    }
-  }
-
-  // Chargement des produits à la connexion
-  const oldAuth = auth;
-  auth = async function() {
-    await oldAuth();
-    if (githubToken) loadProducts();
-  };
+}
 </script>
-  
 </body>
 </html>
