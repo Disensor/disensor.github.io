@@ -257,11 +257,9 @@ function editProduct(index) {
 
 async function deleteProduct(index) {
   if (!confirm("❌ Confirmer la suppression de ce produit ?")) return;
-  window.currentProducts.splice(index, 1);
-  await saveProducts("Suppression d'un produit");
-}
+  const updatedProducts = [...window.currentProducts];
+  updatedProducts.splice(index, 1);
 
-async function saveProducts(message) {
   const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/data/products.json`;
   const res = await fetch(dataUrl, {
     method: 'PUT',
@@ -270,18 +268,17 @@ async function saveProducts(message) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      message,
-      content: btoa(JSON.stringify(window.currentProducts, null, 2)),
+      message: "Suppression d'un produit",
+      content: btoa(JSON.stringify(updatedProducts, null, 2)),
       sha: window.currentSha
     })
   });
 
   if (res.ok) {
     alert("✅ Produit supprimé avec succès !");
-    document.getElementById('adminForm').reset();
     loadProducts();
   } else {
-    alert("❌ Erreur lors de l'enregistrement JSON.");
+    alert("❌ Erreur lors de la suppression du produit.");
   }
 }
 </script>
