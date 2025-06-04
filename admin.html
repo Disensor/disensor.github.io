@@ -218,13 +218,14 @@ async function updateJson(content, sha, statusEl) {
     }
 
     const data = await res.json();
+    try {
     const decodedContent = atob(data.content); // On décode simplement le base64
     const content = JSON.parse(decodedContent); // Puis on parse en JSON
 
     const container = document.getElementById("productList");
     container.innerHTML = '';
 
-    products.forEach((prod, index) => {
+    content.forEach((prod, index) => {
       const div = document.createElement("div");
       div.style.border = "1px solid #ddd";
       div.style.marginBottom = "10px";
@@ -237,8 +238,12 @@ async function updateJson(content, sha, statusEl) {
       container.appendChild(div);
     });
 
-    window.currentProducts = products;
+    window.currentProducts = content;
     window.currentSha = data.sha;
+      } catch (e) {
+  console.error("Erreur de décodage JSON :", e);
+  document.getElementById("productList").textContent = "Erreur de décodage JSON.";
+}
   }
 
   async function deleteProduct(index) {
