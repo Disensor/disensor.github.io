@@ -200,5 +200,100 @@ async function updateJson(content, sha, statusEl) {
 }
 </script>
 
+// Panneau de modification et suppression produits
+<!-- Ajout à la fin du body de admin.html -->
+<hr>
+<h2>Produits existants</h2>
+<div id="productList">Chargement...</div>
+
+<script>
+  async function loadProducts() {
+    const dataUrl = `https://api.github.com/repos/Disensor/disensor.github.io/contents/data/products.json`;
+    const res = await fetch(dataUrl, {
+      headers: { Authorization: `Bearer ${githubToken}` }
+    });
+
+    if (!res.ok) {
+      document.getElementById("productList").textContent = "Erreur de chargement";
+      return;
+    }
+
+    const data = await res.json();
+    const products = JSON.parse(atob(data.content));
+
+    const container = document.getElementById("productList");
+    container.innerHTML = '';
+
+    products.forEach((prod, index) => {
+      const div = document.createElement("div");
+      div.style.border = "1px solid #ddd";
+      div.style.marginBottom = "10px";
+      div.style.padding = "10px";
+      div.innerHTML = `
+        <strong>${prod.name}</strong> (${prod.ref}) - ${prod.price} <br>
+        <button onclick="editProduct(${index})">✏️ Modifier</button>
+        <button onclick="deleteProduct(${index})">🗑️ Supprimer</button>
+      `;
+      container.appendChild(div);
+    });
+
+    window.currentProducts = products;
+    window.currentSha = data.sha;
+  }
+
+  async function deleteProduct(index) {
+    if (!confirm("Confirmer la suppression de ce produit ?")) return;
+    window.currentProducts.splice(index, 1);
+    await saveProducts("Suppression d'un produit");
+  }
+
+  function editProduct(index) {
+    const p = window.currentProducts[index];
+    document.getElementById("ref").value = p.ref;
+    document.getElementById("name").value = p.name;
+    document.getElementById("type").value = p.type;
+    document.getElementById("price").value = p.price;
+    document.getElementById("description").value = p.description;
+
+    alert("Modifie les champs et clique sur 'Ajouter' pour enregistrer la mise à jour. La nouvelle image remplacera l'ancienne.");
+
+    // Supprimer l'ancien produit pour le remplacer par la nouvelle version 
+    window.currentProducts.splice(index, 1);
+  }
+
+  async function saveProducts(message) {
+    const dataUrl = `https://api.github.com/repos/Disensor/disensor.github.io/contents/data/products.json`;
+    const update = await fetch(dataUrl, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${githubToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: message,
+        content: btoa(JSON.stringify(window.currentProducts, null, 2)),
+        sha: window.currentSha
+      })
+    });
+
+    if (update.ok) {
+      alert("✅ Produit modifié ou supprimé avec succès");
+      document.getElementById('adminForm').reset();
+      loadProducts();
+    } else {
+      alert("❌ Erreur lors de l'enregistrement JSON.");
+    }
+  }
+
+  // Chargement des produits à la connexion
+  const oldAuth = auth;
+  auth = async function() {
+    await oldAuth();
+    if (githubToken) loadProducts();
+  };
+</script>
+
+// Fin panneau de modification et supression produits
+  
 </body>
 </html>
