@@ -34,5 +34,14 @@
     "description": "d",
     "image": "",
     "link": "mailto:luan@example.com?subject=Commande d - d"
+  },
+  {
+    "ref": "AA",
+    "name": "AA",
+    "type": "STEP",
+    "price": "AA",
+    "description": "AA",
+    "image": "images/products/doc2.jpg",
+    "link": "mailto:luan@example.com?subject=Commande AA - AA"
   }
 ]
