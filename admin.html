@@ -51,6 +51,9 @@
     #productList {
   display: none;
 }
+    #productTitle {
+  display: none;
+}
   </style>
 </head>
 <body>
@@ -106,6 +109,7 @@ function auth() {
     if (res.ok) {
       document.getElementById('auth').classList.add('hidden');
       document.getElementById('adminForm').classList.remove('hidden');//MONTRE LE FORMULAIRE APRES CONNEXION
+      document.getElementById('productTitle').style.display = 'block'; //MONTRE LE TITRE LISTE DES PRODUITS EXISTANTS
       document.getElementById('productList').style.display = 'block';//MONTRE LA LISTE MODIFIER SUPPRIMER APRES CONNEXION
     } else {
       alert("Token invalide ou non autorisé.");
@@ -207,7 +211,7 @@ async function updateJson(content, sha, statusEl) {
 
 <!-- Panneau de modification et supression produits -->
 <hr>
-<h2>Produits existants</h2>
+<h2 id="productTitle">Produits existants</h2>
 <div id="productList">Chargement...</div>
 
 <script>
