@@ -218,9 +218,8 @@ async function updateJson(content, sha, statusEl) {
     }
 
     const data = await res.json();
-    const decodedContent = new TextDecoder("utf-8").decode(Uint8Array.from(atob(data.content), c => c.charCodeAt(0)));
-    const content = JSON.parse(decodedContent);
-
+    const decodedContent = atob(data.content); // On décode simplement le base64
+    const content = JSON.parse(decodedContent); // Puis on parse en JSON
 
     const container = document.getElementById("productList");
     container.innerHTML = '';
