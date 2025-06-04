@@ -143,9 +143,8 @@ document.getElementById('adminForm').addEventListener('submit', async function (
     });
     const data = await dataRes.json();
 
-    const binary = Uint8Array.from(atob(data.content.replace(/\n/g, "")), c => c.charCodeAt(0));
-    const decodedContent = new TextDecoder("utf-8").decode(binary);
-    const content = JSON.parse(decodedContent);
+    const rawContent = atob(data.content.replace(/\n/g, ''));
+    const content = JSON.parse(rawContent);
 
     if (editIndex !== null) {
       content[editIndex] = product;
@@ -220,9 +219,8 @@ async function loadProducts() {
   }
 
   const data = await res.json();
-  const binary = Uint8Array.from(atob(data.content.replace(/\n/g, "")), c => c.charCodeAt(0));
-  const decodedContent = new TextDecoder("utf-8").decode(binary);
-  const products = JSON.parse(decodedContent);
+  const rawContent = atob(data.content.replace(/\n/g, ''));
+  const products = JSON.parse(rawContent);
 
   const container = document.getElementById("productList");
   container.innerHTML = '';
