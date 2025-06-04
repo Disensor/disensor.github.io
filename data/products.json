@@ -16,5 +16,14 @@
     "description": "Guide au format PDF pour apprendre les bases de la conception 3D.",
     "image": "images/products/guide-cao.jpg",
     "link": "mailto:luan@example.com?subject=Commande DIS-003 - Guide PDF"
+  },
+  {
+    "ref": "Test",
+    "name": "d",
+    "type": "STL",
+    "price": "aer",
+    "description": "dddddddddddddd",
+    "image": "",
+    "link": "mailto:luan@example.com?subject=Commande Test - d"
   }
 ]
