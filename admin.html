@@ -259,7 +259,6 @@ async function deleteProduct(index) {
   if (!confirm("❌ Confirmer la suppression de ce produit ?")) return;
   const updatedProducts = [...window.currentProducts];
   updatedProducts.splice(index, 1);
-
   const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/data/products.json`;
   const res = await fetch(dataUrl, {
     method: 'PUT',
@@ -276,9 +275,10 @@ async function deleteProduct(index) {
 
   if (res.ok) {
     alert("✅ Produit supprimé avec succès !");
+    document.getElementById('adminForm').reset();
     loadProducts();
   } else {
-    alert("❌ Erreur lors de la suppression du produit.");
+    alert("❌ Erreur lors de l'enregistrement JSON.");
   }
 }
 </script>
