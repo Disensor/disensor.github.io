@@ -134,8 +134,16 @@ document.getElementById('adminForm').addEventListener('submit', async function (
     const dataRes = await fetch(dataUrl, {
       headers: { Authorization: `Bearer ${githubToken}` }
     });
-    const data = await dataRes.json();
-    const content = JSON.parse(atob(data.content));
+   const data = await dataRes.json();
+
+// 🔧 On supprime les sauts de ligne du contenu base64
+const rawContent = data.content.replace(/\n/g, '');
+
+// 🔓 Ensuite on décode proprement et on parse en JSON
+const content = JSON.parse(atob(rawContent));
+
+    console.log("✅ Contenu JSON décodé :", content);
+
     content.push(product);
 
     if (file) {
