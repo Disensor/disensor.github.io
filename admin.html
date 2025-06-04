@@ -100,84 +100,91 @@
     }
   }
 
-  document.getElementById('adminForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
+document.getElementById('adminForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
 
-    const file = document.getElementById('imageUpload').files[0];
-    const imagePath = file ? `images/products/${file.name}` : null;
+  const file = document.getElementById('imageUpload').files[0];
+  const imagePath = file ? `images/products/${file.name}` : null;
+  const ref = document.getElementById('ref').value.trim();
+  const name = document.getElementById('name').value.trim();
+  const product = {
+    ref,
+    name,
+    type: document.getElementById('type').value,
+    price: document.getElementById('price').value.trim(),
+    description: document.getElementById('description').value.trim(),
+    image: imagePath || "",
+    link: `mailto:luan@example.com?subject=Commande ${ref} - ${name}`
+  };
 
-    const product = {
-      ref: document.getElementById('ref').value,
-      name: document.getElementById('name').value,
-      type: document.getElementById('type').value,
-      price: document.getElementById('price').value,
-      description: document.getElementById('description').value,
-      image: imagePath || '',
-      link: `mailto:luan@example.com?subject=Commande ${document.getElementById('ref').value} - ${document.getElementById('name').value}`
-    };
+  const dataPath = "data/products.json";
+  const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dataPath}`;
 
-    const dataPath = "data/products.json";
-    const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dataPath}`;
-    const dataRes = await fetch(dataUrl, {
-      headers: { Authorization: `Bearer ${githubToken}` }
+  // 1. Récupération du contenu JSON actuel
+  const dataRes = await fetch(dataUrl, {
+    headers: { Authorization: `Bearer ${githubToken}` }
+  });
+  const data = await dataRes.json();
+  const content = JSON.parse(atob(data.content));
+  content.push(product);
+
+  const updateJson = async () => {
+    const update = await fetch(dataUrl, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${githubToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: `Ajout produit ${product.ref}`,
+        content: btoa(JSON.stringify(content, null, 2)),
+        sha: data.sha
+      })
     });
 
-    const data = await dataRes.json();
-    const content = JSON.parse(atob(data.content));
-    content.push(product);
-
-    const updateBody = {
-      message: `Ajout produit ${product.ref}`,
-      content: btoa(JSON.stringify(content, null, 2)),
-      sha: data.sha
-    };
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        const base64Image = reader.result.split(',')[1];
-        const imageUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${imagePath}`;
-
-        const uploadRes = await fetch(imageUrl, {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${githubToken}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: `Ajout image ${file.name}`,
-            content: base64Image
-          })
-        });
-
-        if (!uploadRes.ok) return alert("❌ Échec de l'envoi de l'image.");
-
-        // upload JSON après image
-        const update = await fetch(dataUrl, {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${githubToken}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(updateBody)
-        });
-
-        update.ok ? alert("✅ Produit et image ajoutés !") : alert("❌ Erreur JSON.");
-      };
-      reader.readAsDataURL(file);
+    if (update.ok) {
+      alert("✅ Produit ajouté avec succès !");
+      document.getElementById('adminForm').reset();
     } else {
-      const update = await fetch(dataUrl, {
+      const err = await update.json();
+      console.error("Erreur mise à jour JSON:", err);
+      alert("❌ Erreur lors de l'enregistrement JSON.");
+    }
+  };
+
+  // 2. Upload image si présente
+  if (file) {
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const base64Image = reader.result.split(',')[1];
+      const imageUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${imagePath}`;
+
+      const uploadRes = await fetch(imageUrl, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${githubToken}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(updateBody)
+        body: JSON.stringify({
+          message: `Ajout image ${file.name}`,
+          content: base64Image
+        })
       });
 
-      update.ok ? alert("✅ Produit ajouté !") : alert("❌ Erreur JSON sans image.");
-    }
-  });
+      if (!uploadRes.ok) {
+        const err = await uploadRes.json();
+        console.error("Erreur envoi image:", err);
+        return alert("❌ Échec de l'envoi de l'image.");
+      }
+
+      updateJson(); // si image ok, on écrit dans le JSON
+    };
+    reader.readAsDataURL(file);
+  } else {
+    updateJson(); // sinon on passe directement à la mise à jour JSON
+  }
+});
+
 </script>
 
 </body>
