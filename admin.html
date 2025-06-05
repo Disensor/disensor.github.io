@@ -103,7 +103,7 @@ function decodeBase64Utf8(base64) {
   const decoder = new TextDecoder("utf-8");
   return decoder.decode(bytes);
 }
-  
+
 function auth() {
   githubToken = document.getElementById('token').value.trim();
   fetch("https://api.github.com/user", {
@@ -149,9 +149,7 @@ document.getElementById('adminForm').addEventListener('submit', async function (
       headers: { Authorization: `Bearer ${githubToken}` }
     });
     const data = await dataRes.json();
-
     const content = JSON.parse(decodeBase64Utf8(data.content));
-
 
     if (editIndex !== null) {
       content[editIndex] = product;
@@ -198,7 +196,7 @@ async function updateJson(content, sha, statusEl) {
     },
     body: JSON.stringify({
       message: 'Ajout ou mise à jour de produit',
-      content: btoa(JSON.stringify(content, null, 2)),
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2)))),
       sha
     })
   });
@@ -272,7 +270,7 @@ async function deleteProduct(index) {
     },
     body: JSON.stringify({
       message: "Suppression d'un produit",
-      content: btoa(JSON.stringify(updatedProducts, null, 2)),
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(updatedProducts, null, 2)))),
       sha: window.currentSha
     })
   });
