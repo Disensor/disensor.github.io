@@ -1,12 +1,12 @@
 [
   {
     "ref": "DIS-002",
-    "name": "Boîte technique à clips",
+    "name": "FAGOR LFF-212S - Bouton",
     "type": "STEP",
     "price": "5€",
-    "description": "Boîte avec couvercle clipsable pour montage électronique.",
-    "image": "images/products/doc.jpg",
-    "link": "mailto:luan@example.com?subject=Commande DIS-002 - Boîte technique à clips"
+    "description": "Bouton de rechange pour lave vaisselle. MARQUE:   FAGOR  REFERENCE:  LFF-212S CODIC:       3629384",
+    "image": "images/products/FAGOR-LFF-212S.jpeg",
+    "link": "mailto:luan@example.com?subject=Commande DIS-002 - FAGOR LFF-212S - Bouton"
   },
   {
     "ref": "DIS-003",
