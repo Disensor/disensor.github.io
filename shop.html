@@ -58,20 +58,22 @@
     const productList = document.getElementById('productList');
 
     function renderProducts(filtered) {
-      productList.innerHTML = '';
-      filtered.forEach(p => {
-        productList.innerHTML += `
-          <div class="product-card">
-            <img src="${p.image}" alt="${p.name}" style="max-width: 100%; height: auto;">
-            <h3>${p.name}</h3>
-            <p class="description">${p.description}</p>
-            <p><strong>Réf :</strong> ${p.ref}</p>
-            <p><strong>Type :</strong> ${p.type} · <strong>Prix :</strong> ${p.price}</p>
-            <a class="order-button" href="${p.link}">Commander</a>
-          </div>
-        `;
-      });
-    }
+  productList.innerHTML = '';
+  filtered.forEach(p => {
+    const imageUrl = p.image && p.image.trim() !== "" ? p.image : 'images/doc.jpg';
+
+    productList.innerHTML += `
+      <div class="product-card">
+        <img src="${imageUrl}" alt="${p.name}" onerror="this.onerror=null; this.src='images/doc.jpg'; console.warn('⚠️ Image non chargée pour ${p.ref}');" style="max-width: 100%; height: auto;">
+        <h3>${p.name}</h3>
+        <p class="description">${p.description}</p>
+        <p><strong>Réf :</strong> ${p.ref}</p>
+        <p><strong>Type :</strong> ${p.type} · <strong>Prix :</strong> ${p.price}</p>
+        <a class="order-button" href="${p.link}">Commander</a>
+      </div>
+    `;
+  });
+}
 
     document.getElementById('typeFilter').addEventListener('change', (e) => {
       const type = e.target.value;
