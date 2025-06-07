@@ -16,5 +16,14 @@
     "description": "Guide au format PDF pour apprendre les bases de la conception 3D.",
     "image": "",
     "link": "mailto:luan@example.com?subject=Commande DIS-003 - Guide PDF – Débuter en CAO"
+  },
+  {
+    "ref": "MB",
+    "name": "MB",
+    "type": "PDF",
+    "price": "1099,99",
+    "description": "",
+    "image": "images/products/doc2.jpg",
+    "link": "mailto:luan@example.com?subject=Commande MB - MB"
   }
 ]
