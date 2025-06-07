@@ -132,7 +132,7 @@ document.getElementById('adminForm').addEventListener('submit', async function (
   const file = document.getElementById('imageUpload').files[0];
   const ref = document.getElementById('ref').value.trim();
   const name = document.getElementById('name').value.trim();
-  const imagePath = file ? `images/products/${file.name}` : "";
+  const imagePath = file ? `images/products/${file.name}` : "images/doc.jpg";
   const product = {
     ref,
     name,
