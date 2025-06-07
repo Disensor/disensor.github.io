@@ -62,7 +62,7 @@
       filtered.forEach(p => {
         productList.innerHTML += `
           <div class="product-card">
-            <img src="${p.image}" alt="${p.name}">
+            <img src="${p.image}" alt="${p.name}" style="max-width: 100%; height: auto;">
             <h3>${p.name}</h3>
             <p class="description">${p.description}</p>
             <p><strong>Réf :</strong> ${p.ref}</p>
