@@ -45,37 +45,44 @@
   </footer>
 
   <!-- SCRIPT -->
-  <script>
-    async function loadProducts() {
-      const response = await fetch('data/products.json');
-      const products = await response.json();
-      const productList = document.getElementById('productList');
+<script>
+  async function loadProducts() {
+    const dataUrl = 'https://api.github.com/repos/Disensor/disensor.github.io/contents/data/products.json';
+    const response = await fetch(dataUrl);
+    const data = await response.json();
 
-      function renderProducts(filtered) {
-        productList.innerHTML = '';
-        filtered.forEach(p => {
-          productList.innerHTML += `
-            <div class="product-card">
-              <img src="${p.image}" alt="${p.name}">
-              <h3>${p.name}</h3>
-              <p class="description">${p.description}</p>
-              <p><strong>Réf :</strong> ${p.ref}</p>
-              <p><strong>Type :</strong> ${p.type} · <strong>Prix :</strong> ${p.price}</p>
-              <a class="order-button" href="${p.link}">Commander</a>
-            </div>
-          `;
-        });
-      }
+    const binary = Uint8Array.from(atob(data.content.replace(/\n/g, "")), c => c.charCodeAt(0));
+    const decodedContent = new TextDecoder("utf-8").decode(binary);
+    const products = JSON.parse(decodedContent);
 
-      document.getElementById('typeFilter').addEventListener('change', (e) => {
-        const type = e.target.value;
-        renderProducts(type === "all" ? products : products.filter(p => p.type === type));
+    const productList = document.getElementById('productList');
+
+    function renderProducts(filtered) {
+      productList.innerHTML = '';
+      filtered.forEach(p => {
+        productList.innerHTML += `
+          <div class="product-card">
+            <img src="${p.image}" alt="${p.name}">
+            <h3>${p.name}</h3>
+            <p class="description">${p.description}</p>
+            <p><strong>Réf :</strong> ${p.ref}</p>
+            <p><strong>Type :</strong> ${p.type} · <strong>Prix :</strong> ${p.price}</p>
+            <a class="order-button" href="${p.link}">Commander</a>
+          </div>
+        `;
       });
-
-      renderProducts(products);
     }
 
-    loadProducts();
-  </script>
+    document.getElementById('typeFilter').addEventListener('change', (e) => {
+      const type = e.target.value;
+      renderProducts(type === "all" ? products : products.filter(p => p.type === type));
+    });
+
+    renderProducts(products);
+  }
+
+  loadProducts();
+</script>
+
 </body>
 </html>
