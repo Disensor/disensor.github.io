@@ -133,15 +133,16 @@ document.getElementById('adminForm').addEventListener('submit', async function (
   const ref = document.getElementById('ref').value.trim();
   const name = document.getElementById('name').value.trim();
   const imagePath = file ? `images/products/${file.name}` : "images/products/doc.jpg";
-  const product = {
-    ref,
-    name,
-    type: document.getElementById('type').value,
-    price: document.getElementById('price').value.trim(),
-    description: document.getElementById('description').value.trim(),
-    image: imagePath,
-    link: `mailto:luan@example.com?subject=Commande ${ref} - ${name}`
-  };
+const product = {
+  ref,
+  name,
+  type: document.getElementById('type').value,
+  price: document.getElementById('price').value.trim(),
+  description: document.getElementById('description').value.trim(),
+  image: imagePath.startsWith("images/products/") ? imagePath : `images/products/${imagePath}`,
+  link: `mailto:luan@example.com?subject=Commande ${ref} - ${name}`
+};
+
 
   try {
     const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/data/products.json`;
