@@ -16,5 +16,14 @@
     "description": "Guide au format PDF pour programmer une pause de votre imprimante à la couche demandée pour changer de filament. Logiciel slicer Simplify3D.",
     "image": "images/products/doc.jpg",
     "link": "mailto:luan@example.com?subject=Commande DIS-003 - Guide PDF – Changement de filament S3D"
+  },
+  {
+    "ref": "DIS-004",
+    "name": "Ford Challenger 2008 - Coulisseau de système lève-vitre",
+    "type": "STL",
+    "price": "49,99",
+    "description": "Pièce de rechange : coulisseau de tringle pour système de lève vitre avant. Modèle de camping-car Ford Challenger 2004-2010.",
+    "image": "images/products/camping-car.jpg",
+    "link": "mailto:luan@example.com?subject=Commande DIS-004 - Ford Challenger 2008 - Coulisseau de système lève-vitre"
   }
 ]
