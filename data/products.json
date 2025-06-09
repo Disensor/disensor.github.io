@@ -18,15 +18,6 @@
     "link": "mailto:luan@example.com?subject=Commande DIS-003 - Guide PDF – Changement de filament S3D"
   },
   {
-    "ref": "MB",
-    "name": "MB",
-    "type": "PDF",
-    "price": "1099",
-    "description": "",
-    "image": "",
-    "link": "mailto:luan@example.com?subject=Commande MB - MB"
-  },
-  {
     "ref": "ASV",
     "name": "ASV",
     "type": "STEP",
