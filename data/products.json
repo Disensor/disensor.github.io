@@ -16,14 +16,5 @@
     "description": "Guide au format PDF pour programmer une pause de votre imprimante à la couche demandée pour changer de filament. Logiciel slicer Simplify3D.",
     "image": "images/products/doc.jpg",
     "link": "mailto:luan@example.com?subject=Commande DIS-003 - Guide PDF – Changement de filament S3D"
-  },
-  {
-    "ref": "ASV",
-    "name": "ASV",
-    "type": "STEP",
-    "price": "$0.00",
-    "description": "",
-    "image": "images/doc.jpg",
-    "link": "mailto:luan@example.com?subject=Commande ASV - ASV"
   }
 ]
