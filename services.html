@@ -9,17 +9,14 @@
 </head>
 <body>
 
-  <header>
-    <h1>Luan</h1>
-    <nav>
-      <a href="index.html">Accueil</a>
-      <a href="about.html">À propos</a>
-      <a href="projets.html">Projets</a>
-      <a href="shop.html">Boutique</a>
-      <a href="services.html">Services</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
+  <div id="header-placeholder"></div>
+<script>
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+    });
+</script>
 
   <main>
     <h2>💼 Mes services professionnels</h2>
