@@ -20,53 +20,59 @@ body {
 
 /* HEADER */
 header {
-  background: linear-gradient(to right, #000, #111);
-  padding: 15px 20px;
+  background: #111;
+  padding: 10px 20px;
   color: white;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  position: relative;
+  z-index: 1000;
 }
 
-.header-container {
+.header-inner {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;}
+  max-width: 1200px;
+  margin: auto;
+}
 
 .logo {
   height: 50px;
-  max-height: 60px;
   width: auto;
+  max-height: 60px;
 }
 
-
-nav {
+.main-nav {
   display: flex;
   gap: 20px;
 }
 
-nav a {
-  color: #fff;
+.main-nav a {
+  color: white;
   text-decoration: none;
-  font-weight: bold;
-}
-
-nav a:hover {
-  text-decoration: underline;
+  font-weight: 600;
 }
 
 .hamburger {
   display: none;
-  font-size: 26px;
+  font-size: 24px;
   cursor: pointer;
 }
 
 @media (max-width: 768px) {
-  nav {
+  .main-nav {
     display: none;
     flex-direction: column;
-    margin-top: 10px;
+    background: #111;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    z-index: 999;
   }
 
-  nav.show {
+  .main-nav.show {
     display: flex;
   }
 
