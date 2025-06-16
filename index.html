@@ -16,14 +16,8 @@ r<!DOCTYPE html>
 </head>
 <body>
   
-<div id="header-placeholder"></div>
-<script>
-  fetch('header.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('header-placeholder').innerHTML = data;
-    });
-</script>
+<div data-include="includes/header.html"></div>
+
 
     <main>
 
@@ -87,7 +81,8 @@ r<!DOCTYPE html>
       document.getElementById('footer-placeholder').innerHTML = data;
     });
 </script>
-
+  
+<script src="scripts/include.js"></script>
 </body>
 
 </html>
