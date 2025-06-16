@@ -1,29 +1,13 @@
-/* theme.css — Variables globales de style */
-
 :root {
-  /* Couleurs principales */
-  --color-primary: #007acc;
-  --color-primary-dark: #005fa3;
-  --color-secondary: #ff6600;
-  --color-secondary-light: #ff8800;
-  --color-bg: #f9f9fb;
-  --color-text: #222;
+  --color-primary: #ff6600;
+  --color-secondary: #007acc;
+  --color-secondary-dark: #005e9e;
+  --color-bg-dark: #0e0e0e;
+  --color-bg-light: #f9f9fb;
   --color-text-light: #f3f3f3;
-  --color-white: #ffffff;
-  --color-black: #000000;
-  --color-grey: #ccc;
-  --color-grey-dark: #666;
-  --color-footer: #0e0e0e;
-
-  /* Polices */
+  --color-text-dark: #222;
+  --color-hover: #005fa3;
+  --color-card: #fff;
+  --color-border: #ccc;
   --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-  /* Radius & Ombres */
-  --radius-small: 5px;
-  --radius-medium: 8px;
-  --radius-large: 12px;
-
-  --shadow-light: 0 2px 5px rgba(0, 0, 0, 0.05);
-  --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --shadow-strong: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
