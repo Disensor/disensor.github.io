@@ -1,13 +1,13 @@
 :root {
-  --color-primary: #e10600;              /* Rouge */
-  --color-secondary: #2e2e2e;            /* Gris foncé moderne */
-  --color-secondary-dark: #1b1b1b;       /* Presque noir */
-  --color-bg-dark: #121212;              /* Fond noir profond */
-  --color-bg-light: #f4f4f4;             /* Fond clair pour le texte */
-  --color-text-light: #ffffff;           /* Texte sur fond sombre */
-  --color-text-dark: #111111;           /* Texte sur fond clair */
-  --color-hover: #c00000;                /* Survol rouge foncé */
-  --color-card: #ffffff;                 /* Fond des cartes */
-  --color-border: #e0e0e0;               /* Bordure douce */
+  --color-primary: #ff6600;
+  --color-secondary: #007acc;
+  --color-secondary-dark: #005e9e;
+  --color-bg-dark: #0e0e0e;
+  --color-bg-light: #f9f9fb;
+  --color-text-light: #f3f3f3;
+  --color-text-dark: #222;
+  --color-hover: #005fa3;
+  --color-card: #fff;
+  --color-border: #ccc;
   --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
