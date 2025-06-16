@@ -79,11 +79,14 @@ r<!DOCTYPE html>
 
   </main>
 
-  <footer>
-    <p>© 2025 Luan – Site personnel & professionnel</p>
-    <p><a href="contact.html">Me contacter</a> • <a href="https://github.com/disensor">GitHub</a></p>
-    <a href="admin.html" style="font-size: 0.8em; color: #aaa;">Admin</a>
-  </footer>
+<div id="footer-placeholder"></div>
+<script>
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+    });
+</script>
 
 </body>
 
