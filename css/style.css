@@ -20,13 +20,15 @@ body {
 
 /* HEADER */
 header {
-  background: #111;
-  padding: 10px 20px;
+  background: linear-gradient(90deg, #0a0f2c, #1f3b73);
   color: white;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   position: relative;
-  z-index: 1000;
+  z-index: 2;
 }
+
 
 .header-inner {
   display: flex;
