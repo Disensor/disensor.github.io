@@ -28,12 +28,16 @@ body {
 }
 
 /* ======================= HEADER ======================= */
+/* ======================= */
+/* 🎯 HEADER & NAVIGATION */
+/* ======================= */
+
 header {
-  background: linear-gradient(90deg, var(--color-dark), var(--color-dark-light));
+  background: linear-gradient(90deg, #0a0f2c, #1f3b73);
   color: var(--color-white);
   padding: 20px;
   text-align: center;
-  box-shadow: 0 4px 10px var(--shadow);
+  box-shadow: var(--shadow-md);
   position: relative;
   z-index: 2;
 }
@@ -57,29 +61,29 @@ header {
   gap: 20px;
 }
 
-.main-nav a,
-nav a {
+.main-nav a {
   color: var(--color-white);
   text-decoration: none;
   font-weight: 600;
   position: relative;
 }
 
-nav a::after {
+.main-nav a::after {
   content: "";
   position: absolute;
   bottom: -4px;
   left: 0;
   width: 0%;
   height: 2px;
-  background-color: var(--color-primary);
+  background-color: var(--color-accent);
   transition: width 0.3s ease;
 }
 
-nav a:hover::after {
+.main-nav a:hover::after {
   width: 100%;
 }
 
+/* 🌐 Responsive Navigation */
 .hamburger {
   display: none;
   font-size: 24px;
@@ -107,6 +111,7 @@ nav a:hover::after {
     display: block;
   }
 }
+
 
 /* ======================= HERO + BUTTONS ======================= */
 .hero {
