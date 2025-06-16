@@ -9,14 +9,7 @@
 </head>
 <body>
 
-  <div id="header-placeholder"></div>
-<script>
-  fetch('header.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('header-placeholder').innerHTML = data;
-    });
-</script>
+ <div data-include="includes/header.html"></div>
 
   <main>
     <h2>💼 Mes services professionnels</h2>
@@ -57,6 +50,6 @@
     });
 </script>
 
-
+<script src="scripts/include.js"></script>
 </body>
 </html>
