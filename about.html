@@ -24,9 +24,15 @@
     <p>Ce site me permettra de partager mes projets, idées et ressources, et de créer un lien direct avec ceux qui partagent les mêmes passions.</p>
   </main>
 
-  <footer>
-    © 2025 Luan - Tous droits réservés
-  </footer>
+ <div id="footer-placeholder"></div>
+<script>
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+    });
+</script>
+
 
 </body>
 </html>
