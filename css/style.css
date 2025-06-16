@@ -29,12 +29,14 @@ header {
 .header-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-}
+  align-items: center;}
 
 .logo {
   height: 50px;
+  max-height: 60px;
+  width: auto;
 }
+
 
 nav {
   display: flex;
