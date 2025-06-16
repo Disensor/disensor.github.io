@@ -9,14 +9,7 @@
 </head>
 <body>
 
-<div id="header-placeholder"></div>
-<script>
-  fetch('header.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('header-placeholder').innerHTML = data;
-    });
-</script>
+<div data-include="includes/header.html"></div>
 
   <main>
     <h2>Qui suis-je ?</h2>
@@ -24,15 +17,7 @@
     <p>Ce site me permettra de partager mes projets, idées et ressources, et de créer un lien direct avec ceux qui partagent les mêmes passions.</p>
   </main>
 
- <div id="footer-placeholder"></div>
-<script>
-  fetch('footer.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('footer-placeholder').innerHTML = data;
-    });
-</script>
-
-
+<div data-include="includes/footer.html"></div>
+<script src="scripts/include.js"></script>
 </body>
 </html>
