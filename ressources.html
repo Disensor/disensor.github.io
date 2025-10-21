@@ -1,11 +1,36 @@
-<main>
-  <h2>Téléchargement gratuit</h2>
-  <p>Remplis ce formulaire pour recevoir ton fichier STL gratuitement.</p>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ressources gratuites – Disensor</title>
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
 
-  <form action="https://formspree.io/f/toncodeici" method="POST">
-    <label>Nom :<br><input type="text" name="nom" required></label><br><br>
-    <label>Email :<br><input type="email" name="email" required></label><br><br>
-    <input type="hidden" name="_redirect" value="telechargement.html">
-    <button type="submit">Télécharger</button>
-  </form>
+<div data-include="includes/header.html"></div>
+
+<main class="page-content">
+  <section>
+    <h2>Téléchargement gratuit</h2>
+    <p>Remplis ce formulaire pour recevoir ton fichier STL gratuitement par e-mail. Je t’enverrai le lien de téléchargement dès réception.</p>
+
+    <form class="styled-form" action="https://formspree.io/f/toncodeici" method="POST">
+      <label>Nom complet
+        <input type="text" name="nom" required>
+      </label>
+      <label>Adresse e-mail
+        <input type="email" name="email" required>
+      </label>
+      <input type="hidden" name="_redirect" value="download.html">
+      <button class="cta-button" type="submit">Recevoir le fichier</button>
+    </form>
+  </section>
 </main>
+
+<div data-include="includes/footer.html"></div>
+<script src="scripts/include.js"></script>
+</body>
+</html>
