@@ -1,6 +1,6 @@
 [
   {
-    "id": "proj-coulisseau", 
+    "id": "proj-coulisseau",
     "title": "Remplacement d’un coulisseau de lève-vitre cassé",
     "thumbnail": "images/projects/leve-vitre-card.jpg",
     "gallery": [
@@ -14,30 +14,15 @@
       "Modélisation CAO paramétrique pour itérations rapides",
       "Impression 3D FDM PLA+ renforcé et contrôle qualité"
     ],
-    "services": ["Modélisation CAO", "Impression 3D"],
+    "services": [
+      "Modélisation CAO",
+      "Impression 3D"
+    ],
     "cta": "Commander une pièce similaire",
     "ctaLink": "commandes.html?type=remplacement"
   },
   {
-    "id": "proj-dispositif-autom", 
-    "title": "Dispositif automatisé avec cobot Yaskawa",
-    "thumbnail": "images/projects/dispositif-card.jpg",
-    "gallery": [
-      "images/projects/dispositif-1.jpg"
-    ],
-    "summary": "Intégration d’un système motorisé avec capteurs, cobot Yaskawa et interface TwinCAT pour automatiser une ligne.",
-    "description": "Pour un industriel, nous avons développé un dispositif complet : modélisation de la cinématique, intégration d’un cobot Yaskawa, programmation sous TwinCAT et mise en place de capteurs de sécurité. Le cahier des charges imposait une adaptation sur une ligne existante avec documentation d’exploitation.",
-    "highlights": [
-      "Analyse fonctionnelle et modélisation 3D",
-      "Programmation TwinCAT & cobot Yaskawa",
-      "Installation, tests et formation des opérateurs"
-    ],
-    "services": ["Étude mécanique", "Automatisation"],
-    "cta": "Discuter d’une automatisation",
-    "ctaLink": "commandes.html?type=automatisation"
-  },
-  {
-    "id": "proj-multimaterial", 
+    "id": "proj-multimaterial",
     "title": "Impression 3D multi-matériaux pour pièces fonctionnelles",
     "thumbnail": "images/projects/multi-materiaux-card.jpg",
     "gallery": [
@@ -51,7 +36,10 @@
       "Paramétrage avancé multi-matériaux",
       "Tests mécaniques et rapport de validation"
     ],
-    "services": ["Modélisation CAO", "Impression 3D"],
+    "services": [
+      "Modélisation CAO",
+      "Impression 3D"
+    ],
     "cta": "Lancer un prototype",
     "ctaLink": "commandes.html?type=prototype"
   }
