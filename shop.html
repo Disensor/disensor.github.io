@@ -2,79 +2,72 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Boutique – Disensor</title>
+  <title>Boutique – 3DPANNE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Boutique 3DPANNE : fichiers 3D, plans techniques et guides à commander sur facture.">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
-  
+
 <div data-include="includes/header.html"></div>
 
-  <!-- BOUTIQUE -->
-  <main class="shop-container">
-    <h1>Boutique</h1>
-    <p class="intro-text">Commandez vos fichiers 3D, plans techniques ou guides numériques en un clic.</p>
+  <main class="page-content shop-page">
+    <section class="shop-hero">
+      <h1>Boutique</h1>
+      <p class="intro-text">Commandez vos fichiers 3D, plans techniques ou guides numériques. Chaque commande est validée manuellement avant envoi :
+        vous recevez une facture et le lien de téléchargement personnalisé.</p>
+    </section>
 
-    <div class="filters">
-      <label for="typeFilter">Filtrer par type :</label>
-      <select id="typeFilter">
-        <option value="all">Tous</option>
-        <option value="STL">STL</option>
-        <option value="STEP">STEP</option>
-        <option value="PDF">PDF</option>
-      </select>
-    </div>
+    <section class="filters" aria-label="Filtres produits">
+      <div class="filters-grid">
+        <label class="filter-field">
+          <span>Recherche</span>
+          <input type="search" id="searchInput" placeholder="Nom, référence, description…">
+        </label>
 
-    <section class="products" id="productList">
-      <!-- Produits insérés dynamiquement ici -->
+        <label class="filter-field">
+          <span>Type de fichier</span>
+          <select id="typeFilter">
+            <option value="all">Tous</option>
+            <option value="STL">STL</option>
+            <option value="STEP">STEP</option>
+            <option value="PDF">PDF</option>
+          </select>
+        </label>
+
+        <label class="filter-field">
+          <span>Prix maximum (€)</span>
+          <input type="range" id="priceFilter" min="0" max="200" value="200" step="1">
+          <output id="priceValue">200 €</output>
+        </label>
+
+        <label class="filter-field">
+          <span>Tri</span>
+          <select id="sortSelect">
+            <option value="default">Pertinence</option>
+            <option value="price-asc">Prix croissant</option>
+            <option value="price-desc">Prix décroissant</option>
+            <option value="name">Nom</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section class="products" id="productList" aria-live="polite" aria-busy="true">
+      <div class="loading">Chargement de la boutique…</div>
+    </section>
+
+    <section class="callout">
+      <h3>Besoin d’une pièce sur mesure ?</h3>
+      <p>Utilise notre formulaire détaillé pour décrire ton besoin et recevoir un devis sous 24&nbsp;h.</p>
+      <a class="cta-button" href="commandes.html">Formulaire sur mesure</a>
     </section>
   </main>
 
-
-  <!-- SCRIPT -->
-<script>
-  async function loadProducts() {
-    const dataUrl = 'https://api.github.com/repos/Disensor/disensor.github.io/contents/data/products.json';
-    const response = await fetch(dataUrl);
-    const data = await response.json();
-
-    const binary = Uint8Array.from(atob(data.content.replace(/\n/g, "")), c => c.charCodeAt(0));
-    const decodedContent = new TextDecoder("utf-8").decode(binary);
-    const products = JSON.parse(decodedContent);
-
-    const productList = document.getElementById('productList');
-
-    function renderProducts(filtered) {
-  productList.innerHTML = '';
-  filtered.forEach(p => {
-    const imageUrl = p.image && p.image.trim() !== "" ? p.image : 'images/doc.jpg';
-
-    productList.innerHTML += `
-      <div class="product-card">
-        <img src="${imageUrl}" alt="${p.name}" onerror="this.onerror=null; this.src='images/doc.jpg'; console.warn('⚠️ Image non chargée pour ${p.ref}');" style="max-width: 100%; height: auto;">
-        <h3>${p.name}</h3>
-        <p class="description">${p.description}</p>
-        <p><strong>Réf :</strong> ${p.ref}</p>
-        <p><strong>Type :</strong> ${p.type} · <strong>Prix :</strong> ${p.price}</p>
-        <a class="order-button" href="${p.link}">Commander</a>
-      </div>
-    `;
-  });
-}
-
-    document.getElementById('typeFilter').addEventListener('change', (e) => {
-      const type = e.target.value;
-      renderProducts(type === "all" ? products : products.filter(p => p.type === type));
-    });
-
-    renderProducts(products);
-  }
-
-  loadProducts();
-</script>
 <div data-include="includes/footer.html"></div>
 <script src="scripts/include.js"></script>
+<script src="scripts/site.js"></script>
 </body>
 </html>
