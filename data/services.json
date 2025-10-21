@@ -1,0 +1,47 @@
+[
+  {
+    "slug": "cao",
+    "title": "🧠 Modélisation & assistance CAO",
+    "excerpt": "Création, modification ou réparation de fichiers 3D (STL, STEP, SolidWorks).",
+    "details": "Nous modélisons ou ajustons vos fichiers 3D pour l’impression, la production ou l’intégration mécanique. Livrables natifs et échanges réguliers pour valider les itérations.",
+    "price": "À partir de 30 € / h",
+    "cta": "Demander un devis",
+    "ctaLink": "commandes.html?type=cao"
+  },
+  {
+    "slug": "etude-meca",
+    "title": "⚙️ Étude mécanique & prototypage",
+    "excerpt": "Conseils techniques, choix des matériaux, simulations simples et prototypage rapide.",
+    "details": "Analyse fonctionnelle, dimensionnement, revue de conception, création de prototypes fonctionnels avec rapport synthétique.",
+    "price": "À partir de 40 € / h",
+    "cta": "Planifier un appel",
+    "ctaLink": "commandes.html?type=etude"
+  },
+  {
+    "slug": "impression-3d",
+    "title": "🖨️ Impression 3D professionnelle",
+    "excerpt": "Production de pièces sur-mesure en PLA+, PETG, TPU ou résine technique.",
+    "details": "Nous gérons la préparation, l’orientation, l’impression et le contrôle qualité. Option de post-traitement, peinture ou assemblage.",
+    "price": "Devis personnalisé",
+    "cta": "Obtenir un tarif",
+    "ctaLink": "commandes.html?type=impression"
+  },
+  {
+    "slug": "maintenance",
+    "title": "🔧 Maintenance & rétrofit",
+    "excerpt": "Remplacement de pièces introuvables, adaptation sur machines existantes, amélioration continue.",
+    "details": "Inspection du besoin, reverse engineering, documentation de montage et recommandations d’utilisation.",
+    "price": "Projet sur devis",
+    "cta": "Parler d’un retrofit",
+    "ctaLink": "commandes.html?type=maintenance"
+  },
+  {
+    "slug": "automatisation",
+    "title": "🤖 Automatisation & cobotique",
+    "excerpt": "Intégration de cobots, capteurs et automatismes sur vos équipements.",
+    "details": "Étude de faisabilité, modélisation de la cellule, programmation (TwinCAT, robots collaboratifs) et mise en service avec formation opérateur.",
+    "price": "Projet sur devis",
+    "cta": "Parler automatisation",
+    "ctaLink": "commandes.html?type=automatisation"
+  }
+]
