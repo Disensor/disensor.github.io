@@ -3,82 +3,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="3DPANNE - Ressources & services 3D">
+  <meta name="description" content="3DPANNE - Ressources & services 3D : conception, impression, rétrofit et réparations.">
   <title>3DPANNE – Ressources & services 3D</title>
   <link rel="stylesheet" href="css/theme.css" />
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <!--BALISE REFERENCEMENT GOOGLE-->
-  <meta name="google-site-verification" content="20C4FrXw04VujjQi9In9eLuVoN4JKwyMR2PQtsOGnss" /> <!--VERIFICATION GOOGLE-->
-  <meta name="description" content="3DPANNE est un site de modèles & services 3D proposant des fichiers, conseils et réalisation.">
+  <meta name="google-site-verification" content="20C4FrXw04VujjQi9In9eLuVoN4JKwyMR2PQtsOGnss" />
   <meta name="author" content="LC">
-  <meta name="keywords" content="ingénieur, 3D, fichiers STL, CAO, impression 3D, services techniques, mécanique, projets DIY, réparation, spare parts, pièces détachées">
-  <!--BALISE REFERENCEMENT GOOGLE-->
+  <meta name="keywords" content="ingénieur, 3D, fichiers STL, CAO, impression 3D, services techniques, mécanique, projets DIY, réparation, pièces détachées">
 </head>
 <body>
-  
+
 <div data-include="includes/header.html"></div>
 
-
-    <main>
+  <main>
 
     <section class="hero">
-      <h2>Bienvenue !</h2>
-      <p>Spécialiste de la modélisation et de l'impression 3D, 3DPANNE vous propose des pièces techniques utiles, durables et compatibles, conçues pour réparer, améliorer ou compléter vos équipements du quotidien.
-      <br><br>
-      Que vous soyez bricoleur, passionné, ou simplement à la recherche d’une solution rapide à un problème concret, nos produits sont pensés pour vous faire gagner du temps et prolonger la vie de vos objets.  
-      </p>
-      <a class="cta-button" href="projects.html">Voir nos réalisations</a>
+      <h2>Bienvenue chez 3DPANNE</h2>
+      <p>Spécialiste de la modélisation et de l'impression 3D, nous concevons des pièces techniques utiles,
+        durables et compatibles pour réparer, améliorer ou compléter vos équipements. Une équipe basée à La
+        Rochelle, disponible pour les professionnels comme les particuliers.</p>
+      <div class="hero-actions">
+        <a class="cta-button" href="projects.html">Voir nos réalisations</a>
+        <a class="button-secondary" href="commandes.html">Passer commande</a>
+      </div>
     </section>
 
     <section class="highlight">
       <h2>📦 Téléchargements gratuits</h2>
-      <p>Obtenez gratuitement votre premier fichier 3D. Simple et rapide !</p>
-      <a href="download.html" class="button-secondary">Accéder aux fichiers</a>
+      <p>Recevez un fichier 3D prêt à imprimer et rejoignez notre liste de mises à jour techniques.</p>
+      <a href="download.html" class="button-secondary">Accéder aux cadeaux</a>
     </section>
 
     <section class="services-preview">
       <h2>💼 Services professionnels</h2>
-      <div class="services-grid">
-        <div class="card">
-          <h3>🧠 Modélisation CAO</h3>
-          <p>Conception ou modification de modèles 3D personnalisés</p>
-          <p><strong>30€/h</strong></p>
-        </div>
-        <div class="card">
-          <h3>👥 Conseils</h3>
-          <p>Optimisation, assemblages, prototypage</p>
-          <p><strong>40€/h</strong></p>
-        </div>
-        <div class="card">
-          <h3>⚙️ Impression 3D</h3>
-          <p>Impression de fichiers ou pièces conçues sur-mesure</p>
-          <p><strong>20€/h</strong></p>
-        </div>
+      <div class="services-grid" data-services="preview" data-limit="3" aria-live="polite" aria-busy="true">
+        <div class="loading">Préparation des services…</div>
       </div>
       <a href="services.html" class="button-secondary">Voir tous les services</a>
     </section>
 
+    <section class="projects-preview">
+      <h2>🧩 Projets mis en avant</h2>
+      <div id="homeProjects" class="cards-grid" aria-live="polite" aria-busy="true">
+        <div class="loading">Préparation des projets…</div>
+      </div>
+      <a href="projects.html" class="button-secondary">Parcourir les projets</a>
+    </section>
+
     <section class="shop-preview">
       <h2>🛒 Boutique</h2>
-      <p>Pièces de rechange pour vos appareils, véhicules et plus encore. Ressources premium exclusives</p>
+      <p>Pièces de rechange et documents techniques prêts à l’emploi. Paiement sur facture après validation.</p>
       <a href="shop.html" class="cta-button">Accéder à la boutique</a>
     </section>
 
-    <section class="blog">
-      <h2>📝 Derniers articles</h2>
-      <ul>
-        <li><a href="#">🧩 Pourquoi j’ai créé mon serveur maison</a></li>
-        <li><a href="#">🛠️ Mes 3 outils 3D préférés à utiliser en atelier</a></li>
-        <li><a href="#">🚀 5 idées simples pour te lancer dans un projet perso utile</a></li>
-      </ul>
-      <p><a href="projets.html">Voir tous les projets</a></p>
+    <section class="process-preview">
+      <h2>💡 Comment ça marche ?</h2>
+      <ol class="process-steps">
+        <li><strong>1. Diagnostic.</strong> Tu nous expliques ton besoin via le formulaire adapté.</li>
+        <li><strong>2. Validation.</strong> Nous proposons une solution, un planning et un devis.</li>
+        <li><strong>3. Production.</strong> Modélisation, impression ou intégration avec points d’étape.</li>
+        <li><strong>4. Livraison.</strong> Envoi du fichier, de la pièce ou intervention sur site avec suivi.</li>
+      </ol>
+      <a href="faq.html" class="button-secondary">Voir la FAQ détaillée</a>
     </section>
 
+    <section class="testimonials">
+      <h2>💬 Témoignages</h2>
+      <div class="testimonials-grid">
+        <blockquote>
+          « Pièce reçue en 72 h pour notre camping-car, montage parfait ! »<span>— Nicolas, particulier</span>
+        </blockquote>
+        <blockquote>
+          « Un vrai partenaire pour nos prototypes : réactivité et rigueur. »<span>— Élodie, bureau d’études</span>
+        </blockquote>
+        <blockquote>
+          « Documentation claire, support disponible et pièces de qualité. »<span>— Karim, responsable maintenance</span>
+        </blockquote>
+      </div>
+    </section>
   </main>
 
 <div data-include="includes/footer.html"></div>
 <script src="scripts/include.js"></script>
+<script src="scripts/site.js"></script>
 </body>
 
 </html>
