@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Formulaire de commande sur mesure : pièces 3D, conception, rétrofit ou maintenance.">
+  <title>Passer commande – 3DPANNE</title>
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+
+<div data-include="includes/header.html"></div>
+
+<main class="page-content command-page">
+  <section class="command-hero">
+    <h2>Passer commande</h2>
+    <p>Décris-nous ton besoin : pièce introuvable, projet de conception, réparation ou production série.
+      Plus tu nous donnes d’informations, plus nous pouvons te répondre précisément et rapidement.</p>
+  </section>
+
+  <section class="command-wrapper">
+    <form id="commandForm" action="https://formspree.io/f/xblondrz" method="POST" class="styled-form" data-ajax-form data-store="custom-orders">
+      <input type="hidden" name="_subject" value="Commande personnalisée 3DPANNE">
+      <input type="hidden" name="origine" value="Commande sur mesure">
+
+      <label>Nom complet
+        <input type="text" name="nom" required>
+      </label>
+
+      <label>Email
+        <input type="email" name="email" required>
+      </label>
+
+      <label>Téléphone
+        <input type="tel" name="telephone" placeholder="+33 6 00 00 00 00" required>
+      </label>
+
+      <label>Entreprise / Organisation (optionnel)
+        <input type="text" name="entreprise" placeholder="Nom de la structure">
+      </label>
+
+      <label>Type de demande
+        <select name="type" id="commandType" required>
+          <option value="" disabled selected>-- Choisir --</option>
+          <option value="Conception">Conception / CAO</option>
+          <option value="Fabrication">Impression 3D</option>
+          <option value="Projet complet">Projet complet (conception + fabrication)</option>
+          <option value="Maintenance">Maintenance / rétrofit</option>
+        </select>
+      </label>
+
+      <label>Objet de la demande
+        <input type="text" name="objet" placeholder="Ex. Pièce pour robot collaboratif" required>
+      </label>
+
+      <label>Description détaillée
+        <textarea name="description" rows="6" placeholder="Contraintes, dimensions, matériaux, usage…" required></textarea>
+      </label>
+
+      <label>Budget / priorité (optionnel)
+        <input type="text" name="budget" placeholder="Fourchette budgétaire ou priorité">
+      </label>
+
+      <label>Délai souhaité
+        <input type="text" name="delai" placeholder="Ex. Livraison avant fin juin" required>
+      </label>
+
+      <label>Joindre un lien (optionnel)
+        <input type="url" name="lien" placeholder="Lien drive, croquis, vidéo…">
+      </label>
+
+      <label>Newsletter</label>
+      <label class="option-inline">
+        <input type="checkbox" name="newsletter" value="Oui"> Recevoir les nouveautés et fichiers gratuits
+      </label>
+
+      <button type="submit" class="cta-button">Envoyer ma demande</button>
+      <p class="form-privacy">Nous te contactons sous 24&nbsp;h pour confirmer la prise en charge.</p>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
+
+    <aside class="command-help">
+      <h3>Checklist utile</h3>
+      <ul>
+        <li>Photos ou plan de la pièce existante</li>
+        <li>Dimensions clés, matériaux souhaités</li>
+        <li>Contraintes d’usage (chaleur, efforts, environnement)</li>
+        <li>Délai idéal et quantité à produire</li>
+      </ul>
+      <p class="small">Tu peux également nous contacter directement : <a href="mailto:contact@3dpanne.fr">contact@3dpanne.fr</a> ou <a href="tel:+33712345678">+33&nbsp;7&nbsp;12&nbsp;34&nbsp;56&nbsp;78</a>.</p>
+    </aside>
+  </section>
+</main>
+
+<div data-include="includes/footer.html"></div>
+<script src="scripts/include.js"></script>
+<script src="scripts/site.js"></script>
+</body>
+</html>
