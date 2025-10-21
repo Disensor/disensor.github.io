@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mes projets - Disensor</title>
+  <meta name="description" content="Sélection de projets Disensor : rétrofit, impression 3D et automatisation." />
+  <title>Nos projets - 3DPANNE</title>
   <link rel="stylesheet" href="css/theme.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
@@ -12,81 +13,49 @@
 
 <div data-include="includes/header.html"></div>
 
-  <main class="page-content">
-    <section class="projects-section">
-      <h2>Nos projets</h2>
+  <main class="page-content projects-page">
+    <section class="projects-hero">
+      <h2>Nos réalisations</h2>
       <p class="intro-text">
-        Chez 3DPANNE, nous concevons et fabriquons des pièces de remplacement et des accessoires personnalisés grâce à l'impression 3D. Notre mission : prolonger la durée de vie de vos objets du quotidien, réparer intelligemment, et améliorer ce qui vous entoure.
-        <br><br>
-        Que vous soyez bricoleur, passionné ou tout simplement en panne d’une pièce introuvable, nous vous proposons des solutions fiables, conçues avec soin, testées et produites en France.
-        <br><br>
-        Voici une sélection de projets réalisés.
+        Chaque projet présenté ici illustre notre méthode : écoute du besoin, modélisation rigoureuse,
+        production maîtrisée et accompagnement jusqu’à la mise en service. Que ce soit pour réparer,
+        optimiser ou automatiser, nous travaillons main dans la main avec nos clients pour livrer des
+        pièces fiables et documentées.
       </p>
+    </section>
 
-      <div class="products">
-
-        <div class="product-card">
-          <img src="images/projet1.jpg" alt="Projet 1" />
-          <h3>Remplacement d’un coulisseau de lève-vitre cassé</h3>
-          <p> Un propriétaire de camping-car ne trouvait plus la pièce de rechange pour son système lève-vitre électrique. Grâce à une modélisation sur-mesure et une impression renforcée, nous avons recréé la pièce défectueuse. Résultat : une fenêtre de nouveau fonctionnelle, sans changer l'entièreté le mécanisme.
-             <br><br>
-            - Reconstitution et mesure de la pièce défectueuse
-             <br><br>
-            - Conception CAO complète optimisée
-             <br><br>
-            - Impression 3D FDM en PLA+
-          </p>
-          <a class="button-secondary" href="#" onclick="openProjectModal('Nom du projet', 'images/monprojet.jpg', 'Texte descriptif du projet complet...')">Voir le projet</a>
-        </div>
-
-        <div class="product-card">
-          <img src="images/projet2.jpg" alt="Projet 2" />
-          <h3>Dispositif automatisé</h3>
-          <p>Création d’un système motorisé avec capteurs et cobot Yaskawa, interface TwinCAT.</p>
-          <a class="button-secondary" href="#" onclick="openProjectModal('Nom du projet', 'images/monprojet.jpg', 'Texte descriptif du projet complet...')">Voir le projet</a>
-        </div>
-
-        <div class="product-card">
-          <img src="images/projet3.jpg" alt="Projet 3" />
-          <h3>Impression 3D multi-matériaux</h3>
-          <p>Fabrication additive de pièces fonctionnelles en PLA et TPU, assemblage et tests mécaniques.</p>
-          <a class="button-secondary" href="#" onclick="openProjectModal('Nom du projet', 'images/monprojet.jpg', 'Texte descriptif du projet complet...')">Voir le projet</a>
-        </div>
-
-        <!-- Ajoute d'autres projets ici -->
-
+    <section class="projects-section">
+      <div id="projectsGrid" class="cards-grid" aria-live="polite" aria-busy="true">
+        <div class="loading">Chargement des projets…</div>
       </div>
     </section>
+
+    <section class="callout">
+      <h3>Un projet similaire en tête ?</h3>
+      <p>Explique-nous ton besoin, joins tes photos ou croquis et nous revenons vers toi sous 24&nbsp;h.</p>
+      <a class="cta-button" href="commandes.html">Passer une commande personnalisée</a>
+    </section>
   </main>
-  
-  <!-- MODALE PROJET ------------------------------------------------------------------------------------>
-<div id="projectModal" class="modal">
-  <div class="modal-content">
-    <span class="close-button">&times;</span>
-    <h3 id="modalTitle">Titre du projet</h3>
-    <img id="modalImage" src="" alt="Image du projet">
-    <p id="modalDescription">Description complète du projet...</p>
+
+  <div id="projectModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <button class="close-button" type="button" aria-label="Fermer la fiche projet">&times;</button>
+      <div class="modal-body">
+        <div class="modal-gallery" id="modalGallery"></div>
+        <div class="modal-text">
+          <h3 id="modalTitle">Titre du projet</h3>
+          <p id="modalSummary" class="modal-summary"></p>
+          <p id="modalDescription"></p>
+          <ul id="modalHighlights" class="tag-list"></ul>
+          <div id="modalServices" class="service-tags"></div>
+          <a id="modalCta" class="cta-button" href="commandes.html">Discuter de mon projet</a>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-<script>
-  const modal = document.getElementById("projectModal");
-  const modalTitle = document.getElementById("modalTitle");
-  const modalImage = document.getElementById("modalImage");
-  const modalDescription = document.getElementById("modalDescription");
-  const closeButton = document.querySelector(".close-button");
-
-  function openProjectModal(title, image, description) {
-    modalTitle.textContent = title;
-    modalImage.src = image;
-    modalDescription.textContent = description;
-    modal.style.display = "flex";
-  }
-
-  closeButton.onclick = () => modal.style.display = "none";
-  window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
-</script>
 
 <div data-include="includes/footer.html"></div>
 <script src="scripts/include.js"></script>
+<script src="scripts/site.js"></script>
 </body>
 </html>
