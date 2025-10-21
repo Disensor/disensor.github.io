@@ -21,7 +21,7 @@
     "ref": "DIS-004",
     "name": "Ford Challenger 2008 - Coulisseau de système lève-vitre",
     "type": "STL",
-    "price": "49,99",
+    "price": "49,99€",
     "description": "Pièce de rechange : coulisseau de tringle pour système de lève vitre avant. Modèle de camping-car Ford Challenger 2004-2010.",
     "image": "images/products/camping-car.jpg",
     "link": "mailto:luan@example.com?subject=Commande DIS-004 - Ford Challenger 2008 - Coulisseau de système lève-vitre"
@@ -30,7 +30,7 @@
     "ref": "DIS-001",
     "name": "RIEJU MRT - Support adaptable feu arrière",
     "type": "STL",
-    "price": "89,99",
+    "price": "89,99€",
     "description": "Support de feu arrière sans garde boue 50cc RIEJU MRT/PRO 2013-2018. Fixation du feu d'origine et pièces compatibles.",
     "image": "images/products/feu-rieju-mrt.jpg",
     "link": "mailto:luan@example.com?subject=Commande DIS-001 - RIEJU MRT - Support adaptable feu arrière"
