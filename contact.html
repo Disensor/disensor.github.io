@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Contactez Disensor pour toute demande de service, de projet ou de collaboration.">
-  <title>Contact – Disensor</title>
+  <meta name="description" content="Contact 3DPANNE pour toute question, commande ou projet sur mesure.">
+  <title>Contact – 3DPANNE</title>
   <link rel="stylesheet" href="css/theme.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
@@ -13,43 +13,74 @@
 
   <div data-include="includes/header.html"></div>
 
-  <main class="page-content">
+  <main class="page-content contact-page">
     <section class="contact-section">
       <h2>📨 Contact</h2>
-      <p>Tu veux poser une question, obtenir un devis ou discuter d’un projet ? Remplis ce formulaire et je te répondrai rapidement.</p>
+      <p>Une question, un besoin spécifique ou un projet à lancer ? Utilise ce formulaire pour nous écrire.
+        Nous répondons en général sous 24&nbsp;h ouvrées.</p>
 
-      <form action="https://formspree.io/f/xblondrz" method="POST" class="styled-form">
+      <form action="https://formspree.io/f/xblondrz" method="POST" class="styled-form" data-ajax-form>
+        <input type="hidden" name="_subject" value="Contact 3DPANNE - Nouvelle demande">
+        <input type="hidden" name="origine" value="Contact général">
 
-        <label>Nom complet :
+        <label>Nom complet
           <input type="text" name="nom" required />
         </label>
 
-        <label>Adresse e-mail :
+        <label>Adresse e-mail
           <input type="email" name="email" required pattern="^[a-zA-Z0-9._%+-]+@(?!mailinator|tempmail|yopmail|10minutemail)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
         </label>
 
-        <label>Type de demande :
-          <select name="type" required>
-            <option value="" disabled selected>-- Choisir --</option>
-            <option value="produit">Produit</option>
-            <option value="service">Service</option>
-            <option value="fichier">Fichier</option>
-            <option value="autre">Autre</option>
-          </select>
+        <label>Téléphone (optionnel)
+          <input type="tel" name="telephone" placeholder="+33 6 00 00 00 00" />
         </label>
-        
-        <label>Message :
+
+        <fieldset>
+          <legend>Motif de la demande</legend>
+          <label class="option-inline">
+            <input type="radio" name="type" value="Question" required> Question rapide
+          </label>
+          <label class="option-inline">
+            <input type="radio" name="type" value="Commande"> Commande d’un produit
+          </label>
+          <label class="option-inline">
+            <input type="radio" name="type" value="Projet personnalisé"> Projet personnalisé
+          </label>
+          <label class="option-inline">
+            <input type="radio" name="type" value="SAV"> SAV / support
+          </label>
+        </fieldset>
+
+        <label>Sujet
+          <input type="text" name="sujet" placeholder="Ex. Devis impression 3D" required>
+        </label>
+
+        <label>Message
           <textarea name="message" rows="6" required></textarea>
+        </label>
+
+        <label>Fichiers / liens utiles (optionnel)
+          <input type="url" name="lien" placeholder="Lien vers un drive, portfolio…">
         </label>
 
         <input type="text" name="_gotcha" style="display:none" />
         <button type="submit" class="cta-button">Envoyer</button>
-
+        <p class="form-privacy">En soumettant ce formulaire, tu acceptes que nous te recontactions par e-mail ou téléphone.</p>
+        <p class="form-status" role="status" aria-live="polite"></p>
       </form>
+    </section>
+
+    <section class="contact-info">
+      <h3>Nous trouver</h3>
+      <p><strong>3DPANNE</strong><br>La Rochelle, France<br><a href="tel:+33712345678">+33 7 12 34 56 78</a><br><a href="mailto:contact@3dpanne.fr">contact@3dpanne.fr</a></p>
+      <div class="map-wrapper">
+        <iframe title="Localisation La Rochelle" src="https://www.openstreetmap.org/export/embed.html?bbox=-1.192%2C46.142%2C-1.111%2C46.175&amp;layer=mapnik" loading="lazy"></iframe>
+      </div>
     </section>
   </main>
 
 <div data-include="includes/footer.html"></div>
 <script src="scripts/include.js"></script>
+<script src="scripts/site.js"></script>
 </body>
 </html>
