@@ -4,92 +4,52 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Disensor</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      padding: 40px;
-      max-width: 700px;
-      margin: auto;
-      background: #fff;
-      color: #222;
-      font-family: sans-serif;
-    }
-    label, input, textarea, select {
-      display: block;
-      width: 100%;
-      margin-bottom: 15px;
-      font-size: 1em;
-    }
-    input, textarea, select {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button {
-      padding: 12px 24px;
-      font-size: 1em;
-      background: #007acc;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #005fa3;
-    }
-    .hidden {
-      display: none;
-    }
-    .status {
-      margin: 20px 0;
-      font-weight: bold;
-      color: green;
-    }
-    .error {
-      color: red;
-    }
-  </style>
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
-<body>
+<body class="admin-page">
 
-<h1>Interface admin : Ajouter un produit</h1>
+<div class="admin-container">
+  <h1>Interface admin : Ajouter un produit</h1>
 
-<div id="auth">
-  <label for="token">Entre ton token GitHub :</label>
-  <input type="password" id="token" placeholder="ghp_...">
-  <button onclick="auth()">Se connecter</button>
+  <div id="auth">
+    <label for="token">Entre ton token GitHub :</label>
+    <input type="password" id="token" placeholder="ghp_...">
+    <button onclick="auth()">Se connecter</button>
+  </div>
+
+  <form id="adminForm" class="hidden">
+    <label for="ref">Référence</label>
+    <input type="text" id="ref">
+
+    <label for="name">Nom du produit</label>
+    <input type="text" id="name">
+
+    <label for="type">Type de fichier</label>
+    <select id="type">
+      <option value="STL">STL</option>
+      <option value="STEP">STEP</option>
+      <option value="PDF">PDF</option>
+    </select>
+
+    <label for="price">Prix</label>
+    <input type="text" id="price">
+
+    <label for="description">Description</label>
+    <textarea id="description" rows="4"></textarea>
+
+    <label for="imageUpload">Image à téléverser</label>
+    <input type="file" id="imageUpload" accept="image/*">
+
+    <button type="submit">Ajouter / Mettre à jour le produit</button>
+  </form>
+  <div id="status" class="status hidden"></div>
+
+  <hr>
+  <h2 id="productsTitle" class="hidden">Produits existants</h2>
+  <div id="productList">Chargement...</div>
 </div>
-
-<form id="adminForm" class="hidden">
-  <label for="ref">Référence</label>
-  <input type="text" id="ref">
-
-  <label for="name">Nom du produit</label>
-  <input type="text" id="name">
-
-  <label for="type">Type de fichier</label>
-  <select id="type">
-    <option value="STL">STL</option>
-    <option value="STEP">STEP</option>
-    <option value="PDF">PDF</option>
-  </select>
-
-  <label for="price">Prix</label>
-  <input type="text" id="price">
-
-  <label for="description">Description</label>
-  <textarea id="description" rows="4"></textarea>
-
-  <label for="imageUpload">Image à téléverser</label>
-  <input type="file" id="imageUpload" accept="image/*">
-
-  <button type="submit">Ajouter / Mettre à jour le produit</button>
-</form>
-<div id="status" class="status hidden"></div>
-
-<hr>
-<h2 id="productsTitle" class="hidden">Produits existants</h2>
-<div id="productList">Chargement...</div>
 
 <script>
 let githubToken = '';
@@ -115,175 +75,3 @@ function auth() {
     if (res.ok) {
       document.getElementById('auth').classList.add('hidden');
       document.getElementById('adminForm').classList.remove('hidden');
-      document.getElementById('productsTitle').classList.remove('hidden');
-      loadProducts();
-    } else {
-      alert("Token invalide ou non autorisé.");
-    }
-  });
-}
-
-document.getElementById('adminForm').addEventListener('submit', async function (e) {
-  e.preventDefault();
-  const status = document.getElementById('status');
-  status.classList.remove('hidden');
-  status.textContent = 'Traitement en cours...';
-
-  const file = document.getElementById('imageUpload').files[0];
-  const ref = document.getElementById('ref').value.trim();
-  const name = document.getElementById('name').value.trim();
-  const imagePath = file ? `images/products/${file.name}` : "images/products/doc.jpg";
-const product = {
-  ref,
-  name,
-  type: document.getElementById('type').value,
-  price: document.getElementById('price').value.trim(),
-  description: document.getElementById('description').value.trim(),
-  image: imagePath.startsWith("images/products/") ? imagePath : `images/products/${imagePath}`,
-  link: `mailto:luan@example.com?subject=Commande ${ref} - ${name}`
-};
-
-
-  try {
-    const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/data/products.json`;
-    const dataRes = await fetch(dataUrl, {
-      headers: { Authorization: `Bearer ${githubToken}` }
-    });
-    const data = await dataRes.json();
-    const content = JSON.parse(decodeBase64Utf8(data.content));
-
-    if (editIndex !== null) {
-      content[editIndex] = product;
-      editIndex = null;
-    } else {
-      content.push(product);
-    }
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        const base64Image = reader.result.split(',')[1];
-        const imageUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${imagePath}`;
-        await fetch(imageUrl, {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${githubToken}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: `Ajout image ${file.name}`,
-            content: base64Image
-          })
-        });
-        updateJson(content, data.sha, status);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      updateJson(content, data.sha, status);
-    }
-  } catch (err) {
-    status.textContent = "Erreur : " + err.message;
-    status.classList.add('error');
-  }
-});
-
-async function updateJson(content, sha, statusEl) {
-  const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/data/products.json`;
-  const res = await fetch(dataUrl, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${githubToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      message: 'Ajout ou mise à jour de produit',
-      content: btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2)))),
-      sha
-    })
-  });
-
-  if (res.ok) {
-    statusEl.textContent = "✅ Produit ajouté / mis à jour avec succès !";
-    document.getElementById('adminForm').reset();
-    loadProducts();
-  } else {
-    const err = await res.json();
-    statusEl.textContent = "❌ Erreur : " + err.message;
-    statusEl.classList.add('error');
-  }
-}
-
-async function loadProducts() {
-  const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/data/products.json`;
-  const res = await fetch(dataUrl, {
-    headers: { Authorization: `Bearer ${githubToken}` }
-  });
-
-  if (!res.ok) {
-    document.getElementById("productList").textContent = "Erreur de chargement";
-    return;
-  }
-
-  const data = await res.json();
-  const products = JSON.parse(decodeBase64Utf8(data.content));
-
-  const container = document.getElementById("productList");
-  container.innerHTML = '';
-
-  products.forEach((prod, index) => {
-    const div = document.createElement("div");
-    div.style.border = "1px solid #ddd";
-    div.style.marginBottom = "10px";
-    div.style.padding = "10px";
-    div.innerHTML = `
-      <strong>${prod.name}</strong> (${prod.ref}) - ${prod.price} <br>
-      <button onclick="editProduct(${index})">✏️ Modifier</button>
-      <button onclick="deleteProduct(${index})">🗑️ Supprimer</button>
-    `;
-    container.appendChild(div);
-  });
-
-  window.currentProducts = products;
-  window.currentSha = data.sha;
-}
-
-function editProduct(index) {
-  const p = window.currentProducts[index];
-  document.getElementById("ref").value = p.ref;
-  document.getElementById("name").value = p.name;
-  document.getElementById("type").value = p.type;
-  document.getElementById("price").value = p.price;
-  document.getElementById("description").value = p.description;
-  editIndex = index;
-  alert("✏️ Modifie les champs et clique sur 'Ajouter / Mettre à jour le produit'.");
-}
-
-async function deleteProduct(index) {
-  if (!confirm("❌ Confirmer la suppression de ce produit ?")) return;
-  const updatedProducts = [...window.currentProducts];
-  updatedProducts.splice(index, 1);
-  const dataUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/data/products.json`;
-  const res = await fetch(dataUrl, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${githubToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      message: "Suppression d'un produit",
-      content: btoa(unescape(encodeURIComponent(JSON.stringify(updatedProducts, null, 2)))),
-      sha: window.currentSha
-    })
-  });
-
-  if (res.ok) {
-    alert("✅ Produit supprimé avec succès !");
-    document.getElementById('adminForm').reset();
-    loadProducts();
-  } else {
-    alert("❌ Erreur lors de l'enregistrement JSON.");
-  }
-}
-</script>
-</body>
-</html>
