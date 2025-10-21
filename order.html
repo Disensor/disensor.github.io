@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Commander un fichier ou produit 3DPANNE : formulaire prérempli et confirmation immédiate.">
+  <title>Commander ce fichier – 3DPANNE</title>
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+
+<div data-include="includes/header.html"></div>
+
+<main class="page-content order-page">
+  <section class="order-intro">
+    <h2>Commander ce fichier</h2>
+    <p>Le formulaire est pré-rempli avec les informations du produit sélectionné. Nous t’envoyons une facture et le lien de téléchargement après validation manuelle.</p>
+  </section>
+
+  <section class="order-wrapper">
+    <aside class="order-summary" aria-live="polite">
+      <h3>Détails du produit</h3>
+      <ul>
+        <li><strong>Référence :</strong> <span id="summaryRef">—</span></li>
+        <li><strong>Produit :</strong> <span id="summaryName">—</span></li>
+        <li><strong>Prix :</strong> <span id="summaryPrice">—</span></li>
+        <li><strong>Format :</strong> <span id="summaryType">—</span></li>
+      </ul>
+      <p class="small">Besoin d’une adaptation ? Mentionne-le dans ton message.</p>
+    </aside>
+
+    <form id="orderForm" action="https://formspree.io/f/xblondrz" method="POST" class="styled-form" data-ajax-form data-store="orders">
+      <input type="hidden" name="_subject" value="Commande boutique 3DPANNE">
+      <input type="hidden" name="origine" value="Commande produit">
+      <input type="hidden" name="produit" id="orderProduct" />
+
+      <label>Nom complet
+        <input type="text" name="nom" required>
+      </label>
+
+      <label>Email
+        <input type="email" name="email" required>
+      </label>
+
+      <label>Téléphone (optionnel)
+        <input type="tel" name="telephone" placeholder="+33 6 00 00 00 00">
+      </label>
+
+      <label>Entreprise / Organisation (optionnel)
+        <input type="text" name="entreprise" placeholder="Nom de la structure">
+      </label>
+
+      <label>Adresse postale
+        <textarea name="adresse" rows="3" placeholder="Adresse pour la facturation" required></textarea>
+      </label>
+
+      <label>Message complémentaire
+        <textarea name="message" rows="4" placeholder="Infos de personnalisation, délai souhaité…" required></textarea>
+      </label>
+
+      <label>Méthode de règlement préférée
+        <select name="paiement">
+          <option value="virement">Virement bancaire</option>
+          <option value="carte">Carte bancaire (lien sécurisé)</option>
+          <option value="paypal">PayPal</option>
+        </select>
+      </label>
+
+      <button type="submit" class="cta-button">Envoyer la demande</button>
+      <p class="form-privacy">Nous confirmons la réception de ta commande sous 24&nbsp;h ouvrées.</p>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+</main>
+
+<div data-include="includes/footer.html"></div>
+<script src="scripts/include.js"></script>
+<script src="scripts/site.js"></script>
+</body>
+</html>
