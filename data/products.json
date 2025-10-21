@@ -34,5 +34,14 @@
     "description": "Support de feu arrière sans garde boue 50cc RIEJU MRT/PRO 2013-2018. Fixation du feu d'origine et pièces compatibles.",
     "image": "images/products/feu-rieju-mrt.jpg",
     "link": "mailto:luan@example.com?subject=Commande DIS-001 - RIEJU MRT - Support adaptable feu arrière"
+  },
+  {
+    "ref": "TEST3",
+    "name": "9946",
+    "type": "STL",
+    "price": "999",
+    "description": "Essai3",
+    "image": "images/products/doc.jpg",
+    "link": "mailto:luan@example.com?subject=Commande TEST3 - 9946"
   }
 ]
