@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Téléchargement – Disensor</title>
+  <meta name="description" content="Télécharge gratuitement des fichiers 3D et guides en échange de tes coordonnées.">
+  <title>Téléchargements – 3DPANNE</title>
   <link rel="stylesheet" href="css/theme.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
@@ -12,15 +13,51 @@
 
 <div data-include="includes/header.html"></div>
 
-<main class="page-content">
-  <section>
-    <h2>Merci ! 🎉</h2>
-    <p>Ton téléchargement est prêt. Clique sur le bouton ci-dessous pour récupérer le fichier.</p>
-    <a class="cta-button" href="fichiers/monfichier.zip" download>Télécharger le fichier</a>
+<main class="page-content downloads-page">
+  <section class="downloads-hero">
+    <h2>🎁 Téléchargements gratuits</h2>
+    <p>Choisis un fichier, complète le mini-formulaire et reçois le lien directement dans ta boîte mail.
+      Tu seras également informé des prochains cadeaux utiles pour makers et responsables maintenance.</p>
+  </section>
+
+  <section class="downloads-list" aria-live="polite" aria-busy="true">
+    <div class="cards-grid" data-freebies>
+      <div class="loading">Chargement des ressources…</div>
+    </div>
   </section>
 </main>
 
+<div id="freebieModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="freebieTitle">
+  <div class="modal-content">
+    <button class="close-button" type="button" aria-label="Fermer">&times;</button>
+    <div class="modal-body">
+      <div class="modal-gallery" id="freebiePreview"></div>
+      <div class="modal-text">
+        <h3 id="freebieTitle"></h3>
+        <p id="freebieDescription"></p>
+        <form id="freebieForm" action="https://formspree.io/f/xblondrz" method="POST" class="styled-form compact" data-ajax-form data-store="downloads">
+          <input type="hidden" name="_subject" value="Téléchargement gratuit 3DPANNE">
+          <input type="hidden" name="origine" value="Téléchargement">
+          <input type="hidden" name="fichier" id="freebieSlug">
+          <label>Nom complet
+            <input type="text" name="nom" required>
+          </label>
+          <label>Email
+            <input type="email" name="email" required>
+          </label>
+          <label>Projet actuel (optionnel)
+            <input type="text" name="projet" placeholder="Ce que tu souhaites créer…">
+          </label>
+          <button type="submit" class="cta-button">Recevoir le fichier</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div data-include="includes/footer.html"></div>
 <script src="scripts/include.js"></script>
+<script src="scripts/site.js"></script>
 </body>
 </html>
