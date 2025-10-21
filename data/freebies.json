@@ -1,0 +1,18 @@
+[
+  {
+    "slug": "porte-cle-support",
+    "title": "Support mural pour porte-clés",
+    "description": "Un support discret à imprimer en PLA pour organiser vos clés à l’entrée.",
+    "format": "STL",
+    "preview": "images/freebies/porte-cle.jpg",
+    "download": "files/freebies/support-porte-cle.zip"
+  },
+  {
+    "slug": "guide-entretien",
+    "title": "Guide PDF – Entretenir son imprimante 3D",
+    "description": "Les 7 actions simples pour conserver une qualité d’impression régulière.",
+    "format": "PDF",
+    "preview": "images/freebies/guide-entretien.jpg",
+    "download": "files/freebies/guide-entretien.pdf"
+  }
+]
