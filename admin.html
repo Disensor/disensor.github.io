@@ -13,7 +13,7 @@
   <main class="admin-wrapper">
     <header class="admin-header">
       <h1>Espace d’administration</h1>
-      <p>Connecte-toi avec un token GitHub disposant des droits d’écriture sur le dépôt <code>Disensor/disensor.github.io</code> afin de gérer les produits de la boutique et les projets présentés.</p>
+      <p>Connecte-toi avec un token GitHub disposant des droits d’écriture sur le dépôt <code>Disensor/disensor.github.io</code> afin de gérer les produits, projets, services, téléchargements gratuits et retours clients.</p>
     </header>
 
     <section class="panel" id="authPanel">
@@ -129,6 +129,194 @@
           <h3>Projets enregistrés</h3>
           <div id="projectList" class="admin-list">Connecte-toi pour charger les projets…</div>
         </div>
+      </section>
+
+      <section class="panel" id="freebiePanel" aria-labelledby="freebiePanelTitle">
+        <div>
+          <h2 id="freebiePanelTitle">Téléchargements gratuits</h2>
+          <p>Gère les ressources offertes. Tu peux remplacer la vignette (<code>images/freebies/</code>) et le fichier à télécharger (<code>files/freebies/</code>).</p>
+        </div>
+        <form id="freebieForm" novalidate>
+          <div class="form-grid">
+            <label for="freebieSlug">Identifiant unique
+              <input type="text" id="freebieSlug" name="freebieSlug" required />
+            </label>
+            <label for="freebieTitle">Titre
+              <input type="text" id="freebieTitle" name="freebieTitle" required />
+            </label>
+            <label for="freebieFormat">Format
+              <select id="freebieFormat" name="freebieFormat">
+                <option value="STL">STL</option>
+                <option value="STEP">STEP</option>
+                <option value="PDF">PDF</option>
+                <option value="ZIP">ZIP</option>
+              </select>
+            </label>
+          </div>
+          <label for="freebieDescription">Description
+            <textarea id="freebieDescription" name="freebieDescription" rows="3" required></textarea>
+          </label>
+          <div class="upload-grid">
+            <label for="freebiePreview">Vignette (optionnel)
+              <input type="file" id="freebiePreview" name="freebiePreview" accept="image/*" />
+              <span class="hint">Envoyée dans <code>images/freebies/</code>.</span>
+            </label>
+            <label for="freebiePreviewPath">Chemin de vignette
+              <input type="text" id="freebiePreviewPath" name="freebiePreviewPath" placeholder="images/freebies/nom-image.jpg" />
+            </label>
+          </div>
+          <div class="upload-grid">
+            <label for="freebieFile">Fichier à télécharger (optionnel)
+              <input type="file" id="freebieFile" name="freebieFile" />
+              <span class="hint">Déposé dans <code>files/freebies/</code>.</span>
+            </label>
+            <label for="freebieFilePath">Chemin de téléchargement
+              <input type="text" id="freebieFilePath" name="freebieFilePath" placeholder="files/freebies/nom-fichier.zip" />
+            </label>
+          </div>
+          <div class="button-row">
+            <button type="submit" class="primary">Enregistrer</button>
+            <button type="button" class="secondary" id="freebieCancel">Réinitialiser</button>
+          </div>
+          <p id="freebieStatus" class="status-message" role="status" aria-live="polite"></p>
+        </form>
+
+        <div>
+          <h3>Ressources gratuites</h3>
+          <div id="freebieList" class="admin-list">Connecte-toi pour charger les ressources…</div>
+        </div>
+      </section>
+
+      <section class="panel" id="servicePanel" aria-labelledby="servicePanelTitle">
+        <div>
+          <h2 id="servicePanelTitle">Services proposés</h2>
+          <p>Met à jour les offres de services. Les visuels optionnels sont enregistrés dans <code>images/services/</code>.</p>
+        </div>
+        <form id="serviceForm" novalidate>
+          <div class="form-grid">
+            <label for="serviceSlug">Slug
+              <input type="text" id="serviceSlug" name="serviceSlug" required />
+            </label>
+            <label for="serviceTitle">Titre
+              <input type="text" id="serviceTitle" name="serviceTitle" required />
+            </label>
+            <label for="serviceIcon">Icône ou emoji
+              <input type="text" id="serviceIcon" name="serviceIcon" maxlength="3" />
+            </label>
+            <label for="serviceTagline">Accroche courte
+              <input type="text" id="serviceTagline" name="serviceTagline" />
+            </label>
+          </div>
+          <div class="form-grid">
+            <label for="serviceSummary">Résumé
+              <textarea id="serviceSummary" name="serviceSummary" rows="3" required></textarea>
+            </label>
+            <label for="serviceDetails">Détails
+              <textarea id="serviceDetails" name="serviceDetails" rows="4" required></textarea>
+            </label>
+          </div>
+          <div class="form-grid">
+            <label for="servicePrice">Tarif affiché
+              <input type="text" id="servicePrice" name="servicePrice" />
+            </label>
+            <label for="serviceTurnaround">Délais
+              <input type="text" id="serviceTurnaround" name="serviceTurnaround" />
+            </label>
+          </div>
+          <div class="form-grid">
+            <label for="serviceDeliverables">Livrables (un par ligne)
+              <textarea id="serviceDeliverables" name="serviceDeliverables" rows="3"></textarea>
+            </label>
+            <label for="serviceTools">Logiciels / outils (un par ligne)
+              <textarea id="serviceTools" name="serviceTools" rows="3"></textarea>
+            </label>
+          </div>
+          <div class="upload-grid">
+            <label for="serviceImage">Image (optionnel)
+              <input type="file" id="serviceImage" name="serviceImage" accept="image/*" />
+              <span class="hint">Stockée dans <code>images/services/</code>.</span>
+            </label>
+            <label for="serviceImagePath">Chemin de l’image
+              <input type="text" id="serviceImagePath" name="serviceImagePath" placeholder="images/services/illustration.jpg" />
+            </label>
+          </div>
+          <div class="form-grid">
+            <label for="serviceCta">Texte du bouton
+              <input type="text" id="serviceCta" name="serviceCta" />
+            </label>
+            <label for="serviceCtaLink">Lien du bouton
+              <input type="text" id="serviceCtaLink" name="serviceCtaLink" />
+            </label>
+          </div>
+          <div class="button-row">
+            <button type="submit" class="primary">Enregistrer</button>
+            <button type="button" class="secondary" id="serviceCancel">Réinitialiser</button>
+          </div>
+          <p id="serviceStatus" class="status-message" role="status" aria-live="polite"></p>
+        </form>
+
+        <div>
+          <h3>Services enregistrés</h3>
+          <div id="serviceList" class="admin-list">Connecte-toi pour charger les services…</div>
+        </div>
+      </section>
+
+      <section class="panel" id="testimonialPanel" aria-labelledby="testimonialPanelTitle">
+        <div>
+          <h2 id="testimonialPanelTitle">Retours clients</h2>
+          <p>Ajoute les témoignages visibles sur la page d’accueil.</p>
+        </div>
+        <form id="testimonialForm" novalidate>
+          <label for="testimonialQuote">Citation
+            <textarea id="testimonialQuote" name="testimonialQuote" rows="3" required></textarea>
+          </label>
+          <div class="form-grid">
+            <label for="testimonialAuthor">Auteur
+              <input type="text" id="testimonialAuthor" name="testimonialAuthor" required />
+            </label>
+            <label for="testimonialRole">Entreprise / rôle (optionnel)
+              <input type="text" id="testimonialRole" name="testimonialRole" />
+            </label>
+          </div>
+          <div class="button-row">
+            <button type="submit" class="primary">Enregistrer</button>
+            <button type="button" class="secondary" id="testimonialCancel">Réinitialiser</button>
+          </div>
+          <p id="testimonialStatus" class="status-message" role="status" aria-live="polite"></p>
+        </form>
+
+        <div>
+          <h3>Témoignages</h3>
+          <div id="testimonialList" class="admin-list">Connecte-toi pour charger les retours…</div>
+        </div>
+      </section>
+
+      <section class="panel" id="settingsPanel" aria-labelledby="settingsPanelTitle">
+        <div>
+          <h2 id="settingsPanelTitle">Options d’affichage</h2>
+          <p>Sélectionne le projet mis en avant sur la page d’accueil et règle l’animation des témoignages.</p>
+        </div>
+        <form id="settingsForm" novalidate>
+          <div class="form-grid">
+            <label for="featuredProject">Projet mis à la une
+              <select id="featuredProject" name="featuredProject">
+                <option value="">— Choisir un projet —</option>
+              </select>
+            </label>
+            <label class="checkbox-field" for="testimonialRotation">
+              <input type="checkbox" id="testimonialRotation" name="testimonialRotation" checked />
+              <span>Activer la rotation automatique des témoignages</span>
+            </label>
+            <label for="testimonialInterval">Durée d’affichage (ms)
+              <input type="number" id="testimonialInterval" name="testimonialInterval" min="3000" step="500" value="8000" />
+            </label>
+          </div>
+          <div class="button-row">
+            <button type="submit" class="primary">Sauvegarder les options</button>
+            <button type="button" class="secondary" id="settingsCancel">Restaurer</button>
+          </div>
+          <p id="settingsStatus" class="status-message" role="status" aria-live="polite"></p>
+        </form>
       </section>
     </div>
   </main>
