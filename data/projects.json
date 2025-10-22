@@ -20,17 +20,5 @@
     ],
     "cta": "Commander une pièce similaire",
     "ctaLink": "commandes.html?type=remplacement"
-  },
-  {
-    "id": "0002",
-    "title": "essai",
-    "summary": "dsds",
-    "thumbnail": "images/projects/test.jpg",
-    "description": "hgfhg",
-    "highlights": [],
-    "services": [],
-    "gallery": [],
-    "cta": "dddddddddddddddddddddddddddddddddddddddddddddddddddd",
-    "ctaLink": ""
   }
 ]
