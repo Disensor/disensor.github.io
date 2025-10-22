@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320">
+  <defs>
+    <linearGradient id="sc4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111b39" />
+      <stop offset="100%" stop-color="#4fa7ff" />
+    </linearGradient>
+  </defs>
+  <rect width="720" height="320" rx="28" fill="url(#sc4)" />
+  <g fill="#ffffff" font-family="'Segoe UI',sans-serif" font-weight="600" text-anchor="middle" font-size="42">
+    <text x="120" y="160">SolidWorks</text>
+    <text x="280" y="160">Fusion 360</text>
+    <text x="440" y="160">Onshape</text>
+    <text x="600" y="160">TwinCAT</text>
+  </g>
+</svg>
