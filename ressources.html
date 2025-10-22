@@ -17,20 +17,26 @@
     <h2>Téléchargement gratuit</h2>
     <p>Remplis ce formulaire pour recevoir ton fichier STL gratuitement par e-mail. Je t’enverrai le lien de téléchargement dès réception.</p>
 
-    <form class="styled-form" action="https://formspree.io/f/toncodeici" method="POST">
+    <form class="styled-form" action="https://formsubmit.co/luan.caillavet.25@eigsi.fr" method="POST" data-ajax-form data-store="downloads">
       <label>Nom complet
         <input type="text" name="nom" required>
       </label>
       <label>Adresse e-mail
         <input type="email" name="email" required>
       </label>
-      <input type="hidden" name="_redirect" value="download.html">
+      <input type="hidden" name="_subject" value="Ressource gratuite 3DPANNE">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="origine" value="Ressources page statique">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
       <button class="cta-button" type="submit">Recevoir le fichier</button>
+      <p class="form-status" role="status" aria-live="polite"></p>
     </form>
   </section>
 </main>
 
 <div data-include="includes/footer.html"></div>
 <script src="scripts/include.js"></script>
+<script src="scripts/site.js"></script>
 </body>
 </html>
