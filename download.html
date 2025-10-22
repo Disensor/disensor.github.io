@@ -35,8 +35,10 @@
       <div class="modal-text">
         <h3 id="freebieTitle"></h3>
         <p id="freebieDescription"></p>
-        <form id="freebieForm" action="https://formspree.io/f/xblondrz" method="POST" class="styled-form compact" data-ajax-form data-store="downloads">
+        <form id="freebieForm" action="https://formsubmit.co/luan.caillavet.25@eigsi.fr" method="POST" class="styled-form compact" data-ajax-form data-store="downloads">
           <input type="hidden" name="_subject" value="Téléchargement gratuit 3DPANNE">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="origine" value="Téléchargement">
           <input type="hidden" name="fichier" id="freebieSlug">
           <label>Nom complet
@@ -48,6 +50,7 @@
           <label>Projet actuel (optionnel)
             <input type="text" name="projet" placeholder="Ce que tu souhaites créer…">
           </label>
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
           <button type="submit" class="cta-button">Recevoir le fichier</button>
           <p class="form-status" role="status" aria-live="polite"></p>
         </form>
