@@ -21,8 +21,10 @@
   </section>
 
   <section class="command-wrapper">
-    <form id="commandForm" action="https://formspree.io/f/xblondrz" method="POST" class="styled-form" data-ajax-form data-store="custom-orders">
+    <form id="commandForm" action="https://formsubmit.co/luan.caillavet.25@eigsi.fr" method="POST" class="styled-form" data-ajax-form data-store="custom-orders">
       <input type="hidden" name="_subject" value="Commande personnalisée 3DPANNE">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="origine" value="Commande sur mesure">
 
       <label>Nom complet
@@ -48,9 +50,7 @@
           <option value="Fabrication">Impression 3D</option>
           <option value="Projet complet">Projet complet (conception + fabrication)</option>
           <option value="Maintenance">Maintenance / rétrofit</option>
-        </select>
-      </label>
-
+@@ -54,48 +56,49 @@
       <label>Objet de la demande
         <input type="text" name="objet" placeholder="Ex. Pièce pour robot collaboratif" required>
       </label>
@@ -76,6 +76,7 @@
         <input type="checkbox" name="newsletter" value="Oui"> Recevoir les nouveautés et fichiers gratuits
       </label>
 
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
       <button type="submit" class="cta-button">Envoyer ma demande</button>
       <p class="form-privacy">Nous te contactons sous 24&nbsp;h pour confirmer la prise en charge.</p>
       <p class="form-status" role="status" aria-live="polite"></p>
@@ -89,7 +90,7 @@
         <li>Contraintes d’usage (chaleur, efforts, environnement)</li>
         <li>Délai idéal et quantité à produire</li>
       </ul>
-      <p class="small">Tu peux également nous contacter directement : <a href="mailto:contact@3dpanne.fr">contact@3dpanne.fr</a> ou <a href="tel:+33712345678">+33&nbsp;7&nbsp;12&nbsp;34&nbsp;56&nbsp;78</a>.</p>
+      <p class="small">Tu peux également nous contacter directement : <a href="mailto:luan.caillavet.25@eigsi.fr">luan.caillavet.25@eigsi.fr</a> ou <a href="tel:+33712345678">+33&nbsp;7&nbsp;12&nbsp;34&nbsp;56&nbsp;78</a>.</p>
     </aside>
   </section>
 </main>
