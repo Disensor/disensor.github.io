@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480">
+  <defs>
+    <linearGradient id="sc1" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0d1736" />
+      <stop offset="100%" stop-color="#2f7dff" />
+    </linearGradient>
+  </defs>
+  <rect width="720" height="480" rx="36" fill="url(#sc1)" />
+  <g fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="110" y="120" width="500" height="260" rx="28" opacity="0.85" />
+    <path d="M150 170h420" />
+    <path d="M150 220h200" opacity="0.7" />
+    <path d="M410 220h160" opacity="0.4" />
+    <path d="M210 320h140" />
+    <path d="M380 320h140" />
+    <path d="M250 120v260" opacity="0.5" />
+    <path d="M470 120v260" opacity="0.5" />
+    <path d="M200 400l40 40 80-80 80 80 40-40" />
+  </g>
+  <text x="50%" y="70" fill="#ffffff" font-family="'Segoe UI',sans-serif" font-size="40" font-weight="600" text-anchor="middle">Atelier 3DPANNE en production</text>
+</svg>
