@@ -21,7 +21,7 @@
     return Number.isNaN(numeric) ? 0 : numeric;
   }
 
-  function openAccessibleModal(modal, { initialFocus } = {}) {
+function openAccessibleModal(modal, { initialFocus } = {}) {
     if (!modal) return () => {};
 
     if (typeof modal.__teardown === 'function') {
@@ -121,7 +121,7 @@
     modal.__teardown = closeModal;
     return closeModal;
   }
-
+  
   function bindAjaxForm(form, { onSuccess } = {}) {
     if (!form) return;
     if (onSuccess) {
@@ -207,7 +207,7 @@
         const list = Number.isInteger(limit) && limit > 0 ? services.slice(0, limit) : services;
         container.innerHTML = '';
         list.forEach((service) => {
-          const isPreview = variant === 'preview';
+         const isPreview = variant === 'preview';
           const card = document.createElement('article');
           card.className = `card service-card ${isPreview ? 'service-card--compact' : ''}`;
           card.dataset.icon = service.icon || '🛠️';
@@ -226,7 +226,7 @@
 
           card.innerHTML = `
             <h3>${service.title}</h3>
-            ${service.tagline ? `<p class="service-tagline">${service.tagline}</p>` : ''}
+              ${service.tagline ? `<p class="service-tagline">${service.tagline}</p>` : ''}
             <p>${description}</p>
             ${deliverables}
             ${tools}
@@ -246,7 +246,7 @@
     }
   }
 
-  async function initFaq() {
+ async function initFaq() {
     const wrapper = document.querySelector('[data-faq]');
     if (!wrapper) return;
 
@@ -316,7 +316,7 @@
       console.error(error);
     }
   }
-
+  
   async function initProjects() {
     const grid = document.getElementById('projectsGrid');
     const homeGrid = document.getElementById('homeProjects');
@@ -342,7 +342,79 @@
             window.location.href = `projects.html?project=${encodeURIComponent(project.id)}`;
           });
           homeGrid.appendChild(card);
-@@ -228,117 +418,106 @@
+        });
+        homeGrid.setAttribute('aria-busy', 'false');
+      }
+
+      if (grid) {
+        grid.innerHTML = '';
+        projects.forEach((project) => {
+          const card = document.createElement('article');
+          card.className = 'project-card';
+          card.innerHTML = `
+            <img src="${project.thumbnail}" alt="${project.title}" loading="lazy" onerror="this.src='images/doc.jpg'">
+            <div class="card-body">
+              <h3>${project.title}</h3>
+              <p>${project.summary}</p>
+              <button class="button-secondary" type="button">Voir le projet</button>
+            </div>
+          `;
+          card.querySelector('button').addEventListener('click', () => openProjectModal(project));
+          grid.appendChild(card);
+        });
+        grid.setAttribute('aria-busy', 'false');
+
+        const params = new URLSearchParams(window.location.search);
+        const requested = params.get('project');
+        if (requested) {
+          const project = projects.find((item) => item.id === requested);
+          if (project) {
+            openProjectModal(project);
+          }
+        }
+      }
+    } catch (error) {
+      if (grid) {
+        grid.innerHTML = '<p class="error">Impossible de charger les projets.</p>';
+        grid.setAttribute('aria-busy', 'false');
+      }
+      if (homeGrid) {
+        homeGrid.innerHTML = '<p class="error">Impossible d’afficher les projets.</p>';
+        homeGrid.setAttribute('aria-busy', 'false');
+      }
+      console.error(error);
+    }
+  }
+
+  function openProjectModal(project) {
+    const modal = document.getElementById('projectModal');
+    if (!modal) return;
+
+    const gallery = modal.querySelector('#modalGallery');
+    const title = modal.querySelector('#modalTitle');
+    const summary = modal.querySelector('#modalSummary');
+    const description = modal.querySelector('#modalDescription');
+    const highlights = modal.querySelector('#modalHighlights');
+    const services = modal.querySelector('#modalServices');
+    const cta = modal.querySelector('#modalCta');
+
+    title.textContent = project.title;
+    summary.textContent = project.summary;
+    description.textContent = project.description;
+
+    gallery.innerHTML = '';
+    (project.gallery || []).forEach((image, index) => {
+      const img = document.createElement('img');
+      img.src = image;
+      img.alt = `${project.title} – visuel ${index + 1}`;
+      img.loading = 'lazy';
+      img.onerror = () => {
+        img.src = 'images/doc.jpg';
+      };
+      gallery.appendChild(img);
+    });
+    if (!gallery.children.length) {
+      const placeholder = document.createElement('img');
       placeholder.src = 'images/doc.jpg';
       placeholder.alt = project.title;
       gallery.appendChild(placeholder);
@@ -368,7 +440,7 @@
       cta.href = project.ctaLink || 'commandes.html';
     }
 
-    const closeButton = modal.querySelector('.close-button');
+     const closeButton = modal.querySelector('.close-button');
     openAccessibleModal(modal, { initialFocus: () => closeButton });
   }
 
@@ -413,7 +485,7 @@
               <p class="description">${product.description}</p>
               <p class="meta"><strong>Réf :</strong> ${product.ref} · <strong>Type :</strong> ${product.type}</p>
               <p class="price">${product.price || 'Sur devis'}</p>
-              <div class="card-actions">
+               <div class="card-actions">
                 <button class="button-tertiary product-detail-button" type="button">Voir les détails</button>
                 <a class="cta-button" href="${orderUrl.toString()}">Commander ce fichier</a>
                 ${product.link ? `<a class="button-tertiary" href="${product.link}">Contact direct</a>` : ''}
@@ -427,7 +499,7 @@
           productList.appendChild(card);
         });
       }
-
+      
       function applyFilters() {
         const searchTerm = searchInput.value.toLowerCase();
         const selectedType = typeFilter.value;
@@ -449,7 +521,9 @@
             break;
           case 'price-desc':
             filtered = filtered.slice().sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
-@@ -348,50 +527,101 @@
+            break;
+          case 'name':
+            filtered = filtered.slice().sort((a, b) => a.name.localeCompare(b.name));
             break;
           default:
             break;
@@ -475,7 +549,7 @@
     }
   }
 
-  function openProductDetail(product) {
+ function openProductDetail(product) {
     const modal = document.getElementById('productModal');
     if (!modal) return;
 
@@ -525,7 +599,7 @@
     const closeButton = modal.querySelector('.close-button');
     openAccessibleModal(modal, { initialFocus: () => closeButton });
   }
-
+  
   function initOrderForm() {
     const form = document.getElementById('orderForm');
     if (!form) return;
@@ -551,7 +625,51 @@
       typeEl.textContent = data.type;
       hidden.value = `${data.ref} – ${data.name}`;
       hidden.dataset.preserve = 'true';
-@@ -443,66 +673,53 @@
+    }
+
+    populate();
+    bindAjaxForm(form, { onSuccess: populate });
+  }
+
+  function initCommandForm() {
+    const form = document.getElementById('commandForm');
+    if (!form) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get('type');
+    if (type) {
+      const select = form.querySelector('select[name="type"]');
+      if (select) {
+        Array.from(select.options).forEach((option) => {
+          if (option.value.toLowerCase() === type.toLowerCase()) {
+            option.selected = true;
+          }
+        });
+      }
+    }
+    bindAjaxForm(form);
+  }
+
+  async function initFreebies() {
+    const container = document.querySelector('[data-freebies]');
+    if (!container) return;
+
+    try {
+      const freebies = await fetchJson('data/freebies.json');
+      container.innerHTML = '';
+      freebies.forEach((freebie) => {
+        const card = document.createElement('article');
+        card.className = 'freebie-card';
+        card.innerHTML = `
+          <img src="${freebie.preview || 'images/doc.jpg'}" alt="${freebie.title}" loading="lazy" onerror="this.src='images/doc.jpg'">
+          <div class="card-body">
+            <span class="tag tag--outline">${freebie.format}</span>
+            <h3>${freebie.title}</h3>
+            <p>${freebie.description}</p>
+            <button class="button-secondary" type="button">Recevoir ce fichier</button>
+          </div>
+        `;
+        card.querySelector('button').addEventListener('click', () => openFreebieModal(freebie));
         container.appendChild(card);
       });
       container.setAttribute('aria-busy', 'false');
@@ -577,7 +695,7 @@
     slugInput.dataset.preserve = 'true';
     preview.innerHTML = `<img src="${freebie.preview || 'images/doc.jpg'}" alt="${freebie.title}" loading="lazy" onerror="this.src='images/doc.jpg'">`;
 
-    const closeModal = openAccessibleModal(modal, {
+     const closeModal = openAccessibleModal(modal, {
       initialFocus: () => form.querySelector('input[name="nom"]') || modal.querySelector('.close-button')
     });
 
