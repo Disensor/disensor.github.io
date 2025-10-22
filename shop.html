@@ -66,6 +66,27 @@
     </section>
   </main>
 
+<div id="productModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="productModalTitle">
+  <div class="modal-content">
+    <button class="close-button" type="button" aria-label="Fermer">&times;</button>
+    <div class="modal-body product-modal">
+      <div class="modal-gallery">
+        <img id="productModalImage" src="images/doc.jpg" alt="Visuel produit" loading="lazy">
+      </div>
+      <div class="modal-text">
+        <h3 id="productModalTitle"></h3>
+        <p class="modal-price" id="productModalPrice"></p>
+        <p id="productModalDescription"></p>
+        <ul id="productModalMeta" class="modal-meta"></ul>
+        <div class="modal-actions">
+          <a id="productModalOrder" class="cta-button" href="order.html">Commander ce fichier</a>
+          <a id="productModalContact" class="button-secondary" href="#" style="display:none">Contact direct</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div data-include="includes/footer.html"></div>
 <script src="scripts/include.js"></script>
 <script src="scripts/site.js"></script>
