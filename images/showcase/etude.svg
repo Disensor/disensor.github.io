@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0a1838" />
+      <stop offset="100%" stop-color="#4e6ddf" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" rx="28" fill="url(#grad2)" />
+  <g fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M160 250c40-80 120-120 200-120s160 40 200 120" opacity="0.9" />
+    <path d="M160 250c40 80 120 120 200 120s160-40 200-120" opacity="0.6" />
+    <path d="M160 250h400" opacity="0.4" />
+    <circle cx="240" cy="220" r="22" />
+    <circle cx="320" cy="180" r="22" />
+    <circle cx="400" cy="220" r="22" />
+    <circle cx="480" cy="260" r="22" />
+  </g>
+  <text x="50%" y="360" text-anchor="middle" fill="#ffffff" font-size="38" font-family="'Segoe UI',sans-serif" font-weight="600">Étude & prototypage</text>
+</svg>
