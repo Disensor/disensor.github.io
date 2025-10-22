@@ -1,46 +1,91 @@
 [
   {
     "slug": "cao",
-    "title": "🧠 Modélisation & assistance CAO",
-    "excerpt": "Création, modification ou réparation de fichiers 3D (STL, STEP, SolidWorks).",
+    "title": "Modélisation & assistance CAO",
+    "icon": "🧠",
+    "tagline": "Fichiers 3D fiables pour fabrication et documentation",
+    "summary": "Création, adaptation ou réparation de vos fichiers 3D (STL, STEP, SolidWorks).",
     "details": "Nous modélisons ou ajustons vos fichiers 3D pour l’impression, la production ou l’intégration mécanique. Livrables natifs et échanges réguliers pour valider les itérations.",
     "price": "À partir de 30 € / h",
+    "turnaround": "1 à 5 jours selon complexité",
+    "deliverables": [
+      "Fichiers STL, STEP, DXF, PDF",
+      "Rapport de contrôle avec captures",
+      "Session de prise en main ou vidéos"
+    ],
+    "tools": ["SolidWorks", "Fusion 360", "Onshape"],
     "cta": "Demander un devis",
     "ctaLink": "commandes.html?type=cao"
   },
   {
     "slug": "etude-meca",
-    "title": "⚙️ Étude mécanique & prototypage",
-    "excerpt": "Conseils techniques, choix des matériaux, simulations simples et prototypage rapide.",
+    "title": "Étude mécanique & prototypage",
+    "icon": "⚙️",
+    "tagline": "Sécuriser un projet avant production",
+    "summary": "Conseils techniques, choix des matériaux, simulations simples et prototypage rapide.",
     "details": "Analyse fonctionnelle, dimensionnement, revue de conception, création de prototypes fonctionnels avec rapport synthétique.",
     "price": "À partir de 40 € / h",
+    "turnaround": "1 à 3 semaines",
+    "deliverables": [
+      "Note de calcul simplifiée",
+      "Plan d’assemblage et éclatés",
+      "Prototype fonctionnel et retour d’expérience"
+    ],
+    "tools": ["SolidWorks Simulation", "Inventor", "Excel avancé"],
     "cta": "Planifier un appel",
     "ctaLink": "commandes.html?type=etude"
   },
   {
     "slug": "impression-3d",
-    "title": "🖨️ Impression 3D professionnelle",
-    "excerpt": "Production de pièces sur-mesure en PLA+, PETG, TPU ou résine technique.",
+    "title": "Impression 3D professionnelle",
+    "icon": "🖨️",
+    "tagline": "Production de pièces prêtes à être montées",
+    "summary": "Pièces sur-mesure en PLA+, PETG, TPU ou résine technique.",
     "details": "Nous gérons la préparation, l’orientation, l’impression et le contrôle qualité. Option de post-traitement, peinture ou assemblage.",
     "price": "Devis personnalisé",
+    "turnaround": "48 h à 7 jours",
+    "deliverables": [
+      "Pièces imprimées prêtes à monter",
+      "Fiche de réglages et matériaux",
+      "Option de conditionnement professionnel"
+    ],
+    "tools": ["Creality Ender 3", "Anycubic Photon", "Bambu Lab X1"],
     "cta": "Obtenir un tarif",
     "ctaLink": "commandes.html?type=impression"
   },
   {
     "slug": "maintenance",
-    "title": "🔧 Maintenance & rétrofit",
-    "excerpt": "Remplacement de pièces introuvables, adaptation sur machines existantes, amélioration continue.",
+    "title": "Maintenance & rétrofit",
+    "icon": "🔧",
+    "tagline": "Remettre en service une machine ou un outillage",
+    "summary": "Remplacement de pièces introuvables, adaptation sur machines existantes, amélioration continue.",
     "details": "Inspection du besoin, reverse engineering, documentation de montage et recommandations d’utilisation.",
     "price": "Projet sur devis",
+    "turnaround": "Planning défini ensemble",
+    "deliverables": [
+      "Audit et plan d’action",
+      "Pièces adaptées ou fichiers",
+      "Guide d’entretien et checklist"
+    ],
+    "tools": ["Analyse vibratoire", "Mesures manuelles", "CAO 3D"],
     "cta": "Parler d’un retrofit",
     "ctaLink": "commandes.html?type=maintenance"
   },
   {
     "slug": "automatisation",
-    "title": "🤖 Automatisation & cobotique",
-    "excerpt": "Intégration de cobots, capteurs et automatismes sur vos équipements.",
+    "title": "Automatisation & cobotique",
+    "icon": "🤖",
+    "tagline": "Déployer un process plus sûr et répétable",
+    "summary": "Intégration de cobots, capteurs et automatismes sur vos équipements.",
     "details": "Étude de faisabilité, modélisation de la cellule, programmation (TwinCAT, robots collaboratifs) et mise en service avec formation opérateur.",
     "price": "Projet sur devis",
+    "turnaround": "2 à 8 semaines",
+    "deliverables": [
+      "Dossier d’étude et analyse des risques",
+      "Programme et schémas électriques",
+      "Formation opérateur & dossier technique"
+    ],
+    "tools": ["URScript", "TwinCAT", "Siemens TIA Portal"],
     "cta": "Parler automatisation",
     "ctaLink": "commandes.html?type=automatisation"
   }
