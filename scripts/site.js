@@ -21,6 +21,107 @@
     return Number.isNaN(numeric) ? 0 : numeric;
   }
 
+  function openAccessibleModal(modal, { initialFocus } = {}) {
+    if (!modal) return () => {};
+
+    if (typeof modal.__teardown === 'function') {
+      modal.__teardown();
+    }
+
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const closeButton = modal.querySelector('.close-button');
+    const focusableSelector = [
+      'a[href]:not([tabindex="-1"])',
+      'button:not([disabled]):not([tabindex="-1"])',
+      'textarea:not([disabled]):not([tabindex="-1"])',
+      'input:not([disabled]):not([tabindex="-1"])',
+      'select:not([disabled]):not([tabindex="-1"])',
+      '[tabindex]:not([tabindex="-1"])'
+    ].join(',');
+
+    const getFocusable = () => Array
+      .from(modal.querySelectorAll(focusableSelector))
+      .filter((element) => element.offsetParent !== null);
+
+    function closeModal() {
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      document.removeEventListener('keydown', handleKeydown);
+      modal.removeEventListener('click', handleBackdrop);
+      if (closeButton) closeButton.removeEventListener('click', handleCloseClick);
+      if (previouslyFocused && typeof previouslyFocused.focus === 'function') {
+        previouslyFocused.focus({ preventScroll: true });
+      }
+      modal.__teardown = null;
+    }
+
+    function handleKeydown(event) {
+      if (event.key === 'Escape' || event.key === 'Esc') {
+        event.preventDefault();
+        closeModal();
+        return;
+      }
+
+      if (event.key === 'Tab') {
+        const focusable = getFocusable();
+        if (!focusable.length) {
+          event.preventDefault();
+          return;
+        }
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    }
+
+    function handleBackdrop(event) {
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+
+    function handleCloseClick(event) {
+      event.preventDefault();
+      closeModal();
+    }
+
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden', 'false');
+
+    document.addEventListener('keydown', handleKeydown);
+    modal.addEventListener('click', handleBackdrop);
+    if (closeButton) {
+      closeButton.addEventListener('click', handleCloseClick);
+    }
+
+    const target = (() => {
+      if (typeof initialFocus === 'function') {
+        return initialFocus(modal);
+      }
+      if (initialFocus && typeof initialFocus.focus === 'function') {
+        return initialFocus;
+      }
+      if (closeButton) return closeButton;
+      const focusable = getFocusable();
+      return focusable[0];
+    })();
+
+    if (target && typeof target.focus === 'function') {
+      target.focus({ preventScroll: true });
+    }
+
+    modal.__teardown = closeModal;
+    return closeModal;
+  }
+
   function bindAjaxForm(form, { onSuccess } = {}) {
     if (!form) return;
     if (onSuccess) {
@@ -56,7 +157,7 @@
             try {
               const payload = {};
               formData.forEach((value, key) => {
-                if (key === '_gotcha') return;
+                if (key === '_gotcha' || key === '_honey') return;
                 payload[key] = value;
               });
               const storeKey = form.dataset.store;
@@ -106,12 +207,30 @@
         const list = Number.isInteger(limit) && limit > 0 ? services.slice(0, limit) : services;
         container.innerHTML = '';
         list.forEach((service) => {
+          const isPreview = variant === 'preview';
           const card = document.createElement('article');
-          card.className = `card service-card ${variant === 'preview' ? 'service-card--compact' : ''}`;
+          card.className = `card service-card ${isPreview ? 'service-card--compact' : ''}`;
+          card.dataset.icon = service.icon || '🛠️';
+
+          const description = isPreview ? service.summary || service.details : service.details;
+          const deliverables = !isPreview && Array.isArray(service.deliverables)
+            ? `<ul>${service.deliverables.map((item) => `<li>${item}</li>`).join('')}</ul>`
+            : '';
+          const tools = !isPreview && Array.isArray(service.tools) && service.tools.length
+            ? `<p class="service-tools"><strong>Outils :</strong> ${service.tools.join(', ')}</p>`
+            : '';
+          const meta = `<div class="service-meta">
+              ${service.price ? `<span>💶 ${service.price}</span>` : ''}
+              ${service.turnaround ? `<span>⏱️ ${service.turnaround}</span>` : ''}
+            </div>`;
+
           card.innerHTML = `
             <h3>${service.title}</h3>
-            <p>${variant === 'preview' ? service.excerpt : service.details}</p>
-            <p class="service-price">${service.price}</p>
+            ${service.tagline ? `<p class="service-tagline">${service.tagline}</p>` : ''}
+            <p>${description}</p>
+            ${deliverables}
+            ${tools}
+            ${meta}
             <a class="button-secondary" href="${service.ctaLink}">${service.cta}</a>
           `;
           container.appendChild(card);
@@ -123,6 +242,77 @@
         container.innerHTML = '<p class="error">Impossible de charger les services pour le moment.</p>';
         container.setAttribute('aria-busy', 'false');
       });
+      console.error(error);
+    }
+  }
+
+  async function initFaq() {
+    const wrapper = document.querySelector('[data-faq]');
+    if (!wrapper) return;
+
+    try {
+      const faqItems = await fetchJson('data/faq.json');
+      wrapper.innerHTML = '';
+      faqItems.forEach((item, index) => {
+        const details = document.createElement('details');
+        if (index === 0) details.open = true;
+        details.innerHTML = `
+          <summary>${item.question}</summary>
+          <p>${item.answer}</p>
+        `;
+        wrapper.appendChild(details);
+      });
+      wrapper.setAttribute('aria-busy', 'false');
+    } catch (error) {
+      wrapper.innerHTML = '<p class="error">Impossible de charger la FAQ.</p>';
+      wrapper.setAttribute('aria-busy', 'false');
+      console.error(error);
+    }
+  }
+
+  async function initTestimonials() {
+    const container = document.querySelector('[data-testimonials]');
+    if (!container) return;
+
+    try {
+      const testimonials = await fetchJson('data/testimonials.json');
+      container.innerHTML = '';
+      testimonials.forEach((testimonial) => {
+        const blockquote = document.createElement('blockquote');
+        blockquote.innerHTML = `« ${testimonial.quote} »<span>— ${testimonial.author}${testimonial.role ? `, ${testimonial.role}` : ''}</span>`;
+        container.appendChild(blockquote);
+      });
+      container.setAttribute('aria-busy', 'false');
+    } catch (error) {
+      container.innerHTML = '<p class="error">Impossible d’afficher les témoignages.</p>';
+      container.setAttribute('aria-busy', 'false');
+      console.error(error);
+    }
+  }
+
+  async function initCredits() {
+    const container = document.querySelector('[data-credits]');
+    if (!container) return;
+
+    try {
+      const credits = await fetchJson('data/credits.json');
+      container.innerHTML = '';
+      credits.forEach((credit) => {
+        const card = document.createElement('article');
+        card.className = 'credits-card';
+        card.innerHTML = `
+          <h3>${credit.title}</h3>
+          <span>${credit.type || 'Media'}</span>
+          <span>Propriétaire : ${credit.author || '—'}</span>
+          <span>Licence : ${credit.license || '—'}</span>
+          ${credit.url ? `<a href="${credit.url}" target="_blank" rel="noopener">Voir la source</a>` : ''}
+        `;
+        container.appendChild(card);
+      });
+      container.setAttribute('aria-busy', 'false');
+    } catch (error) {
+      container.innerHTML = '<p class="error">Impossible de charger les crédits.</p>';
+      container.setAttribute('aria-busy', 'false');
       console.error(error);
     }
   }
@@ -152,79 +342,7 @@
             window.location.href = `projects.html?project=${encodeURIComponent(project.id)}`;
           });
           homeGrid.appendChild(card);
-        });
-        homeGrid.setAttribute('aria-busy', 'false');
-      }
-
-      if (grid) {
-        grid.innerHTML = '';
-        projects.forEach((project) => {
-          const card = document.createElement('article');
-          card.className = 'project-card';
-          card.innerHTML = `
-            <img src="${project.thumbnail}" alt="${project.title}" loading="lazy" onerror="this.src='images/doc.jpg'">
-            <div class="card-body">
-              <h3>${project.title}</h3>
-              <p>${project.summary}</p>
-              <button class="button-secondary" type="button">Voir le projet</button>
-            </div>
-          `;
-          card.querySelector('button').addEventListener('click', () => openProjectModal(project));
-          grid.appendChild(card);
-        });
-        grid.setAttribute('aria-busy', 'false');
-
-        const params = new URLSearchParams(window.location.search);
-        const requested = params.get('project');
-        if (requested) {
-          const project = projects.find((item) => item.id === requested);
-          if (project) {
-            openProjectModal(project);
-          }
-        }
-      }
-    } catch (error) {
-      if (grid) {
-        grid.innerHTML = '<p class="error">Impossible de charger les projets.</p>';
-        grid.setAttribute('aria-busy', 'false');
-      }
-      if (homeGrid) {
-        homeGrid.innerHTML = '<p class="error">Impossible d’afficher les projets.</p>';
-        homeGrid.setAttribute('aria-busy', 'false');
-      }
-      console.error(error);
-    }
-  }
-
-  function openProjectModal(project) {
-    const modal = document.getElementById('projectModal');
-    if (!modal) return;
-
-    const gallery = modal.querySelector('#modalGallery');
-    const title = modal.querySelector('#modalTitle');
-    const summary = modal.querySelector('#modalSummary');
-    const description = modal.querySelector('#modalDescription');
-    const highlights = modal.querySelector('#modalHighlights');
-    const services = modal.querySelector('#modalServices');
-    const cta = modal.querySelector('#modalCta');
-
-    title.textContent = project.title;
-    summary.textContent = project.summary;
-    description.textContent = project.description;
-
-    gallery.innerHTML = '';
-    (project.gallery || []).forEach((image, index) => {
-      const img = document.createElement('img');
-      img.src = image;
-      img.alt = `${project.title} – visuel ${index + 1}`;
-      img.loading = 'lazy';
-      img.onerror = () => {
-        img.src = 'images/doc.jpg';
-      };
-      gallery.appendChild(img);
-    });
-    if (!gallery.children.length) {
-      const placeholder = document.createElement('img');
+@@ -228,117 +418,106 @@
       placeholder.src = 'images/doc.jpg';
       placeholder.alt = project.title;
       gallery.appendChild(placeholder);
@@ -250,24 +368,8 @@
       cta.href = project.ctaLink || 'commandes.html';
     }
 
-    modal.classList.add('show');
-    modal.setAttribute('aria-hidden', 'false');
-
-    const close = modal.querySelector('.close-button');
-    const closeModal = (event) => {
-      if (event.type === 'click' || event.key === 'Escape' || event.key === 'Esc') {
-        modal.classList.remove('show');
-        modal.setAttribute('aria-hidden', 'true');
-        document.removeEventListener('keydown', closeModal);
-      }
-    };
-    close.addEventListener('click', closeModal, { once: true });
-    document.addEventListener('keydown', closeModal);
-    modal.addEventListener('click', (event) => {
-      if (event.target === modal) {
-        closeModal(event);
-      }
-    }, { once: true });
+    const closeButton = modal.querySelector('.close-button');
+    openAccessibleModal(modal, { initialFocus: () => closeButton });
   }
 
   async function initShop() {
@@ -312,11 +414,16 @@
               <p class="meta"><strong>Réf :</strong> ${product.ref} · <strong>Type :</strong> ${product.type}</p>
               <p class="price">${product.price || 'Sur devis'}</p>
               <div class="card-actions">
+                <button class="button-tertiary product-detail-button" type="button">Voir les détails</button>
                 <a class="cta-button" href="${orderUrl.toString()}">Commander ce fichier</a>
                 ${product.link ? `<a class="button-tertiary" href="${product.link}">Contact direct</a>` : ''}
               </div>
             </div>
           `;
+          const detailButton = card.querySelector('.product-detail-button');
+          detailButton.addEventListener('click', () => openProductDetail(product));
+          const image = card.querySelector('img');
+          image.addEventListener('click', () => openProductDetail(product));
           productList.appendChild(card);
         });
       }
@@ -342,9 +449,7 @@
             break;
           case 'price-desc':
             filtered = filtered.slice().sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
-            break;
-          case 'name':
-            filtered = filtered.slice().sort((a, b) => a.name.localeCompare(b.name));
+@@ -348,50 +527,101 @@
             break;
           default:
             break;
@@ -368,6 +473,57 @@
       productList.setAttribute('aria-busy', 'false');
       console.error(error);
     }
+  }
+
+  function openProductDetail(product) {
+    const modal = document.getElementById('productModal');
+    if (!modal) return;
+
+    const title = modal.querySelector('#productModalTitle');
+    const description = modal.querySelector('#productModalDescription');
+    const price = modal.querySelector('#productModalPrice');
+    const metaList = modal.querySelector('#productModalMeta');
+    const image = modal.querySelector('#productModalImage');
+    const orderLink = modal.querySelector('#productModalOrder');
+    const contactLink = modal.querySelector('#productModalContact');
+
+    title.textContent = product.name;
+    description.textContent = product.description || '—';
+    price.textContent = product.price || 'Sur devis';
+
+    metaList.innerHTML = '';
+    [
+      { label: 'Référence', value: product.ref },
+      { label: 'Type de fichier', value: product.type }
+    ].forEach((item) => {
+      if (!item.value) return;
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${item.label} :</strong> ${item.value}`;
+      metaList.appendChild(li);
+    });
+
+    image.src = product.image || 'images/doc.jpg';
+    image.alt = product.name;
+    image.onerror = () => {
+      image.src = 'images/doc.jpg';
+    };
+
+    const orderUrl = new URL('order.html', window.location.href);
+    orderUrl.searchParams.set('ref', product.ref);
+    orderUrl.searchParams.set('name', product.name);
+    orderUrl.searchParams.set('price', product.price);
+    orderUrl.searchParams.set('type', product.type);
+    orderLink.href = orderUrl.toString();
+
+    if (product.link) {
+      contactLink.href = product.link;
+      contactLink.style.display = 'inline-flex';
+    } else {
+      contactLink.style.display = 'none';
+    }
+
+    const closeButton = modal.querySelector('.close-button');
+    openAccessibleModal(modal, { initialFocus: () => closeButton });
   }
 
   function initOrderForm() {
@@ -395,51 +551,7 @@
       typeEl.textContent = data.type;
       hidden.value = `${data.ref} – ${data.name}`;
       hidden.dataset.preserve = 'true';
-    }
-
-    populate();
-    bindAjaxForm(form, { onSuccess: populate });
-  }
-
-  function initCommandForm() {
-    const form = document.getElementById('commandForm');
-    if (!form) return;
-
-    const params = new URLSearchParams(window.location.search);
-    const type = params.get('type');
-    if (type) {
-      const select = form.querySelector('select[name="type"]');
-      if (select) {
-        Array.from(select.options).forEach((option) => {
-          if (option.value.toLowerCase() === type.toLowerCase()) {
-            option.selected = true;
-          }
-        });
-      }
-    }
-    bindAjaxForm(form);
-  }
-
-  async function initFreebies() {
-    const container = document.querySelector('[data-freebies]');
-    if (!container) return;
-
-    try {
-      const freebies = await fetchJson('data/freebies.json');
-      container.innerHTML = '';
-      freebies.forEach((freebie) => {
-        const card = document.createElement('article');
-        card.className = 'freebie-card';
-        card.innerHTML = `
-          <img src="${freebie.preview || 'images/doc.jpg'}" alt="${freebie.title}" loading="lazy" onerror="this.src='images/doc.jpg'">
-          <div class="card-body">
-            <span class="tag tag--outline">${freebie.format}</span>
-            <h3>${freebie.title}</h3>
-            <p>${freebie.description}</p>
-            <button class="button-secondary" type="button">Recevoir ce fichier</button>
-          </div>
-        `;
-        card.querySelector('button').addEventListener('click', () => openFreebieModal(freebie));
+@@ -443,66 +673,53 @@
         container.appendChild(card);
       });
       container.setAttribute('aria-busy', 'false');
@@ -465,31 +577,15 @@
     slugInput.dataset.preserve = 'true';
     preview.innerHTML = `<img src="${freebie.preview || 'images/doc.jpg'}" alt="${freebie.title}" loading="lazy" onerror="this.src='images/doc.jpg'">`;
 
-    bindAjaxForm(form, {
-      onSuccess: () => {
-        modal.classList.remove('show');
-        modal.setAttribute('aria-hidden', 'true');
-      }
+    const closeModal = openAccessibleModal(modal, {
+      initialFocus: () => form.querySelector('input[name="nom"]') || modal.querySelector('.close-button')
     });
 
-    modal.classList.add('show');
-    modal.setAttribute('aria-hidden', 'false');
-
-    const close = modal.querySelector('.close-button');
-    const closeModal = (event) => {
-      if (event.type === 'click' || event.key === 'Escape' || event.key === 'Esc') {
-        modal.classList.remove('show');
-        modal.setAttribute('aria-hidden', 'true');
-        document.removeEventListener('keydown', closeModal);
+    bindAjaxForm(form, {
+      onSuccess: () => {
+        closeModal();
       }
-    };
-    close.addEventListener('click', closeModal, { once: true });
-    document.addEventListener('keydown', closeModal);
-    modal.addEventListener('click', (event) => {
-      if (event.target === modal) {
-        closeModal(event);
-      }
-    }, { once: true });
+    });
   }
 
   function initAjaxForms() {
@@ -498,11 +594,14 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     initServices();
+    initFaq();
     initProjects();
     initShop();
     initOrderForm();
     initCommandForm();
     initFreebies();
+    initTestimonials();
+    initCredits();
     initAjaxForms();
   });
 })();
