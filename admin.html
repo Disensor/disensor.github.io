@@ -12,18 +12,12 @@
 
 <div class="admin-container">
   <h1>Interface admin – Produits & projets</h1>
-  <p class="admin-help">Renseigne un token GitHub personnel avec droits sur le dépôt <code>Disensor/disensor.github.io</code> et précise la branche à mettre à jour.</p>
+  <p class="admin-help">Renseigne un token GitHub personnel avec droits sur le dépôt <code>Disensor/disensor.github.io</code>.</p>
 
-  <div id="auth" class="admin-auth">
-    <div class="admin-auth-grid">
-      <label for="token">Token GitHub :</label>
-      <input type="password" id="token" placeholder="ghp_..." autocomplete="off">
-      <label for="branch">Branche à modifier :</label>
-      <input type="text" id="branch" placeholder="main" autocomplete="off">
-    </div>
-    <button type="button" class="admin-auth-button" onclick="auth()">Se connecter</button>
-    <p class="admin-hint">Le token doit avoir au minimum le droit <code>repo</code>. Tu peux conserver la branche entre les sessions, elle est mémorisée localement.</p>
-    <p id="authStatus" class="status hidden" role="status" aria-live="polite"></p>
+  <div id="auth">
+    <label for="token">Token GitHub :</label>
+    <input type="password" id="token" placeholder="ghp_...">
+    <button onclick="auth()">Se connecter</button>
   </div>
 
   <section id="productAdmin" class="admin-block hidden">
@@ -49,7 +43,42 @@
       </div>
       <label>Description
         <textarea id="productDescription" rows="3" required></textarea>
-@@ -82,205 +88,528 @@
+      </label>
+      <label>Image (optionnel)
+        <input type="file" id="productImage" accept="image/*">
+        <span class="hint">Les images sont enregistrées dans <code>images/products/</code>.</span>
+      </label>
+      <label>Chemin image personnalisé (optionnel)
+        <input type="text" id="productImagePath" placeholder="images/products/nom-image.jpg">
+      </label>
+      <label>Lien de contact direct (optionnel)
+        <input type="url" id="productLink" placeholder="mailto:..." />
+      </label>
+      <button type="submit">Enregistrer le produit</button>
+      <p id="productStatus" class="status hidden"></p>
+    </form>
+
+    <h3>Produits existants</h3>
+    <div id="productList" class="admin-list">Chargement…</div>
+  </section>
+
+  <section id="projectAdmin" class="admin-block hidden">
+    <h2>Projets</h2>
+    <form id="projectForm">
+      <div class="form-grid">
+        <label>Identifiant (ex. proj-coulisseau)
+          <input type="text" id="projectId" required>
+        </label>
+        <label>Titre
+          <input type="text" id="projectTitle" required>
+        </label>
+        <label>Mini description
+          <input type="text" id="projectSummary" required>
+        </label>
+        <label>Vignette
+          <input type="text" id="projectThumbnail" placeholder="images/projects/mon-visuel.jpg" required>
+        </label>
+      </div>
       <label>Description détaillée
         <textarea id="projectDescription" rows="4" required></textarea>
       </label>
@@ -75,176 +104,17 @@
     <h3>Projets existants</h3>
     <div id="projectList" class="admin-list">Chargement…</div>
   </section>
-
-  <section id="serviceAdmin" class="admin-block hidden">
-    <h2>Services</h2>
-    <form id="serviceForm">
-      <div class="form-grid">
-        <label>Identifiant (slug)
-          <input type="text" id="serviceSlug" required>
-        </label>
-        <label>Titre
-          <input type="text" id="serviceTitle" required>
-        </label>
-        <label>Icône
-          <input type="text" id="serviceIcon" placeholder="🛠️">
-        </label>
-        <label>Tagline
-          <input type="text" id="serviceTagline">
-        </label>
-      </div>
-      <label>Résumé (aperçu)
-        <textarea id="serviceSummary" rows="2"></textarea>
-      </label>
-      <label>Description détaillée
-        <textarea id="serviceDetails" rows="4" required></textarea>
-      </label>
-      <label>Livrables (un par ligne)
-        <textarea id="serviceDeliverables" rows="3" placeholder="Livrable 1\nLivrable 2"></textarea>
-      </label>
-      <label>Outils (séparés par des virgules)
-        <input type="text" id="serviceTools" placeholder="SolidWorks, Fusion 360">
-      </label>
-      <div class="form-grid">
-        <label>Tarif
-          <input type="text" id="servicePrice" placeholder="À partir de 30 € / h">
-        </label>
-        <label>Délai indicatif
-          <input type="text" id="serviceTurnaround" placeholder="1 à 5 jours">
-        </label>
-        <label>Texte CTA
-          <input type="text" id="serviceCta" placeholder="Demander un devis">
-        </label>
-        <label>Lien CTA
-          <input type="text" id="serviceCtaLink" placeholder="commandes.html?type=cao">
-        </label>
-      </div>
-      <button type="submit">Enregistrer le service</button>
-      <p id="serviceStatus" class="status hidden"></p>
-    </form>
-
-    <h3>Services existants</h3>
-    <div id="serviceList" class="admin-list">Chargement…</div>
-  </section>
-
-  <section id="faqAdmin" class="admin-block hidden">
-    <h2>FAQ</h2>
-    <form id="faqForm">
-      <label>Question
-        <input type="text" id="faqQuestion" required>
-      </label>
-      <label>Réponse
-        <textarea id="faqAnswer" rows="3" required></textarea>
-      </label>
-      <button type="submit">Enregistrer la question</button>
-      <p id="faqStatus" class="status hidden"></p>
-    </form>
-
-    <h3>Questions existantes</h3>
-    <div id="faqList" class="admin-list">Chargement…</div>
-  </section>
-
-  <section id="testimonialAdmin" class="admin-block hidden">
-    <h2>Témoignages</h2>
-    <form id="testimonialForm">
-      <label>Citation
-        <textarea id="testimonialQuote" rows="3" required></textarea>
-      </label>
-      <div class="form-grid">
-        <label>Auteur
-          <input type="text" id="testimonialAuthor" required>
-        </label>
-        <label>Rôle / société
-          <input type="text" id="testimonialRole" placeholder="Responsable maintenance">
-        </label>
-      </div>
-      <button type="submit">Enregistrer le témoignage</button>
-      <p id="testimonialStatus" class="status hidden"></p>
-    </form>
-
-    <h3>Témoignages existants</h3>
-    <div id="testimonialList" class="admin-list">Chargement…</div>
-  </section>
-
-  <section id="creditAdmin" class="admin-block hidden">
-    <h2>Crédits visuels</h2>
-    <form id="creditForm">
-      <label>Titre du média
-        <input type="text" id="creditTitle" required>
-      </label>
-      <div class="form-grid">
-        <label>Type
-          <input type="text" id="creditType" placeholder="Photo, Icône…">
-        </label>
-        <label>Auteur / Propriétaire
-          <input type="text" id="creditAuthor" required>
-        </label>
-        <label>Licence
-          <input type="text" id="creditLicense" placeholder="© 3DPANNE, CC-BY…">
-        </label>
-        <label>Lien source
-          <input type="url" id="creditUrl" placeholder="https://">
-        </label>
-      </div>
-      <button type="submit">Enregistrer le crédit</button>
-      <p id="creditStatus" class="status hidden"></p>
-    </form>
-
-    <h3>Crédits existants</h3>
-    <div id="creditList" class="admin-list">Chargement…</div>
-  </section>
 </div>
 
 <script>
 let githubToken = '';
 const repoOwner = 'Disensor';
 const repoName = 'disensor.github.io';
-const apiBase = 'https://api.github.com';
-const branchParam = new URLSearchParams(window.location.search).get('branch');
-const storedBranch = localStorage.getItem('admin-branch');
-let repoBranch = (branchParam && branchParam.trim()) || storedBranch || 'main';
-const branchInput = document.getElementById('branch');
-
-if (branchInput) {
-  branchInput.value = repoBranch;
-  branchInput.addEventListener('input', () => {
-    repoBranch = branchInput.value.trim();
-  });
-  branchInput.addEventListener('change', () => {
-    repoBranch = branchInput.value.trim() || 'main';
-    localStorage.setItem('admin-branch', repoBranch);
-  });
-}
-
-function githubHeaders({ json } = {}) {
-  const headers = {
-    Accept: 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28'
-  };
-  if (githubToken) {
-    headers.Authorization = `token ${githubToken}`;
-  }
-  if (json) {
-    headers['Content-Type'] = 'application/json';
-  }
-  return headers;
-}
-
-function buildContentUrl(path) {
-  const url = new URL(`${apiBase}/repos/${repoOwner}/${repoName}/contents/${path}`);
-  if (repoBranch) {
-    url.searchParams.set('ref', repoBranch);
-  }
-  return url.toString();
-}
+const apiRoot = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;
 
 const state = {
   products: { data: [], sha: null, editIndex: null },
-  projects: { data: [], sha: null, editIndex: null },
-  services: { data: [], sha: null, editIndex: null },
-  faq: { data: [], sha: null, editIndex: null },
-  testimonials: { data: [], sha: null, editIndex: null },
-  credits: { data: [], sha: null, editIndex: null }
+  projects: { data: [], sha: null, editIndex: null }
 };
 
 function decodeBase64Utf8(base64) {
@@ -256,43 +126,28 @@ function decodeBase64Utf8(base64) {
 
 async function auth() {
   githubToken = document.getElementById('token').value.trim();
-  repoBranch = (branchInput && branchInput.value.trim()) || repoBranch || 'main';
-  localStorage.setItem('admin-branch', repoBranch);
   if (!githubToken) {
-    setStatus('authStatus', 'Merci de renseigner un token.', 'error');
+    alert('Merci de renseigner un token.');
     return;
   }
-  setStatus('authStatus', 'Vérification du token…');
-  try {
-    const res = await fetch(`${apiBase}/user`, { headers: githubHeaders() });
-    if (!res.ok) {
-      throw new Error('Token invalide ou non autorisé.');
-    }
-    const user = await res.json();
-    setStatus('authStatus', `✅ Connecté en tant que ${user.login} (branche ${repoBranch}).`, 'success');
-    document.getElementById('auth').classList.add('hidden');
-    document.getElementById('productAdmin').classList.remove('hidden');
-    document.getElementById('projectAdmin').classList.remove('hidden');
-    document.getElementById('serviceAdmin').classList.remove('hidden');
-    document.getElementById('faqAdmin').classList.remove('hidden');
-    document.getElementById('testimonialAdmin').classList.remove('hidden');
-    document.getElementById('creditAdmin').classList.remove('hidden');
-    loadProducts();
-    loadProjects();
-    loadServices();
-    loadFaq();
-    loadTestimonials();
-    loadCredits();
-  } catch (error) {
-    console.error(error);
-    setStatus('authStatus', `❌ ${error.message}`, 'error');
+  const res = await fetch('https://api.github.com/user', {
+    headers: { Authorization: `Bearer ${githubToken}` }
+  });
+  if (!res.ok) {
+    alert('Token invalide ou non autorisé.');
+    return;
   }
+  document.getElementById('auth').classList.add('hidden');
+  document.getElementById('productAdmin').classList.remove('hidden');
+  document.getElementById('projectAdmin').classList.remove('hidden');
+  loadProducts();
+  loadProjects();
 }
 
 async function fetchFile(path) {
-  const res = await fetch(buildContentUrl(path), { headers: githubHeaders() });
+  const res = await fetch(apiRoot + path, { headers: { Authorization: `Bearer ${githubToken}` } });
   if (!res.ok) {
-    throw new Error(`Erreur lors du chargement de ${path} (branche ${repoBranch})`);
+    throw new Error(`Erreur lors du chargement de ${path}`);
   }
   const data = await res.json();
   return {
@@ -302,14 +157,16 @@ async function fetchFile(path) {
 }
 
 async function updateFile(path, content, sha, message) {
-  const res = await fetch(buildContentUrl(path), {
+  const res = await fetch(apiRoot + path, {
     method: 'PUT',
-    headers: githubHeaders({ json: true }),
+    headers: {
+      Authorization: `Bearer ${githubToken}`,
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify({
       message,
       content: btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2)))),
-      sha,
-      branch: repoBranch
+      sha
     })
   });
   if (!res.ok) {
@@ -356,85 +213,6 @@ function renderProjectList() {
   }
 }
 
-function renderServiceList() {
-  const list = document.getElementById('serviceList');
-  list.innerHTML = '';
-  state.services.data.forEach((service, index) => {
-    const div = document.createElement('div');
-    div.className = 'admin-card';
-    div.innerHTML = `
-      <strong>${service.title}</strong> (${service.slug})<br>
-      ${service.price || 'Sur devis'}<br>
-      <button type="button" onclick="editService(${index})">✏️ Modifier</button>
-      <button type="button" onclick="deleteService(${index})">🗑️ Supprimer</button>
-    `;
-    list.appendChild(div);
-  });
-  if (!list.children.length) {
-    list.textContent = 'Aucun service enregistré.';
-  }
-}
-
-function renderFaqList() {
-  const list = document.getElementById('faqList');
-  list.innerHTML = '';
-  state.faq.data.forEach((item, index) => {
-    const div = document.createElement('div');
-    div.className = 'admin-card';
-    const answer = item.answer || '';
-    const preview = answer.length > 120 ? `${answer.slice(0, 117)}…` : answer;
-    div.innerHTML = `
-      <strong>${item.question}</strong><br>
-      <em>${preview}</em><br>
-      <button type="button" onclick="editFaq(${index})">✏️ Modifier</button>
-      <button type="button" onclick="deleteFaq(${index})">🗑️ Supprimer</button>
-    `;
-    list.appendChild(div);
-  });
-  if (!list.children.length) {
-    list.textContent = 'Aucune question pour le moment.';
-  }
-}
-
-function renderTestimonialList() {
-  const list = document.getElementById('testimonialList');
-  list.innerHTML = '';
-  state.testimonials.data.forEach((item, index) => {
-    const div = document.createElement('div');
-    div.className = 'admin-card';
-    const quote = item.quote || '';
-    div.innerHTML = `
-      <strong>${item.author || 'Auteur'}</strong> ${item.role ? `(${item.role})` : ''}<br>
-      « ${quote.slice(0, 120)}${quote.length > 120 ? '…' : ''} »<br>
-      <button type="button" onclick="editTestimonial(${index})">✏️ Modifier</button>
-      <button type="button" onclick="deleteTestimonial(${index})">🗑️ Supprimer</button>
-    `;
-    list.appendChild(div);
-  });
-  if (!list.children.length) {
-    list.textContent = 'Aucun témoignage enregistré.';
-  }
-}
-
-function renderCreditList() {
-  const list = document.getElementById('creditList');
-  list.innerHTML = '';
-  state.credits.data.forEach((item, index) => {
-    const div = document.createElement('div');
-    div.className = 'admin-card';
-    div.innerHTML = `
-      <strong>${item.title}</strong> – ${item.author || 'Auteur inconnu'}<br>
-      ${item.license || ''}<br>
-      <button type="button" onclick="editCredit(${index})">✏️ Modifier</button>
-      <button type="button" onclick="deleteCredit(${index})">🗑️ Supprimer</button>
-    `;
-    list.appendChild(div);
-  });
-  if (!list.children.length) {
-    list.textContent = 'Aucun crédit enregistré.';
-  }
-}
-
 async function loadProducts() {
   try {
     document.getElementById('productList').textContent = 'Chargement…';
@@ -461,64 +239,12 @@ async function loadProjects() {
   }
 }
 
-async function loadServices() {
-  try {
-    document.getElementById('serviceList').textContent = 'Chargement…';
-    const file = await fetchFile('data/services.json');
-    state.services.data = file.data;
-    state.services.sha = file.sha;
-    renderServiceList();
-  } catch (error) {
-    document.getElementById('serviceList').textContent = 'Erreur de chargement des services.';
-    console.error(error);
-  }
-}
-
-async function loadFaq() {
-  try {
-    document.getElementById('faqList').textContent = 'Chargement…';
-    const file = await fetchFile('data/faq.json');
-    state.faq.data = file.data;
-    state.faq.sha = file.sha;
-    renderFaqList();
-  } catch (error) {
-    document.getElementById('faqList').textContent = 'Erreur de chargement de la FAQ.';
-    console.error(error);
-  }
-}
-
-async function loadTestimonials() {
-  try {
-    document.getElementById('testimonialList').textContent = 'Chargement…';
-    const file = await fetchFile('data/testimonials.json');
-    state.testimonials.data = file.data;
-    state.testimonials.sha = file.sha;
-    renderTestimonialList();
-  } catch (error) {
-    document.getElementById('testimonialList').textContent = 'Erreur de chargement des témoignages.';
-    console.error(error);
-  }
-}
-
-async function loadCredits() {
-  try {
-    document.getElementById('creditList').textContent = 'Chargement…';
-    const file = await fetchFile('data/credits.json');
-    state.credits.data = file.data;
-    state.credits.sha = file.sha;
-    renderCreditList();
-  } catch (error) {
-    document.getElementById('creditList').textContent = 'Erreur de chargement des crédits.';
-    console.error(error);
-  }
-}
-
 function setStatus(id, message, type = '') {
   const el = document.getElementById(id);
   el.textContent = message;
   el.classList.remove('hidden', 'error', 'success');
   if (type) el.classList.add(type);
-  if (type === 'success') {
+  if (type) {
     setTimeout(() => el.classList.add('hidden'), 4000);
   }
 }
@@ -531,26 +257,6 @@ function clearProductForm() {
 function clearProjectForm() {
   document.getElementById('projectForm').reset();
   state.projects.editIndex = null;
-}
-
-function clearServiceForm() {
-  document.getElementById('serviceForm').reset();
-  state.services.editIndex = null;
-}
-
-function clearFaqForm() {
-  document.getElementById('faqForm').reset();
-  state.faq.editIndex = null;
-}
-
-function clearTestimonialForm() {
-  document.getElementById('testimonialForm').reset();
-  state.testimonials.editIndex = null;
-}
-
-function clearCreditForm() {
-  document.getElementById('creditForm').reset();
-  state.credits.editIndex = null;
 }
 
 document.getElementById('productForm').addEventListener('submit', async (event) => {
@@ -578,7 +284,7 @@ document.getElementById('productForm').addEventListener('submit', async (event) 
 
   const data = [...state.products.data];
   if (state.products.editIndex !== null) {
-@@ -288,61 +617,59 @@ document.getElementById('productForm').addEventListener('submit', async (event)
+    data[state.products.editIndex] = product;
   } else {
     data.push(product);
   }
@@ -604,15 +310,17 @@ document.getElementById('productForm').addEventListener('submit', async (event) 
     reader.onloadend = async () => {
       try {
         const base64Image = reader.result.split(',')[1];
-          await fetch(buildContentUrl(imagePath), {
-            method: 'PUT',
-            headers: githubHeaders({ json: true }),
-            body: JSON.stringify({
-              message: `Ajout image ${file.name}`,
-              content: base64Image,
-              branch: repoBranch
-            })
-          });
+        await fetch(apiRoot + imagePath, {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${githubToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: `Ajout image ${file.name}`,
+            content: base64Image
+          })
+        });
         finalize(data);
       } catch (error) {
         setStatus('productStatus', `❌ ${error.message}`, 'error');
@@ -638,7 +346,10 @@ document.getElementById('projectForm').addEventListener('submit', async (event) 
     highlights: document.getElementById('projectHighlights').value.split('\n').map((item) => item.trim()).filter(Boolean),
     services: document.getElementById('projectServices').value.split(',').map((item) => item.trim()).filter(Boolean),
     gallery: document.getElementById('projectGallery').value.split(',').map((item) => item.trim()).filter(Boolean),
-@@ -353,50 +680,200 @@ document.getElementById('projectForm').addEventListener('submit', async (event)
+    cta: document.getElementById('projectCta').value.trim(),
+    ctaLink: document.getElementById('projectCtaLink').value.trim()
+  };
+
   if (!project.id || !project.title) {
     setStatus('projectStatus', 'Identifiant et titre sont obligatoires.', 'error');
     return;
@@ -660,156 +371,6 @@ document.getElementById('projectForm').addEventListener('submit', async (event) 
     setStatus('projectStatus', '✅ Projet enregistré avec succès.', 'success');
   } catch (error) {
     setStatus('projectStatus', `❌ ${error.message}`, 'error');
-    console.error(error);
-  }
-});
-
-document.getElementById('serviceForm').addEventListener('submit', async (event) => {
-  event.preventDefault();
-  setStatus('serviceStatus', 'Traitement en cours…');
-
-  const service = {
-    slug: document.getElementById('serviceSlug').value.trim(),
-    title: document.getElementById('serviceTitle').value.trim(),
-    icon: document.getElementById('serviceIcon').value.trim(),
-    tagline: document.getElementById('serviceTagline').value.trim(),
-    summary: document.getElementById('serviceSummary').value.trim(),
-    details: document.getElementById('serviceDetails').value.trim(),
-    deliverables: document.getElementById('serviceDeliverables').value.split('\n').map((item) => item.trim()).filter(Boolean),
-    tools: document.getElementById('serviceTools').value.split(',').map((item) => item.trim()).filter(Boolean),
-    price: document.getElementById('servicePrice').value.trim(),
-    turnaround: document.getElementById('serviceTurnaround').value.trim(),
-    cta: document.getElementById('serviceCta').value.trim(),
-    ctaLink: document.getElementById('serviceCtaLink').value.trim()
-  };
-
-  if (!service.slug || !service.title || !service.details) {
-    setStatus('serviceStatus', 'Slug, titre et description sont obligatoires.', 'error');
-    return;
-  }
-
-  const data = [...state.services.data];
-  if (state.services.editIndex !== null) {
-    data[state.services.editIndex] = service;
-  } else {
-    data.push(service);
-  }
-
-  try {
-    const response = await updateFile('data/services.json', data, state.services.sha, 'Mise à jour services depuis admin');
-    state.services.sha = response.content.sha;
-    state.services.data = data;
-    renderServiceList();
-    clearServiceForm();
-    setStatus('serviceStatus', '✅ Service enregistré.', 'success');
-  } catch (error) {
-    setStatus('serviceStatus', `❌ ${error.message}`, 'error');
-    console.error(error);
-  }
-});
-
-document.getElementById('faqForm').addEventListener('submit', async (event) => {
-  event.preventDefault();
-  setStatus('faqStatus', 'Traitement en cours…');
-
-  const item = {
-    question: document.getElementById('faqQuestion').value.trim(),
-    answer: document.getElementById('faqAnswer').value.trim()
-  };
-
-  if (!item.question || !item.answer) {
-    setStatus('faqStatus', 'Question et réponse sont obligatoires.', 'error');
-    return;
-  }
-
-  const data = [...state.faq.data];
-  if (state.faq.editIndex !== null) {
-    data[state.faq.editIndex] = item;
-  } else {
-    data.push(item);
-  }
-
-  try {
-    const response = await updateFile('data/faq.json', data, state.faq.sha, 'Mise à jour FAQ depuis admin');
-    state.faq.sha = response.content.sha;
-    state.faq.data = data;
-    renderFaqList();
-    clearFaqForm();
-    setStatus('faqStatus', '✅ Question enregistrée.', 'success');
-  } catch (error) {
-    setStatus('faqStatus', `❌ ${error.message}`, 'error');
-    console.error(error);
-  }
-});
-
-document.getElementById('testimonialForm').addEventListener('submit', async (event) => {
-  event.preventDefault();
-  setStatus('testimonialStatus', 'Traitement en cours…');
-
-  const item = {
-    quote: document.getElementById('testimonialQuote').value.trim(),
-    author: document.getElementById('testimonialAuthor').value.trim(),
-    role: document.getElementById('testimonialRole').value.trim()
-  };
-
-  if (!item.quote || !item.author) {
-    setStatus('testimonialStatus', 'Citation et auteur sont obligatoires.', 'error');
-    return;
-  }
-
-  const data = [...state.testimonials.data];
-  if (state.testimonials.editIndex !== null) {
-    data[state.testimonials.editIndex] = item;
-  } else {
-    data.push(item);
-  }
-
-  try {
-    const response = await updateFile('data/testimonials.json', data, state.testimonials.sha, 'Mise à jour témoignages depuis admin');
-    state.testimonials.sha = response.content.sha;
-    state.testimonials.data = data;
-    renderTestimonialList();
-    clearTestimonialForm();
-    setStatus('testimonialStatus', '✅ Témoignage enregistré.', 'success');
-  } catch (error) {
-    setStatus('testimonialStatus', `❌ ${error.message}`, 'error');
-    console.error(error);
-  }
-});
-
-document.getElementById('creditForm').addEventListener('submit', async (event) => {
-  event.preventDefault();
-  setStatus('creditStatus', 'Traitement en cours…');
-
-  const item = {
-    title: document.getElementById('creditTitle').value.trim(),
-    type: document.getElementById('creditType').value.trim(),
-    author: document.getElementById('creditAuthor').value.trim(),
-    license: document.getElementById('creditLicense').value.trim(),
-    url: document.getElementById('creditUrl').value.trim()
-  };
-
-  if (!item.title || !item.author) {
-    setStatus('creditStatus', 'Titre et auteur sont obligatoires.', 'error');
-    return;
-  }
-
-  const data = [...state.credits.data];
-  if (state.credits.editIndex !== null) {
-    data[state.credits.editIndex] = item;
-  } else {
-    data.push(item);
-  }
-
-  try {
-    const response = await updateFile('data/credits.json', data, state.credits.sha, 'Mise à jour crédits depuis admin');
-    state.credits.sha = response.content.sha;
-    state.credits.data = data;
-    renderCreditList();
-    clearCreditForm();
-    setStatus('creditStatus', '✅ Crédit enregistré.', 'success');
-  } catch (error) {
-    setStatus('creditStatus', `❌ ${error.message}`, 'error');
     console.error(error);
   }
 });
@@ -839,7 +400,18 @@ async function deleteProduct(index) {
     clearProductForm();
     setStatus('productStatus', '✅ Produit supprimé.', 'success');
   } catch (error) {
-@@ -415,28 +892,142 @@ function editProject(index) {
+    setStatus('productStatus', `❌ ${error.message}`, 'error');
+    console.error(error);
+  }
+}
+
+function editProject(index) {
+  const project = state.projects.data[index];
+  document.getElementById('projectId').value = project.id;
+  document.getElementById('projectTitle').value = project.title;
+  document.getElementById('projectSummary').value = project.summary;
+  document.getElementById('projectThumbnail').value = project.thumbnail;
+  document.getElementById('projectDescription').value = project.description;
   document.getElementById('projectHighlights').value = (project.highlights || []).join('\n');
   document.getElementById('projectServices').value = (project.services || []).join(', ');
   document.getElementById('projectGallery').value = (project.gallery || []).join(', ');
@@ -862,120 +434,6 @@ async function deleteProject(index) {
     setStatus('projectStatus', '✅ Projet supprimé.', 'success');
   } catch (error) {
     setStatus('projectStatus', `❌ ${error.message}`, 'error');
-    console.error(error);
-  }
-}
-
-function editService(index) {
-  const service = state.services.data[index];
-  document.getElementById('serviceSlug').value = service.slug || '';
-  document.getElementById('serviceTitle').value = service.title || '';
-  document.getElementById('serviceIcon').value = service.icon || '';
-  document.getElementById('serviceTagline').value = service.tagline || '';
-  document.getElementById('serviceSummary').value = service.summary || '';
-  document.getElementById('serviceDetails').value = service.details || '';
-  document.getElementById('serviceDeliverables').value = (service.deliverables || []).join('\n');
-  document.getElementById('serviceTools').value = (service.tools || []).join(', ');
-  document.getElementById('servicePrice').value = service.price || '';
-  document.getElementById('serviceTurnaround').value = service.turnaround || '';
-  document.getElementById('serviceCta').value = service.cta || '';
-  document.getElementById('serviceCtaLink').value = service.ctaLink || '';
-  state.services.editIndex = index;
-  setStatus('serviceStatus', '✏️ Service chargé pour édition.');
-}
-
-async function deleteService(index) {
-  if (!confirm('Supprimer ce service ?')) return;
-  const data = [...state.services.data];
-  data.splice(index, 1);
-  try {
-    const response = await updateFile('data/services.json', data, state.services.sha, 'Suppression service depuis admin');
-    state.services.sha = response.content.sha;
-    state.services.data = data;
-    renderServiceList();
-    clearServiceForm();
-    setStatus('serviceStatus', '✅ Service supprimé.', 'success');
-  } catch (error) {
-    setStatus('serviceStatus', `❌ ${error.message}`, 'error');
-    console.error(error);
-  }
-}
-
-function editFaq(index) {
-  const item = state.faq.data[index];
-  document.getElementById('faqQuestion').value = item.question || '';
-  document.getElementById('faqAnswer').value = item.answer || '';
-  state.faq.editIndex = index;
-  setStatus('faqStatus', '✏️ Question chargée pour édition.');
-}
-
-async function deleteFaq(index) {
-  if (!confirm('Supprimer cette question ?')) return;
-  const data = [...state.faq.data];
-  data.splice(index, 1);
-  try {
-    const response = await updateFile('data/faq.json', data, state.faq.sha, 'Suppression question FAQ depuis admin');
-    state.faq.sha = response.content.sha;
-    state.faq.data = data;
-    renderFaqList();
-    clearFaqForm();
-    setStatus('faqStatus', '✅ Question supprimée.', 'success');
-  } catch (error) {
-    setStatus('faqStatus', `❌ ${error.message}`, 'error');
-    console.error(error);
-  }
-}
-
-function editTestimonial(index) {
-  const item = state.testimonials.data[index];
-  document.getElementById('testimonialQuote').value = item.quote || '';
-  document.getElementById('testimonialAuthor').value = item.author || '';
-  document.getElementById('testimonialRole').value = item.role || '';
-  state.testimonials.editIndex = index;
-  setStatus('testimonialStatus', '✏️ Témoignage chargé pour édition.');
-}
-
-async function deleteTestimonial(index) {
-  if (!confirm('Supprimer ce témoignage ?')) return;
-  const data = [...state.testimonials.data];
-  data.splice(index, 1);
-  try {
-    const response = await updateFile('data/testimonials.json', data, state.testimonials.sha, 'Suppression témoignage depuis admin');
-    state.testimonials.sha = response.content.sha;
-    state.testimonials.data = data;
-    renderTestimonialList();
-    clearTestimonialForm();
-    setStatus('testimonialStatus', '✅ Témoignage supprimé.', 'success');
-  } catch (error) {
-    setStatus('testimonialStatus', `❌ ${error.message}`, 'error');
-    console.error(error);
-  }
-}
-
-function editCredit(index) {
-  const item = state.credits.data[index];
-  document.getElementById('creditTitle').value = item.title || '';
-  document.getElementById('creditType').value = item.type || '';
-  document.getElementById('creditAuthor').value = item.author || '';
-  document.getElementById('creditLicense').value = item.license || '';
-  document.getElementById('creditUrl').value = item.url || '';
-  state.credits.editIndex = index;
-  setStatus('creditStatus', '✏️ Crédit chargé pour édition.');
-}
-
-async function deleteCredit(index) {
-  if (!confirm('Supprimer ce crédit ?')) return;
-  const data = [...state.credits.data];
-  data.splice(index, 1);
-  try {
-    const response = await updateFile('data/credits.json', data, state.credits.sha, 'Suppression crédit depuis admin');
-    state.credits.sha = response.content.sha;
-    state.credits.data = data;
-    renderCreditList();
-    clearCreditForm();
-    setStatus('creditStatus', '✅ Crédit supprimé.', 'success');
-  } catch (error) {
-    setStatus('creditStatus', `❌ ${error.message}`, 'error');
     console.error(error);
   }
 }
