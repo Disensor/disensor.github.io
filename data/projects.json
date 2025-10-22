@@ -20,27 +20,5 @@
     ],
     "cta": "Commander une pièce similaire",
     "ctaLink": "commandes.html?type=remplacement"
-  },
-  {
-    "id": "proj-multimaterial",
-    "title": "Impression 3D multi-matériaux pour pièces fonctionnelles",
-    "thumbnail": "images/projects/multi-materiaux-card.jpg",
-    "gallery": [
-      "images/projects/multi-materiaux-1.jpg",
-      "images/projects/multi-materiaux-2.jpg"
-    ],
-    "summary": "Production de pièces mixtes PLA/TPU assemblées et testées mécaniquement pour un prototype industriel.",
-    "description": "Nous avons accompagné un bureau d’études sur un prototype mêlant pièces rigides et flexibles. Les géométries ont été optimisées pour l’assemblage, l’étanchéité et la maintenance. Les séries ont été produites puis testées mécaniquement pour valider la tenue à l’effort et aux environnements contraints.",
-    "highlights": [
-      "Optimisation topologique et tolérances d’assemblage",
-      "Paramétrage avancé multi-matériaux",
-      "Tests mécaniques et rapport de validation"
-    ],
-    "services": [
-      "Modélisation CAO",
-      "Impression 3D"
-    ],
-    "cta": "Lancer un prototype",
-    "ctaLink": "commandes.html?type=prototype"
   }
 ]
