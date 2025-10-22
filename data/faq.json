@@ -1,0 +1,26 @@
+[
+  {
+    "question": "Quels fichiers fournissez-vous ?",
+    "answer": "Nous livrons les formats demandés (STL, STEP, PDF, DXF…). Les projets de conception incluent un rapport de validation et, si nécessaire, les fichiers source natifs." 
+  },
+  {
+    "question": "Quels sont vos délais moyens ?",
+    "answer": "Une commande standard de fichier est livrée sous 2 à 3 jours ouvrés. Pour un projet sur mesure, compte 1 à 2 semaines selon la complexité. Nous t’informons du planning précis lors du devis." 
+  },
+  {
+    "question": "Puis-je demander des ajustements ?",
+    "answer": "Oui, chaque commande inclut un aller-retour de corrections léger. Pour des modifications importantes, nous proposons un avenant transparent." 
+  },
+  {
+    "question": "Comment se passe le paiement ?",
+    "answer": "Nous envoyons une facture payable par virement, carte bancaire sécurisée ou PayPal. Les fichiers sont transmis après réception du paiement." 
+  },
+  {
+    "question": "Livrez-vous à l’international ?",
+    "answer": "Oui pour les fichiers numériques. Les pièces physiques sont expédiées depuis la France métropolitaine avec suivi." 
+  },
+  {
+    "question": "Que faire si je n’ai pas de plan ?",
+    "answer": "Pas de souci ! Nous pouvons partir de photos, croquis, ou de la pièce cassée. Pense à mesurer les dimensions principales ou nous envoyer l’objet." 
+  }
+]
