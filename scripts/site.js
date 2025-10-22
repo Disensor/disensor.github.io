@@ -208,33 +208,40 @@ function openAccessibleModal(modal, { initialFocus } = {}) {
         container.innerHTML = '';
         list.forEach((service) => {
          const isPreview = variant === 'preview';
-          const card = document.createElement('article');
-          card.className = `card service-card ${isPreview ? 'service-card--compact' : ''}`;
-          card.dataset.icon = service.icon || '🛠️';
+   const card = document.createElement('article');
+        const hasMedia = Boolean(service.image);
+        card.className = `card service-card ${isPreview ? 'service-card--compact' : ''} ${hasMedia ? 'service-card--with-media' : ''}`;
+        card.dataset.icon = service.icon || '🛠️';
 
-          const description = isPreview ? service.summary || service.details : service.details;
-          const deliverables = !isPreview && Array.isArray(service.deliverables)
-            ? `<ul>${service.deliverables.map((item) => `<li>${item}</li>`).join('')}</ul>`
-            : '';
-          const tools = !isPreview && Array.isArray(service.tools) && service.tools.length
-            ? `<p class="service-tools"><strong>Outils :</strong> ${service.tools.join(', ')}</p>`
-            : '';
-          const meta = `<div class="service-meta">
+        const description = isPreview ? service.summary || service.details : service.details;
+        const deliverables = !isPreview && Array.isArray(service.deliverables)
+          ? `<ul>${service.deliverables.map((item) => `<li>${item}</li>`).join('')}</ul>`
+          : '';
+        const tools = !isPreview && Array.isArray(service.tools) && service.tools.length
+          ? `<p class="service-tools"><strong>Outils :</strong> ${service.tools.join(', ')}</p>`
+          : '';
+        const meta = `<div class="service-meta">
               ${service.price ? `<span>💶 ${service.price}</span>` : ''}
               ${service.turnaround ? `<span>⏱️ ${service.turnaround}</span>` : ''}
             </div>`;
+        const media = hasMedia
+          ? `<figure class="service-card__media"><img src="${service.image}" alt="${service.title}" loading="lazy" onerror="this.remove()"></figure>`
+          : '';
 
-          card.innerHTML = `
+        card.innerHTML = `
+          ${media}
+          <div class="service-card__body">
             <h3>${service.title}</h3>
-              ${service.tagline ? `<p class="service-tagline">${service.tagline}</p>` : ''}
+            ${service.tagline ? `<p class="service-tagline">${service.tagline}</p>` : ''}
             <p>${description}</p>
             ${deliverables}
             ${tools}
             ${meta}
             <a class="button-secondary" href="${service.ctaLink}">${service.cta}</a>
-          `;
-          container.appendChild(card);
-        });
+          </div>
+        `;
+        container.appendChild(card);
+      });
         container.setAttribute('aria-busy', 'false');
       });
     } catch (error) {
@@ -275,14 +282,54 @@ function openAccessibleModal(modal, { initialFocus } = {}) {
     if (!container) return;
 
     try {
-      const testimonials = await fetchJson('data/testimonials.json');
+  const [testimonials, settings] = await Promise.all([
+        fetchJson('data/testimonials.json'),
+        fetchJson('data/settings.json').catch(() => ({}))
+      ]);
       container.innerHTML = '';
-      testimonials.forEach((testimonial) => {
+      const quotes = testimonials.map((testimonial) => {
         const blockquote = document.createElement('blockquote');
         blockquote.innerHTML = `« ${testimonial.quote} »<span>— ${testimonial.author}${testimonial.role ? `, ${testimonial.role}` : ''}</span>`;
         container.appendChild(blockquote);
+        return blockquote;
       });
       container.setAttribute('aria-busy', 'false');
+
+      const rotationEnabled = settings?.testimonialRotation !== false && quotes.length > 1;
+      if (rotationEnabled) {
+        const interval = Math.max(Number(settings?.testimonialInterval) || 8000, 3000);
+        container.classList.add('testimonials-carousel');
+        let index = 0;
+
+        const showQuote = (target) => {
+          quotes.forEach((quote, idx) => {
+            quote.classList.toggle('active', idx === target);
+            quote.setAttribute('aria-hidden', idx === target ? 'false' : 'true');
+          });
+          index = target;
+        };
+
+        showQuote(0);
+        let timer = window.setInterval(() => {
+          const next = (index + 1) % quotes.length;
+          showQuote(next);
+        }, interval);
+
+        const pause = () => {
+          window.clearInterval(timer);
+        };
+
+        const resume = () => {
+          pause();
+          timer = window.setInterval(() => {
+            const next = (index + 1) % quotes.length;
+            showQuote(next);
+          }, interval);
+        };
+
+        container.addEventListener('mouseenter', pause);
+        container.addEventListener('mouseleave', resume);
+      }
     } catch (error) {
       container.innerHTML = '<p class="error">Impossible d’afficher les témoignages.</p>';
       container.setAttribute('aria-busy', 'false');
@@ -323,16 +370,27 @@ function openAccessibleModal(modal, { initialFocus } = {}) {
     if (!grid && !homeGrid) return;
 
     try {
-      const projects = await fetchJson('data/projects.json');
+       const [projects, settings] = await Promise.all([
+        fetchJson('data/projects.json'),
+        fetchJson('data/settings.json').catch(() => ({}))
+      ]);
+
+      const featuredId = settings?.featuredProject || '';
+      const featuredProject = featuredId ? projects.find((project) => project.id === featuredId) : null;
+      const ordered = featuredProject
+        ? [featuredProject, ...projects.filter((project) => project.id !== featuredId)]
+        : projects.slice();
 
       if (homeGrid) {
         homeGrid.innerHTML = '';
-        projects.slice(0, 3).forEach((project) => {
+        ordered.slice(0, 3).forEach((project) => {
+          const isFeatured = project.id === featuredId;
           const card = document.createElement('article');
-          card.className = 'project-card';
+          card.className = `project-card${isFeatured ? ' project-card--featured' : ''}`;
           card.innerHTML = `
             <img src="${project.thumbnail}" alt="${project.title}" loading="lazy" onerror="this.src='images/doc.jpg'">
             <div class="card-body">
+              ${isFeatured ? '<span class="project-badge">⭐ Projet à la une</span>' : ''}
               <h3>${project.title}</h3>
               <p>${project.summary}</p>
               <span class="link-inline">Voir le projet</span>
@@ -348,12 +406,14 @@ function openAccessibleModal(modal, { initialFocus } = {}) {
 
       if (grid) {
         grid.innerHTML = '';
-        projects.forEach((project) => {
+        ordered.forEach((project) => {
+          const isFeatured = project.id === featuredId;
           const card = document.createElement('article');
-          card.className = 'project-card';
+          card.className = `project-card${isFeatured ? ' project-card--featured' : ''}`;
           card.innerHTML = `
             <img src="${project.thumbnail}" alt="${project.title}" loading="lazy" onerror="this.src='images/doc.jpg'">
             <div class="card-body">
+              ${isFeatured ? '<span class="project-badge">⭐ Projet à la une</span>' : ''}
               <h3>${project.title}</h3>
               <p>${project.summary}</p>
               <button class="button-secondary" type="button">Voir le projet</button>
