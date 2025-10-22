@@ -13,7 +13,11 @@
       "Rapport de contrôle avec captures",
       "Session de prise en main ou vidéos"
     ],
-    "tools": ["SolidWorks", "Fusion 360", "Onshape"],
+    "tools": [
+      "SolidWorks",
+      "Fusion 360",
+      "Onshape"
+    ],
     "cta": "Demander un devis",
     "ctaLink": "commandes.html?type=cao"
   },
@@ -31,7 +35,11 @@
       "Plan d’assemblage et éclatés",
       "Prototype fonctionnel et retour d’expérience"
     ],
-    "tools": ["SolidWorks Simulation", "Inventor", "Excel avancé"],
+    "tools": [
+      "SolidWorks Simulation",
+      "Inventor",
+      "Excel avancé"
+    ],
     "cta": "Planifier un appel",
     "ctaLink": "commandes.html?type=etude"
   },
@@ -49,7 +57,11 @@
       "Fiche de réglages et matériaux",
       "Option de conditionnement professionnel"
     ],
-    "tools": ["Creality Ender 3", "Anycubic Photon", "Bambu Lab X1"],
+    "tools": [
+      "Creality Ender 3",
+      "Anycubic Photon",
+      "Bambu Lab X1"
+    ],
     "cta": "Obtenir un tarif",
     "ctaLink": "commandes.html?type=impression"
   },
@@ -67,26 +79,12 @@
       "Pièces adaptées ou fichiers",
       "Guide d’entretien et checklist"
     ],
-    "tools": ["Analyse vibratoire", "Mesures manuelles", "CAO 3D"],
+    "tools": [
+      "Analyse vibratoire",
+      "Mesures manuelles",
+      "CAO 3D"
+    ],
     "cta": "Parler d’un retrofit",
     "ctaLink": "commandes.html?type=maintenance"
-  },
-  {
-    "slug": "automatisation",
-    "title": "Automatisation & cobotique",
-    "icon": "🤖",
-    "tagline": "Déployer un process plus sûr et répétable",
-    "summary": "Intégration de cobots, capteurs et automatismes sur vos équipements.",
-    "details": "Étude de faisabilité, modélisation de la cellule, programmation (TwinCAT, robots collaboratifs) et mise en service avec formation opérateur.",
-    "price": "Projet sur devis",
-    "turnaround": "2 à 8 semaines",
-    "deliverables": [
-      "Dossier d’étude et analyse des risques",
-      "Programme et schémas électriques",
-      "Formation opérateur & dossier technique"
-    ],
-    "tools": ["URScript", "TwinCAT", "Siemens TIA Portal"],
-    "cta": "Parler automatisation",
-    "ctaLink": "commandes.html?type=automatisation"
   }
 ]
