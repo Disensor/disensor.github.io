@@ -3,440 +3,136 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin 3DPANNE</title>
+  <title>Espace admin – 3DPANNE</title>
   <link rel="stylesheet" href="css/theme.css" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/admin.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body class="admin-page">
+  <main class="admin-wrapper">
+    <header class="admin-header">
+      <h1>Espace d’administration</h1>
+      <p>Connecte-toi avec un token GitHub disposant des droits d’écriture sur le dépôt <code>Disensor/disensor.github.io</code> afin de gérer les produits de la boutique et les projets présentés.</p>
+    </header>
 
-<div class="admin-container">
-  <h1>Interface admin – Produits & projets</h1>
-  <p class="admin-help">Renseigne un token GitHub personnel avec droits sur le dépôt <code>Disensor/disensor.github.io</code>.</p>
+    <section class="panel" id="authPanel">
+      <h2>Connexion sécurisée</h2>
+      <p>Le token est uniquement utilisé pour mettre à jour les fichiers JSON et les vignettes stockées sur GitHub. Rien n’est conservé côté client.</p>
+      <form id="authForm" class="token-field" autocomplete="off">
+        <label for="token">Token GitHub personnel</label>
+        <input type="password" id="token" name="token" placeholder="ghp_..." required autocomplete="off" spellcheck="false" />
+        <div class="button-row">
+          <button type="submit" class="primary">Se connecter</button>
+        </div>
+        <p id="authStatus" class="status-message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
 
-  <div id="auth">
-    <label for="token">Token GitHub :</label>
-    <input type="password" id="token" placeholder="ghp_...">
-    <button onclick="auth()">Se connecter</button>
-  </div>
+    <div id="adminContent" class="admin-panels hidden" aria-hidden="true">
+      <section class="panel" id="productPanel" aria-labelledby="productPanelTitle">
+        <div>
+          <h2 id="productPanelTitle">Produits de la boutique</h2>
+          <p>Ajoute, modifie ou supprime les fiches produits. Le téléchargement des images est automatique dans <code>images/products/</code>.</p>
+        </div>
+        <form id="productForm" novalidate>
+          <div class="form-grid">
+            <label for="productRef">Référence
+              <input type="text" id="productRef" name="productRef" required />
+            </label>
+            <label for="productName">Nom du produit
+              <input type="text" id="productName" name="productName" required />
+            </label>
+            <label for="productType">Type de fichier
+              <select id="productType" name="productType">
+                <option value="STL">STL</option>
+                <option value="STEP">STEP</option>
+                <option value="PDF">PDF</option>
+              </select>
+            </label>
+            <label for="productPrice">Prix affiché
+              <input type="text" id="productPrice" name="productPrice" placeholder="Ex. 29,90 €" />
+            </label>
+          </div>
+          <label for="productDescription">Description
+            <textarea id="productDescription" name="productDescription" rows="3" required></textarea>
+          </label>
+          <label for="productImage">Vignette (optionnel)
+            <input type="file" id="productImage" name="productImage" accept="image/*" />
+            <span class="hint">Les images sont enregistrées dans <code>images/products/</code>.</span>
+          </label>
+          <label for="productImagePath">Chemin d’image personnalisé (optionnel)
+            <input type="text" id="productImagePath" name="productImagePath" placeholder="images/products/nom-image.jpg" />
+          </label>
+          <label for="productLink">Lien de contact direct (optionnel)
+            <input type="url" id="productLink" name="productLink" placeholder="mailto:contact@exemple.fr" />
+          </label>
+          <div class="button-row">
+            <button type="submit" class="primary">Enregistrer</button>
+            <button type="button" class="secondary" id="productCancel">Réinitialiser</button>
+          </div>
+          <p id="productStatus" class="status-message" role="status" aria-live="polite"></p>
+        </form>
 
-  <section id="productAdmin" class="admin-block hidden">
-    <h2>Produits de la boutique</h2>
-    <form id="productForm">
-      <div class="form-grid">
-        <label>Référence
-          <input type="text" id="productRef" required>
-        </label>
-        <label>Nom du produit
-          <input type="text" id="productName" required>
-        </label>
-        <label>Type de fichier
-          <select id="productType">
-            <option value="STL">STL</option>
-            <option value="STEP">STEP</option>
-            <option value="PDF">PDF</option>
-          </select>
-        </label>
-        <label>Prix
-          <input type="text" id="productPrice" placeholder="Ex. 29,90€">
-        </label>
-      </div>
-      <label>Description
-        <textarea id="productDescription" rows="3" required></textarea>
-      </label>
-      <label>Image (optionnel)
-        <input type="file" id="productImage" accept="image/*">
-        <span class="hint">Les images sont enregistrées dans <code>images/products/</code>.</span>
-      </label>
-      <label>Chemin image personnalisé (optionnel)
-        <input type="text" id="productImagePath" placeholder="images/products/nom-image.jpg">
-      </label>
-      <label>Lien de contact direct (optionnel)
-        <input type="url" id="productLink" placeholder="mailto:..." />
-      </label>
-      <button type="submit">Enregistrer le produit</button>
-      <p id="productStatus" class="status hidden"></p>
-    </form>
+        <div>
+          <h3>Produits enregistrés</h3>
+          <div id="productList" class="admin-list">Connecte-toi pour charger les produits…</div>
+        </div>
+      </section>
 
-    <h3>Produits existants</h3>
-    <div id="productList" class="admin-list">Chargement…</div>
-  </section>
+      <section class="panel" id="projectPanel" aria-labelledby="projectPanelTitle">
+        <div>
+          <h2 id="projectPanelTitle">Projets</h2>
+          <p>Gère les projets mis en avant sur le site. Les vignettes doivent pointer vers un fichier image disponible dans <code>images/projects/</code> ou une URL publique.</p>
+        </div>
+        <form id="projectForm" novalidate>
+          <div class="form-grid">
+            <label for="projectId">Identifiant unique
+              <input type="text" id="projectId" name="projectId" required />
+            </label>
+            <label for="projectTitle">Titre
+              <input type="text" id="projectTitle" name="projectTitle" required />
+            </label>
+            <label for="projectSummary">Résumé
+              <input type="text" id="projectSummary" name="projectSummary" required />
+            </label>
+            <label for="projectThumbnail">Vignette
+              <input type="text" id="projectThumbnail" name="projectThumbnail" placeholder="images/projects/mon-visuel.jpg" required />
+            </label>
+          </div>
+          <label for="projectDescription">Description détaillée
+            <textarea id="projectDescription" name="projectDescription" rows="4" required></textarea>
+          </label>
+          <label for="projectHighlights">Points forts (un par ligne)
+            <textarea id="projectHighlights" name="projectHighlights" rows="3" placeholder="Ligne 1&#10;Ligne 2"></textarea>
+          </label>
+          <label for="projectServices">Services liés (séparés par des virgules)
+            <input type="text" id="projectServices" name="projectServices" placeholder="Modélisation CAO, Impression 3D" />
+          </label>
+          <label for="projectGallery">Galerie (URLs séparées par des virgules)
+            <input type="text" id="projectGallery" name="projectGallery" placeholder="images/projects/photo1.jpg, images/projects/photo2.jpg" />
+          </label>
+          <label for="projectCta">Texte du bouton
+            <input type="text" id="projectCta" name="projectCta" placeholder="Commander une pièce similaire" />
+          </label>
+          <label for="projectCtaLink">Lien du bouton
+            <input type="text" id="projectCtaLink" name="projectCtaLink" placeholder="commandes.html?type=prototype" />
+          </label>
+          <div class="button-row">
+            <button type="submit" class="primary">Enregistrer</button>
+            <button type="button" class="secondary" id="projectCancel">Réinitialiser</button>
+          </div>
+          <p id="projectStatus" class="status-message" role="status" aria-live="polite"></p>
+        </form>
 
-  <section id="projectAdmin" class="admin-block hidden">
-    <h2>Projets</h2>
-    <form id="projectForm">
-      <div class="form-grid">
-        <label>Identifiant (ex. proj-coulisseau)
-          <input type="text" id="projectId" required>
-        </label>
-        <label>Titre
-          <input type="text" id="projectTitle" required>
-        </label>
-        <label>Mini description
-          <input type="text" id="projectSummary" required>
-        </label>
-        <label>Vignette
-          <input type="text" id="projectThumbnail" placeholder="images/projects/mon-visuel.jpg" required>
-        </label>
-      </div>
-      <label>Description détaillée
-        <textarea id="projectDescription" rows="4" required></textarea>
-      </label>
-      <label>Points forts (un par ligne)
-        <textarea id="projectHighlights" rows="3" placeholder="Ligne 1\nLigne 2"></textarea>
-      </label>
-      <label>Services liés (séparés par des virgules)
-        <input type="text" id="projectServices" placeholder="Modélisation CAO, Impression 3D">
-      </label>
-      <label>Galerie (URLs séparées par des virgules)
-        <input type="text" id="projectGallery" placeholder="images/projects/photo1.jpg, images/projects/photo2.jpg">
-      </label>
-      <label>Texte CTA
-        <input type="text" id="projectCta" placeholder="Commander une pièce similaire">
-      </label>
-      <label>Lien CTA
-        <input type="text" id="projectCtaLink" placeholder="commandes.html?type=prototype">
-      </label>
-      <button type="submit">Enregistrer le projet</button>
-      <p id="projectStatus" class="status hidden"></p>
-    </form>
+        <div>
+          <h3>Projets enregistrés</h3>
+          <div id="projectList" class="admin-list">Connecte-toi pour charger les projets…</div>
+        </div>
+      </section>
+    </div>
+  </main>
 
-    <h3>Projets existants</h3>
-    <div id="projectList" class="admin-list">Chargement…</div>
-  </section>
-</div>
-
-<script>
-let githubToken = '';
-const repoOwner = 'Disensor';
-const repoName = 'disensor.github.io';
-const apiRoot = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;
-
-const state = {
-  products: { data: [], sha: null, editIndex: null },
-  projects: { data: [], sha: null, editIndex: null }
-};
-
-function decodeBase64Utf8(base64) {
-  const binaryString = atob(base64.replace(/\n/g, ''));
-  const bytes = new Uint8Array([...binaryString].map((c) => c.charCodeAt(0)));
-  const decoder = new TextDecoder('utf-8');
-  return decoder.decode(bytes);
-}
-
-async function auth() {
-  githubToken = document.getElementById('token').value.trim();
-  if (!githubToken) {
-    alert('Merci de renseigner un token.');
-    return;
-  }
-  const res = await fetch('https://api.github.com/user', {
-    headers: { Authorization: `Bearer ${githubToken}` }
-  });
-  if (!res.ok) {
-    alert('Token invalide ou non autorisé.');
-    return;
-  }
-  document.getElementById('auth').classList.add('hidden');
-  document.getElementById('productAdmin').classList.remove('hidden');
-  document.getElementById('projectAdmin').classList.remove('hidden');
-  loadProducts();
-  loadProjects();
-}
-
-async function fetchFile(path) {
-  const res = await fetch(apiRoot + path, { headers: { Authorization: `Bearer ${githubToken}` } });
-  if (!res.ok) {
-    throw new Error(`Erreur lors du chargement de ${path}`);
-  }
-  const data = await res.json();
-  return {
-    data: JSON.parse(decodeBase64Utf8(data.content)),
-    sha: data.sha
-  };
-}
-
-async function updateFile(path, content, sha, message) {
-  const res = await fetch(apiRoot + path, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${githubToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      message,
-      content: btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2)))),
-      sha
-    })
-  });
-  if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.message || 'Impossible de mettre à jour le fichier');
-  }
-  return res.json();
-}
-
-function renderProductList() {
-  const list = document.getElementById('productList');
-  list.innerHTML = '';
-  state.products.data.forEach((product, index) => {
-    const div = document.createElement('div');
-    div.className = 'admin-card';
-    div.innerHTML = `
-      <strong>${product.name}</strong> (${product.ref}) – ${product.price || 'Sur devis'}<br>
-      <button type="button" onclick="editProduct(${index})">✏️ Modifier</button>
-      <button type="button" onclick="deleteProduct(${index})">🗑️ Supprimer</button>
-    `;
-    list.appendChild(div);
-  });
-  if (!list.children.length) {
-    list.textContent = 'Aucun produit enregistré.';
-  }
-}
-
-function renderProjectList() {
-  const list = document.getElementById('projectList');
-  list.innerHTML = '';
-  state.projects.data.forEach((project, index) => {
-    const div = document.createElement('div');
-    div.className = 'admin-card';
-    div.innerHTML = `
-      <strong>${project.title}</strong> (${project.id})<br>
-      <em>${project.summary}</em><br>
-      <button type="button" onclick="editProject(${index})">✏️ Modifier</button>
-      <button type="button" onclick="deleteProject(${index})">🗑️ Supprimer</button>
-    `;
-    list.appendChild(div);
-  });
-  if (!list.children.length) {
-    list.textContent = 'Aucun projet enregistré.';
-  }
-}
-
-async function loadProducts() {
-  try {
-    document.getElementById('productList').textContent = 'Chargement…';
-    const file = await fetchFile('data/products.json');
-    state.products.data = file.data;
-    state.products.sha = file.sha;
-    renderProductList();
-  } catch (error) {
-    document.getElementById('productList').textContent = 'Erreur de chargement des produits.';
-    console.error(error);
-  }
-}
-
-async function loadProjects() {
-  try {
-    document.getElementById('projectList').textContent = 'Chargement…';
-    const file = await fetchFile('data/projects.json');
-    state.projects.data = file.data;
-    state.projects.sha = file.sha;
-    renderProjectList();
-  } catch (error) {
-    document.getElementById('projectList').textContent = 'Erreur de chargement des projets.';
-    console.error(error);
-  }
-}
-
-function setStatus(id, message, type = '') {
-  const el = document.getElementById(id);
-  el.textContent = message;
-  el.classList.remove('hidden', 'error', 'success');
-  if (type) el.classList.add(type);
-  if (type) {
-    setTimeout(() => el.classList.add('hidden'), 4000);
-  }
-}
-
-function clearProductForm() {
-  document.getElementById('productForm').reset();
-  state.products.editIndex = null;
-}
-
-function clearProjectForm() {
-  document.getElementById('projectForm').reset();
-  state.projects.editIndex = null;
-}
-
-document.getElementById('productForm').addEventListener('submit', async (event) => {
-  event.preventDefault();
-  setStatus('productStatus', 'Traitement en cours…');
-
-  const fileInput = document.getElementById('productImage');
-  const customPath = document.getElementById('productImagePath').value.trim();
-  const imagePath = customPath || (fileInput.files[0] ? `images/products/${fileInput.files[0].name}` : 'images/products/doc.jpg');
-
-  const product = {
-    ref: document.getElementById('productRef').value.trim(),
-    name: document.getElementById('productName').value.trim(),
-    type: document.getElementById('productType').value,
-    price: document.getElementById('productPrice').value.trim(),
-    description: document.getElementById('productDescription').value.trim(),
-    image: imagePath,
-    link: document.getElementById('productLink').value.trim()
-  };
-
-  if (!product.ref || !product.name) {
-    setStatus('productStatus', 'Référence et nom sont obligatoires.', 'error');
-    return;
-  }
-
-  const data = [...state.products.data];
-  if (state.products.editIndex !== null) {
-    data[state.products.editIndex] = product;
-  } else {
-    data.push(product);
-  }
-
-  async function finalize(updatedData) {
-    try {
-      const response = await updateFile('data/products.json', updatedData, state.products.sha, 'Mise à jour produits depuis admin');
-      state.products.sha = response.content.sha;
-      state.products.data = updatedData;
-      renderProductList();
-      clearProductForm();
-      document.getElementById('productImagePath').value = '';
-      setStatus('productStatus', '✅ Produit enregistré avec succès.', 'success');
-    } catch (error) {
-      setStatus('productStatus', `❌ ${error.message}`, 'error');
-      console.error(error);
-    }
-  }
-
-  const file = fileInput.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      try {
-        const base64Image = reader.result.split(',')[1];
-        await fetch(apiRoot + imagePath, {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${githubToken}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: `Ajout image ${file.name}`,
-            content: base64Image
-          })
-        });
-        finalize(data);
-      } catch (error) {
-        setStatus('productStatus', `❌ ${error.message}`, 'error');
-        console.error(error);
-      }
-    };
-    reader.readAsDataURL(file);
-  } else {
-    finalize(data);
-  }
-});
-
-document.getElementById('projectForm').addEventListener('submit', async (event) => {
-  event.preventDefault();
-  setStatus('projectStatus', 'Traitement en cours…');
-
-  const project = {
-    id: document.getElementById('projectId').value.trim(),
-    title: document.getElementById('projectTitle').value.trim(),
-    summary: document.getElementById('projectSummary').value.trim(),
-    thumbnail: document.getElementById('projectThumbnail').value.trim(),
-    description: document.getElementById('projectDescription').value.trim(),
-    highlights: document.getElementById('projectHighlights').value.split('\n').map((item) => item.trim()).filter(Boolean),
-    services: document.getElementById('projectServices').value.split(',').map((item) => item.trim()).filter(Boolean),
-    gallery: document.getElementById('projectGallery').value.split(',').map((item) => item.trim()).filter(Boolean),
-    cta: document.getElementById('projectCta').value.trim(),
-    ctaLink: document.getElementById('projectCtaLink').value.trim()
-  };
-
-  if (!project.id || !project.title) {
-    setStatus('projectStatus', 'Identifiant et titre sont obligatoires.', 'error');
-    return;
-  }
-
-  const data = [...state.projects.data];
-  if (state.projects.editIndex !== null) {
-    data[state.projects.editIndex] = project;
-  } else {
-    data.push(project);
-  }
-
-  try {
-    const response = await updateFile('data/projects.json', data, state.projects.sha, 'Mise à jour projets depuis admin');
-    state.projects.sha = response.content.sha;
-    state.projects.data = data;
-    renderProjectList();
-    clearProjectForm();
-    setStatus('projectStatus', '✅ Projet enregistré avec succès.', 'success');
-  } catch (error) {
-    setStatus('projectStatus', `❌ ${error.message}`, 'error');
-    console.error(error);
-  }
-});
-
-function editProduct(index) {
-  const product = state.products.data[index];
-  document.getElementById('productRef').value = product.ref;
-  document.getElementById('productName').value = product.name;
-  document.getElementById('productType').value = product.type;
-  document.getElementById('productPrice').value = product.price;
-  document.getElementById('productDescription').value = product.description;
-  document.getElementById('productImagePath').value = product.image;
-  document.getElementById('productLink').value = product.link || '';
-  state.products.editIndex = index;
-  setStatus('productStatus', '✏️ Produit chargé pour édition. Enregistre pour appliquer les modifications.');
-}
-
-async function deleteProduct(index) {
-  if (!confirm('Supprimer ce produit ?')) return;
-  const data = [...state.products.data];
-  data.splice(index, 1);
-  try {
-    const response = await updateFile('data/products.json', data, state.products.sha, 'Suppression produit depuis admin');
-    state.products.sha = response.content.sha;
-    state.products.data = data;
-    renderProductList();
-    clearProductForm();
-    setStatus('productStatus', '✅ Produit supprimé.', 'success');
-  } catch (error) {
-    setStatus('productStatus', `❌ ${error.message}`, 'error');
-    console.error(error);
-  }
-}
-
-function editProject(index) {
-  const project = state.projects.data[index];
-  document.getElementById('projectId').value = project.id;
-  document.getElementById('projectTitle').value = project.title;
-  document.getElementById('projectSummary').value = project.summary;
-  document.getElementById('projectThumbnail').value = project.thumbnail;
-  document.getElementById('projectDescription').value = project.description;
-  document.getElementById('projectHighlights').value = (project.highlights || []).join('\n');
-  document.getElementById('projectServices').value = (project.services || []).join(', ');
-  document.getElementById('projectGallery').value = (project.gallery || []).join(', ');
-  document.getElementById('projectCta').value = project.cta || '';
-  document.getElementById('projectCtaLink').value = project.ctaLink || '';
-  state.projects.editIndex = index;
-  setStatus('projectStatus', '✏️ Projet chargé pour édition.');
-}
-
-async function deleteProject(index) {
-  if (!confirm('Supprimer ce projet ?')) return;
-  const data = [...state.projects.data];
-  data.splice(index, 1);
-  try {
-    const response = await updateFile('data/projects.json', data, state.projects.sha, 'Suppression projet depuis admin');
-    state.projects.sha = response.content.sha;
-    state.projects.data = data;
-    renderProjectList();
-    clearProjectForm();
-    setStatus('projectStatus', '✅ Projet supprimé.', 'success');
-  } catch (error) {
-    setStatus('projectStatus', `❌ ${error.message}`, 'error');
-    console.error(error);
-  }
-}
-</script>
+  <script src="scripts/admin.js" defer></script>
 </body>
 </html>
