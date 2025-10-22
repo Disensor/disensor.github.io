@@ -7,7 +7,18 @@
 
   const state = {
     products: { data: [], sha: null, editIndex: null },
-    projects: { data: [], sha: null, editIndex: null }
+    projects: { data: [], sha: null, editIndex: null },
+    freebies: { data: [], sha: null, editIndex: null },
+    services: { data: [], sha: null, editIndex: null },
+    testimonials: { data: [], sha: null, editIndex: null },
+    settings: {
+      data: {
+        featuredProject: '',
+        testimonialRotation: true,
+        testimonialInterval: 8000
+      },
+      sha: null
+    }
   };
 
   const textEncoder = new TextEncoder();
@@ -18,14 +29,38 @@
     authStatus: document.getElementById('authStatus'),
     authPanel: document.getElementById('authPanel'),
     adminContent: document.getElementById('adminContent'),
+
     productForm: document.getElementById('productForm'),
     productStatus: document.getElementById('productStatus'),
     productList: document.getElementById('productList'),
     productCancel: document.getElementById('productCancel'),
+
     projectForm: document.getElementById('projectForm'),
     projectStatus: document.getElementById('projectStatus'),
     projectList: document.getElementById('projectList'),
-    projectCancel: document.getElementById('projectCancel')
+    projectCancel: document.getElementById('projectCancel'),
+
+    freebieForm: document.getElementById('freebieForm'),
+    freebieStatus: document.getElementById('freebieStatus'),
+    freebieList: document.getElementById('freebieList'),
+    freebieCancel: document.getElementById('freebieCancel'),
+
+    serviceForm: document.getElementById('serviceForm'),
+    serviceStatus: document.getElementById('serviceStatus'),
+    serviceList: document.getElementById('serviceList'),
+    serviceCancel: document.getElementById('serviceCancel'),
+
+    testimonialForm: document.getElementById('testimonialForm'),
+    testimonialStatus: document.getElementById('testimonialStatus'),
+    testimonialList: document.getElementById('testimonialList'),
+    testimonialCancel: document.getElementById('testimonialCancel'),
+
+    settingsForm: document.getElementById('settingsForm'),
+    settingsStatus: document.getElementById('settingsStatus'),
+    settingsCancel: document.getElementById('settingsCancel'),
+    featuredSelect: document.getElementById('featuredProject'),
+    testimonialRotation: document.getElementById('testimonialRotation'),
+    testimonialInterval: document.getElementById('testimonialInterval')
   };
 
   function toBase64(text) {
@@ -45,6 +80,24 @@
       bytes[i] = binary.charCodeAt(i);
     }
     return textDecoder.decode(bytes);
+  }
+
+  function readFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (typeof reader.result !== 'string') {
+          reject(new Error('Lecture du fichier impossible.'));
+          return;
+        }
+        const [, base64] = reader.result.split(',');
+        resolve(base64);
+      };
+      reader.onerror = () => {
+        reject(new Error('Impossible de lire le fichier fourni.'));
+      };
+      reader.readAsDataURL(file);
+    });
   }
 
   function setStatus(element, message, type = '') {
@@ -156,6 +209,7 @@
     state.products.data.forEach((product, index) => {
       const card = document.createElement('article');
       card.className = 'admin-card';
+
       const title = document.createElement('strong');
       title.textContent = product.name || 'Produit sans nom';
       card.appendChild(title);
@@ -198,9 +252,17 @@
     state.projects.data.forEach((project, index) => {
       const card = document.createElement('article');
       card.className = 'admin-card';
+
       const title = document.createElement('strong');
       title.textContent = project.title || 'Projet sans titre';
       card.appendChild(title);
+
+      if (state.settings.data.featuredProject === project.id) {
+        const badge = document.createElement('span');
+        badge.className = 'badge';
+        badge.textContent = '⭐ À la une';
+        card.appendChild(badge);
+      }
 
       const meta = document.createElement('p');
       meta.className = 'meta';
@@ -229,6 +291,134 @@
     });
   }
 
+  function renderFreebieList() {
+    if (!elements.freebieList) return;
+    elements.freebieList.innerHTML = '';
+    if (!state.freebies.data.length) {
+      elements.freebieList.textContent = 'Aucune ressource disponible.';
+      return;
+    }
+
+    state.freebies.data.forEach((freebie, index) => {
+      const card = document.createElement('article');
+      card.className = 'admin-card';
+      const title = document.createElement('strong');
+      title.textContent = freebie.title || 'Ressource sans titre';
+      card.appendChild(title);
+
+      const meta = document.createElement('p');
+      meta.className = 'meta';
+      meta.textContent = `${freebie.slug || '—'} · ${freebie.format || 'Format inconnu'}`;
+      card.appendChild(meta);
+
+      const actions = document.createElement('div');
+      actions.className = 'card-actions';
+
+      const editButton = document.createElement('button');
+      editButton.type = 'button';
+      editButton.className = 'button-tertiary';
+      editButton.textContent = '✏️ Modifier';
+      editButton.addEventListener('click', () => editFreebie(index));
+      actions.appendChild(editButton);
+
+      const deleteButton = document.createElement('button');
+      deleteButton.type = 'button';
+      deleteButton.className = 'button-tertiary';
+      deleteButton.textContent = '🗑️ Supprimer';
+      deleteButton.addEventListener('click', () => deleteFreebie(index));
+      actions.appendChild(deleteButton);
+
+      card.appendChild(actions);
+      elements.freebieList.appendChild(card);
+    });
+  }
+
+  function renderServiceList() {
+    if (!elements.serviceList) return;
+    elements.serviceList.innerHTML = '';
+    if (!state.services.data.length) {
+      elements.serviceList.textContent = 'Aucun service enregistré.';
+      return;
+    }
+
+    state.services.data.forEach((service, index) => {
+      const card = document.createElement('article');
+      card.className = 'admin-card';
+
+      const title = document.createElement('strong');
+      title.textContent = service.title || 'Service sans titre';
+      card.appendChild(title);
+
+      const meta = document.createElement('p');
+      meta.className = 'meta';
+      meta.textContent = `${service.slug || '—'} · ${service.price || 'Tarif sur devis'}`;
+      card.appendChild(meta);
+
+      const actions = document.createElement('div');
+      actions.className = 'card-actions';
+
+      const editButton = document.createElement('button');
+      editButton.type = 'button';
+      editButton.className = 'button-tertiary';
+      editButton.textContent = '✏️ Modifier';
+      editButton.addEventListener('click', () => editService(index));
+      actions.appendChild(editButton);
+
+      const deleteButton = document.createElement('button');
+      deleteButton.type = 'button';
+      deleteButton.className = 'button-tertiary';
+      deleteButton.textContent = '🗑️ Supprimer';
+      deleteButton.addEventListener('click', () => deleteService(index));
+      actions.appendChild(deleteButton);
+
+      card.appendChild(actions);
+      elements.serviceList.appendChild(card);
+    });
+  }
+
+  function renderTestimonialList() {
+    if (!elements.testimonialList) return;
+    elements.testimonialList.innerHTML = '';
+    if (!state.testimonials.data.length) {
+      elements.testimonialList.textContent = 'Aucun témoignage enregistré.';
+      return;
+    }
+
+    state.testimonials.data.forEach((testimonial, index) => {
+      const card = document.createElement('article');
+      card.className = 'admin-card';
+
+      const quote = document.createElement('p');
+      quote.className = 'meta';
+      quote.textContent = `« ${testimonial.quote?.slice(0, 120) || 'Témoignage'}${testimonial.quote && testimonial.quote.length > 120 ? '…' : ''} »`;
+      card.appendChild(quote);
+
+      const author = document.createElement('strong');
+      author.textContent = `${testimonial.author || 'Anonyme'}${testimonial.role ? ` · ${testimonial.role}` : ''}`;
+      card.appendChild(author);
+
+      const actions = document.createElement('div');
+      actions.className = 'card-actions';
+
+      const editButton = document.createElement('button');
+      editButton.type = 'button';
+      editButton.className = 'button-tertiary';
+      editButton.textContent = '✏️ Modifier';
+      editButton.addEventListener('click', () => editTestimonial(index));
+      actions.appendChild(editButton);
+
+      const deleteButton = document.createElement('button');
+      deleteButton.type = 'button';
+      deleteButton.className = 'button-tertiary';
+      deleteButton.textContent = '🗑️ Supprimer';
+      deleteButton.addEventListener('click', () => deleteTestimonial(index));
+      actions.appendChild(deleteButton);
+
+      card.appendChild(actions);
+      elements.testimonialList.appendChild(card);
+    });
+  }
+
   async function loadProducts() {
     if (!elements.productList) return;
     elements.productList.textContent = 'Chargement…';
@@ -251,10 +441,69 @@
       state.projects.data = Array.isArray(file.data) ? file.data : [];
       state.projects.sha = file.sha;
       renderProjectList();
+      updateFeaturedOptions();
     } catch (error) {
       console.error(error);
       elements.projectList.textContent = '❌ Erreur lors du chargement des projets.';
     }
+  }
+
+  async function loadFreebies() {
+    if (!elements.freebieList) return;
+    elements.freebieList.textContent = 'Chargement…';
+    try {
+      const file = await fetchFile('data/freebies.json');
+      state.freebies.data = Array.isArray(file.data) ? file.data : [];
+      state.freebies.sha = file.sha;
+      renderFreebieList();
+    } catch (error) {
+      console.error(error);
+      elements.freebieList.textContent = '❌ Erreur lors du chargement des ressources.';
+    }
+  }
+
+  async function loadServices() {
+    if (!elements.serviceList) return;
+    elements.serviceList.textContent = 'Chargement…';
+    try {
+      const file = await fetchFile('data/services.json');
+      state.services.data = Array.isArray(file.data) ? file.data : [];
+      state.services.sha = file.sha;
+      renderServiceList();
+    } catch (error) {
+      console.error(error);
+      elements.serviceList.textContent = '❌ Erreur lors du chargement des services.';
+    }
+  }
+
+  async function loadTestimonials() {
+    if (!elements.testimonialList) return;
+    elements.testimonialList.textContent = 'Chargement…';
+    try {
+      const file = await fetchFile('data/testimonials.json');
+      state.testimonials.data = Array.isArray(file.data) ? file.data : [];
+      state.testimonials.sha = file.sha;
+      renderTestimonialList();
+    } catch (error) {
+      console.error(error);
+      elements.testimonialList.textContent = '❌ Erreur lors du chargement des témoignages.';
+    }
+  }
+
+  async function loadSettings() {
+    if (!elements.settingsForm) return;
+    try {
+      const file = await fetchFile('data/settings.json');
+      const defaults = state.settings.data;
+      state.settings.data = { ...defaults, ...(file.data || {}) };
+      state.settings.sha = file.sha;
+    } catch (error) {
+      console.warn('Impossible de charger les options, utilisation des valeurs par défaut.', error);
+      state.settings.data = { ...state.settings.data };
+      state.settings.sha = null;
+    }
+    applySettingsForm();
+    renderProjectList();
   }
 
   function resetProductForm() {
@@ -269,6 +518,57 @@
     elements.projectForm.reset();
     state.projects.editIndex = null;
     clearStatus(elements.projectStatus);
+  }
+
+  function resetFreebieForm() {
+    if (!elements.freebieForm) return;
+    elements.freebieForm.reset();
+    state.freebies.editIndex = null;
+    clearStatus(elements.freebieStatus);
+  }
+
+  function resetServiceForm() {
+    if (!elements.serviceForm) return;
+    elements.serviceForm.reset();
+    state.services.editIndex = null;
+    clearStatus(elements.serviceStatus);
+  }
+
+  function resetTestimonialForm() {
+    if (!elements.testimonialForm) return;
+    elements.testimonialForm.reset();
+    state.testimonials.editIndex = null;
+    clearStatus(elements.testimonialStatus);
+  }
+
+  function applySettingsForm() {
+    if (!elements.settingsForm) return;
+    const data = state.settings.data || {};
+    if (elements.featuredSelect) {
+      elements.featuredSelect.value = data.featuredProject || '';
+    }
+    if (elements.testimonialRotation) {
+      elements.testimonialRotation.checked = data.testimonialRotation !== false;
+    }
+    if (elements.testimonialInterval) {
+      elements.testimonialInterval.value = data.testimonialInterval || 8000;
+    }
+    clearStatus(elements.settingsStatus);
+  }
+
+  function updateFeaturedOptions() {
+    if (!elements.featuredSelect) return;
+    const current = state.settings.data?.featuredProject || '';
+    const select = elements.featuredSelect;
+    const previous = select.value;
+    select.innerHTML = '<option value="">— Choisir un projet —</option>';
+    state.projects.data.forEach((project) => {
+      const option = document.createElement('option');
+      option.value = project.id || '';
+      option.textContent = project.title || project.id || 'Projet';
+      select.appendChild(option);
+    });
+    select.value = current || previous || '';
   }
 
   function editProduct(index) {
@@ -303,6 +603,52 @@
     setStatus(elements.projectStatus, '✏️ Projet chargé pour édition.');
   }
 
+  function editFreebie(index) {
+    const freebie = state.freebies.data[index];
+    if (!freebie) return;
+    state.freebies.editIndex = index;
+    elements.freebieForm.freebieSlug.value = freebie.slug || '';
+    elements.freebieForm.freebieTitle.value = freebie.title || '';
+    elements.freebieForm.freebieFormat.value = freebie.format || 'STL';
+    elements.freebieForm.freebieDescription.value = freebie.description || '';
+    elements.freebieForm.freebiePreview.value = '';
+    elements.freebieForm.freebiePreviewPath.value = freebie.preview || '';
+    elements.freebieForm.freebieFile.value = '';
+    elements.freebieForm.freebieFilePath.value = freebie.download || '';
+    setStatus(elements.freebieStatus, '✏️ Ressource chargée pour édition.');
+  }
+
+  function editService(index) {
+    const service = state.services.data[index];
+    if (!service) return;
+    state.services.editIndex = index;
+    elements.serviceForm.serviceSlug.value = service.slug || '';
+    elements.serviceForm.serviceTitle.value = service.title || '';
+    elements.serviceForm.serviceIcon.value = service.icon || '';
+    elements.serviceForm.serviceTagline.value = service.tagline || '';
+    elements.serviceForm.serviceSummary.value = service.summary || '';
+    elements.serviceForm.serviceDetails.value = service.details || '';
+    elements.serviceForm.servicePrice.value = service.price || '';
+    elements.serviceForm.serviceTurnaround.value = service.turnaround || '';
+    elements.serviceForm.serviceDeliverables.value = (service.deliverables || []).join('\n');
+    elements.serviceForm.serviceTools.value = (service.tools || []).join('\n');
+    elements.serviceForm.serviceImage.value = '';
+    elements.serviceForm.serviceImagePath.value = service.image || '';
+    elements.serviceForm.serviceCta.value = service.cta || '';
+    elements.serviceForm.serviceCtaLink.value = service.ctaLink || '';
+    setStatus(elements.serviceStatus, '✏️ Service chargé pour édition.');
+  }
+
+  function editTestimonial(index) {
+    const testimonial = state.testimonials.data[index];
+    if (!testimonial) return;
+    state.testimonials.editIndex = index;
+    elements.testimonialForm.testimonialQuote.value = testimonial.quote || '';
+    elements.testimonialForm.testimonialAuthor.value = testimonial.author || '';
+    elements.testimonialForm.testimonialRole.value = testimonial.role || '';
+    setStatus(elements.testimonialStatus, '✏️ Témoignage chargé pour édition.');
+  }
+
   async function deleteProduct(index) {
     if (!Number.isInteger(index)) return;
     if (!confirm('Supprimer ce produit ?')) return;
@@ -330,7 +676,7 @@
     if (!Number.isInteger(index)) return;
     if (!confirm('Supprimer ce projet ?')) return;
     const updated = [...state.projects.data];
-    updated.splice(index, 1);
+    const [removed] = updated.splice(index, 1);
     try {
       const response = await updateFile(
         'data/projects.json',
@@ -342,10 +688,85 @@
       state.projects.sha = response.content.sha;
       resetProjectForm();
       renderProjectList();
+      updateFeaturedOptions();
+      if (removed && removed.id && state.settings.data.featuredProject === removed.id) {
+        state.settings.data.featuredProject = '';
+        applySettingsForm();
+        setStatus(elements.settingsStatus, 'ℹ️ Projet à la une supprimé, pense à en choisir un autre.', 'error');
+      }
       setStatus(elements.projectStatus, '✅ Projet supprimé.', 'success');
     } catch (error) {
       console.error(error);
       setStatus(elements.projectStatus, `❌ ${error instanceof Error ? error.message : 'Erreur inconnue.'}`, 'error');
+    }
+  }
+
+  async function deleteFreebie(index) {
+    if (!Number.isInteger(index)) return;
+    if (!confirm('Supprimer cette ressource gratuite ?')) return;
+    const updated = [...state.freebies.data];
+    updated.splice(index, 1);
+    try {
+      const response = await updateFile(
+        'data/freebies.json',
+        updated,
+        state.freebies.sha,
+        'Suppression freebie depuis admin'
+      );
+      state.freebies.data = updated;
+      state.freebies.sha = response.content.sha;
+      resetFreebieForm();
+      renderFreebieList();
+      setStatus(elements.freebieStatus, '✅ Ressource supprimée.', 'success');
+    } catch (error) {
+      console.error(error);
+      setStatus(elements.freebieStatus, `❌ ${error instanceof Error ? error.message : 'Erreur inconnue.'}`, 'error');
+    }
+  }
+
+  async function deleteService(index) {
+    if (!Number.isInteger(index)) return;
+    if (!confirm('Supprimer ce service ?')) return;
+    const updated = [...state.services.data];
+    updated.splice(index, 1);
+    try {
+      const response = await updateFile(
+        'data/services.json',
+        updated,
+        state.services.sha,
+        'Suppression service depuis admin'
+      );
+      state.services.data = updated;
+      state.services.sha = response.content.sha;
+      resetServiceForm();
+      renderServiceList();
+      setStatus(elements.serviceStatus, '✅ Service supprimé.', 'success');
+    } catch (error) {
+      console.error(error);
+      setStatus(elements.serviceStatus, `❌ ${error instanceof Error ? error.message : 'Erreur inconnue.'}`, 'error');
+    }
+  }
+
+  async function deleteTestimonial(index) {
+    if (!Number.isInteger(index)) return;
+    if (!confirm('Supprimer ce témoignage ?')) return;
+    const updated = [...state.testimonials.data];
+    updated.splice(index, 1);
+    try {
+      const response = await updateFile(
+        'data/testimonials.json',
+        updated,
+        state.testimonials.sha,
+        'Suppression témoignage depuis admin'
+      );
+      state.testimonials.data = updated;
+      state.testimonials.sha = response.content.sha;
+      resetTestimonialForm();
+      renderTestimonialList();
+      setStatus(elements.testimonialStatus, '✅ Témoignage supprimé.', 'success');
+    } catch (error) {
+      console.error(error);
+      setStatus(elements.testimonialStatus, `❌ ${error instanceof Error ? error.message : 'Erreur inconnue.'}`, 'error');
     }
   }
 
@@ -384,7 +805,7 @@
     toggleFormDisabled(elements.productForm, true);
     setStatus(elements.productStatus, 'Traitement en cours…');
 
-    async function finalize(data) {
+    const finalize = async (data) => {
       try {
         const response = await updateFile(
           'data/products.json',
@@ -404,26 +825,22 @@
       } finally {
         toggleFormDisabled(elements.productForm, false);
       }
-    }
+    };
 
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        try {
-          const base64 = reader.result.split(',')[1];
-          await uploadBinaryFile(
-            imagePath,
-            base64,
-            `Mise à jour image ${file.name}`
-          );
-          await finalize(updated);
-        } catch (error) {
-          console.error(error);
-          toggleFormDisabled(elements.productForm, false);
-          setStatus(elements.productStatus, `❌ ${error instanceof Error ? error.message : 'Erreur inconnue.'}`, 'error');
-        }
-      };
-      reader.readAsDataURL(file);
+      try {
+        const base64 = await readFileAsBase64(file);
+        await uploadBinaryFile(
+          imagePath,
+          base64,
+          `Mise à jour image ${file.name}`
+        );
+        await finalize(updated);
+      } catch (error) {
+        console.error(error);
+        toggleFormDisabled(elements.productForm, false);
+        setStatus(elements.productStatus, `❌ ${error instanceof Error ? error.message : 'Erreur inconnue.'}`, 'error');
+      }
     } else {
       await finalize(updated);
     }
@@ -480,6 +897,7 @@
       state.projects.data = updated;
       state.projects.sha = response.content.sha;
       renderProjectList();
+      updateFeaturedOptions();
       resetProjectForm();
       setStatus(elements.projectStatus, '✅ Projet enregistré avec succès.', 'success');
     } catch (error) {
@@ -487,6 +905,238 @@
       setStatus(elements.projectStatus, `❌ ${error instanceof Error ? error.message : 'Erreur inconnue.'}`, 'error');
     } finally {
       toggleFormDisabled(elements.projectForm, false);
+    }
+  }
+
+  async function handleFreebieSubmit(event) {
+    event.preventDefault();
+    if (!elements.freebieForm) return;
+
+    const previewFile = elements.freebieForm.freebiePreview.files[0];
+    const file = elements.freebieForm.freebieFile.files[0];
+    const previewPath = elements.freebieForm.freebiePreviewPath.value.trim() || (previewFile ? `images/freebies/${previewFile.name}` : 'images/doc.jpg');
+    const downloadPath = elements.freebieForm.freebieFilePath.value.trim() || (file ? `files/freebies/${file.name}` : '');
+
+    const freebie = {
+      slug: elements.freebieForm.freebieSlug.value.trim(),
+      title: elements.freebieForm.freebieTitle.value.trim(),
+      description: elements.freebieForm.freebieDescription.value.trim(),
+      format: elements.freebieForm.freebieFormat.value,
+      preview: previewPath,
+      download: downloadPath
+    };
+
+    if (!freebie.slug || !freebie.title || !freebie.description || !freebie.download) {
+      setStatus(elements.freebieStatus, '❌ Slug, titre, description et fichier de téléchargement sont obligatoires.', 'error');
+      return;
+    }
+
+    const updated = [...state.freebies.data];
+    if (state.freebies.editIndex !== null && state.freebies.editIndex >= 0) {
+      updated[state.freebies.editIndex] = freebie;
+    } else {
+      updated.push(freebie);
+    }
+
+    toggleFormDisabled(elements.freebieForm, true);
+    setStatus(elements.freebieStatus, 'Téléversement en cours…');
+
+    const uploads = [];
+    if (previewFile && previewPath) {
+      uploads.push(
+        readFileAsBase64(previewFile).then((base64) => uploadBinaryFile(
+          previewPath,
+          base64,
+          `Mise à jour vignette ${previewFile.name}`
+        ))
+      );
+    }
+    if (file && downloadPath) {
+      uploads.push(
+        readFileAsBase64(file).then((base64) => uploadBinaryFile(
+          downloadPath,
+          base64,
+          `Mise à jour fichier ${file.name}`
+        ))
+      );
+    }
+
+    try {
+      await Promise.all(uploads);
+      const response = await updateFile(
+        'data/freebies.json',
+        updated,
+        state.freebies.sha,
+        'Mise à jour freebies depuis admin'
+      );
+      state.freebies.data = updated;
+      state.freebies.sha = response.content.sha;
+      renderFreebieList();
+      resetFreebieForm();
+      setStatus(elements.freebieStatus, '✅ Ressource enregistrée avec succès.', 'success');
+    } catch (error) {
+      console.error(error);
+      setStatus(elements.freebieStatus, `❌ ${error instanceof Error ? error.message : 'Erreur inconnue.'}`, 'error');
+    } finally {
+      toggleFormDisabled(elements.freebieForm, false);
+    }
+  }
+
+  async function handleServiceSubmit(event) {
+    event.preventDefault();
+    if (!elements.serviceForm) return;
+
+    const imageFile = elements.serviceForm.serviceImage.files[0];
+    const imagePath = elements.serviceForm.serviceImagePath.value.trim() || (imageFile ? `images/services/${imageFile.name}` : '');
+
+    const service = {
+      slug: elements.serviceForm.serviceSlug.value.trim(),
+      title: elements.serviceForm.serviceTitle.value.trim(),
+      icon: elements.serviceForm.serviceIcon.value.trim(),
+      tagline: elements.serviceForm.serviceTagline.value.trim(),
+      summary: elements.serviceForm.serviceSummary.value.trim(),
+      details: elements.serviceForm.serviceDetails.value.trim(),
+      price: elements.serviceForm.servicePrice.value.trim(),
+      turnaround: elements.serviceForm.serviceTurnaround.value.trim(),
+      deliverables: elements.serviceForm.serviceDeliverables.value
+        .split('\n')
+        .map((item) => item.trim())
+        .filter(Boolean),
+      tools: elements.serviceForm.serviceTools.value
+        .split('\n')
+        .map((item) => item.trim())
+        .filter(Boolean),
+      image: imagePath,
+      cta: elements.serviceForm.serviceCta.value.trim(),
+      ctaLink: elements.serviceForm.serviceCtaLink.value.trim()
+    };
+
+    if (!service.slug || !service.title || !service.summary || !service.details) {
+      setStatus(elements.serviceStatus, '❌ Slug, titre, résumé et détails sont obligatoires.', 'error');
+      return;
+    }
+
+    const updated = [...state.services.data];
+    if (state.services.editIndex !== null && state.services.editIndex >= 0) {
+      updated[state.services.editIndex] = service;
+    } else {
+      updated.push(service);
+    }
+
+    toggleFormDisabled(elements.serviceForm, true);
+    setStatus(elements.serviceStatus, 'Traitement en cours…');
+
+    const uploads = [];
+    if (imageFile && imagePath) {
+      uploads.push(
+        readFileAsBase64(imageFile).then((base64) => uploadBinaryFile(
+          imagePath,
+          base64,
+          `Mise à jour image service ${imageFile.name}`
+        ))
+      );
+    }
+
+    try {
+      await Promise.all(uploads);
+      const response = await updateFile(
+        'data/services.json',
+        updated,
+        state.services.sha,
+        'Mise à jour services depuis admin'
+      );
+      state.services.data = updated;
+      state.services.sha = response.content.sha;
+      renderServiceList();
+      resetServiceForm();
+      setStatus(elements.serviceStatus, '✅ Service enregistré avec succès.', 'success');
+    } catch (error) {
+      console.error(error);
+      setStatus(elements.serviceStatus, `❌ ${error instanceof Error ? error.message : 'Erreur inconnue.'}`, 'error');
+    } finally {
+      toggleFormDisabled(elements.serviceForm, false);
+    }
+  }
+
+  async function handleTestimonialSubmit(event) {
+    event.preventDefault();
+    if (!elements.testimonialForm) return;
+
+    const testimonial = {
+      quote: elements.testimonialForm.testimonialQuote.value.trim(),
+      author: elements.testimonialForm.testimonialAuthor.value.trim(),
+      role: elements.testimonialForm.testimonialRole.value.trim()
+    };
+
+    if (!testimonial.quote || !testimonial.author) {
+      setStatus(elements.testimonialStatus, '❌ Citation et auteur sont obligatoires.', 'error');
+      return;
+    }
+
+    const updated = [...state.testimonials.data];
+    if (state.testimonials.editIndex !== null && state.testimonials.editIndex >= 0) {
+      updated[state.testimonials.editIndex] = testimonial;
+    } else {
+      updated.push(testimonial);
+    }
+
+    toggleFormDisabled(elements.testimonialForm, true);
+    setStatus(elements.testimonialStatus, 'Traitement en cours…');
+
+    try {
+      const response = await updateFile(
+        'data/testimonials.json',
+        updated,
+        state.testimonials.sha,
+        'Mise à jour témoignages depuis admin'
+      );
+      state.testimonials.data = updated;
+      state.testimonials.sha = response.content.sha;
+      renderTestimonialList();
+      resetTestimonialForm();
+      setStatus(elements.testimonialStatus, '✅ Témoignage enregistré avec succès.', 'success');
+    } catch (error) {
+      console.error(error);
+      setStatus(elements.testimonialStatus, `❌ ${error instanceof Error ? error.message : 'Erreur inconnue.'}`, 'error');
+    } finally {
+      toggleFormDisabled(elements.testimonialForm, false);
+    }
+  }
+
+  async function handleSettingsSubmit(event) {
+    event.preventDefault();
+    if (!elements.settingsForm) return;
+
+    const data = {
+      featuredProject: elements.featuredSelect?.value?.trim() || '',
+      testimonialRotation: elements.testimonialRotation ? elements.testimonialRotation.checked : true,
+      testimonialInterval: elements.testimonialInterval ? Number(elements.testimonialInterval.value) || 8000 : 8000
+    };
+
+    if (data.testimonialInterval < 3000) {
+      setStatus(elements.settingsStatus, '❌ L’intervalle doit être supérieur à 3000 ms.', 'error');
+      return;
+    }
+
+    toggleFormDisabled(elements.settingsForm, true);
+    setStatus(elements.settingsStatus, 'Sauvegarde en cours…');
+
+    try {
+      const response = await updateFile(
+        'data/settings.json',
+        data,
+        state.settings.sha,
+        'Mise à jour options interface depuis admin'
+      );
+      state.settings.data = data;
+      state.settings.sha = response.content.sha;
+      renderProjectList();
+      setStatus(elements.settingsStatus, '✅ Options mises à jour.', 'success');
+    } catch (error) {
+      console.error(error);
+      setStatus(elements.settingsStatus, `❌ ${error instanceof Error ? error.message : 'Erreur inconnue.'}`, 'error');
+    } finally {
+      toggleFormDisabled(elements.settingsForm, false);
     }
   }
 
@@ -517,7 +1167,10 @@
       elements.authPanel?.classList.add('hidden');
       elements.adminContent?.classList.remove('hidden');
       elements.adminContent?.setAttribute('aria-hidden', 'false');
+
       await Promise.all([loadProducts(), loadProjects()]);
+      await Promise.all([loadFreebies(), loadServices(), loadTestimonials()]);
+      await loadSettings();
     } catch (error) {
       console.error(error);
       setStatus(elements.authStatus, `❌ ${error instanceof Error ? error.message : 'Impossible de vérifier le token.'}`, 'error');
@@ -543,6 +1196,39 @@
     if (elements.projectCancel) {
       elements.projectCancel.addEventListener('click', () => {
         resetProjectForm();
+      });
+    }
+    if (elements.freebieForm) {
+      elements.freebieForm.addEventListener('submit', handleFreebieSubmit);
+    }
+    if (elements.freebieCancel) {
+      elements.freebieCancel.addEventListener('click', () => {
+        resetFreebieForm();
+      });
+    }
+    if (elements.serviceForm) {
+      elements.serviceForm.addEventListener('submit', handleServiceSubmit);
+    }
+    if (elements.serviceCancel) {
+      elements.serviceCancel.addEventListener('click', () => {
+        resetServiceForm();
+      });
+    }
+    if (elements.testimonialForm) {
+      elements.testimonialForm.addEventListener('submit', handleTestimonialSubmit);
+    }
+    if (elements.testimonialCancel) {
+      elements.testimonialCancel.addEventListener('click', () => {
+        resetTestimonialForm();
+      });
+    }
+    if (elements.settingsForm) {
+      elements.settingsForm.addEventListener('submit', handleSettingsSubmit);
+    }
+    if (elements.settingsCancel) {
+      elements.settingsCancel.addEventListener('click', () => {
+        applySettingsForm();
+        setStatus(elements.settingsStatus, 'Réinitialisé aux dernières valeurs enregistrées.');
       });
     }
   }
