@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <linearGradient id="if2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#181d44" />
+      <stop offset="100%" stop-color="#9f72ff" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" rx="28" fill="url(#if2)" />
+  <g fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="180" y="120" width="280" height="200" rx="24" opacity="0.9" />
+    <path d="M220 180h200" />
+    <path d="M220 220h160" opacity="0.7" />
+    <path d="M220 260h120" opacity="0.5" />
+    <path d="M320 120v200" opacity="0.5" />
+    <circle cx="220" cy="180" r="20" />
+    <circle cx="380" cy="220" r="18" />
+  </g>
+  <text x="50%" y="360" text-anchor="middle" fill="#ffffff" font-size="32" font-family="'Segoe UI',sans-serif">Détails du pupitre tactile</text>
+</svg>
