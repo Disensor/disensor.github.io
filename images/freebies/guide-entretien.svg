@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+  <defs>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a1838" />
+      <stop offset="100%" stop-color="#1f3d99" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="480" fill="url(#g2)" rx="32" />
+  <g fill="#f4f7ff" font-family="'Segoe UI',sans-serif" text-anchor="middle">
+    <text x="50%" y="40%" font-size="52" font-weight="600">Guide entretien</text>
+    <text x="50%" y="55%" font-size="32">Check-list de maintenance</text>
+  </g>
+  <g fill="none" stroke="#8ab4ff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity="0.9">
+    <rect x="180" y="160" width="280" height="200" rx="18" />
+    <path d="M220 210h200M220 250h160M220 290h120" />
+    <path d="M420 320l26 26 46-62" stroke="#31d89f" />
+  </g>
+</svg>
