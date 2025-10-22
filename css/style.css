@@ -537,25 +537,7 @@ main.shop-container {
 }
 
 .filters {
-  margin: 24px 0 8px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.filters label {
-  font-weight: 600;
-  color: var(--color-bg-medium);
-}
-
-.filters select {
-  padding: 10px 16px;
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-  font-size: 1rem;
-  background: var(--color-surface);
-  color: var(--color-text-dark);
-  box-shadow: 0 10px 24px rgba(10, 24, 56, 0.1);
+margin: 24px 0 16px;
 }
 
 section.products {
@@ -1117,10 +1099,10 @@ hr {
 }
 
 .filters-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  align-items: end;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: stretch;
 }
 
 .filter-field {
@@ -1129,6 +1111,8 @@ hr {
   gap: 8px;
   font-weight: 600;
   color: var(--color-bg-medium);
+  flex: 1 1 220px;
+  min-width: min(260px, 100%);
 }
 
 .filter-field input,
@@ -1144,6 +1128,21 @@ hr {
 .filter-field output {
   font-size: 0.95rem;
   color: var(--color-text-muted);
+}
+
+.filter-field input[type="range"] + output {
+  align-self: flex-end;
+}
+
+@media (max-width: 640px) {
+  .filters-grid {
+    gap: 16px;
+  }
+
+  .filter-field {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
 }
 
 .products .product-card {
