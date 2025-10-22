@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Services professionnels : CAO, impression 3D, études mécaniques et maintenance.">
+  <meta name="description" content="Accompagnement CAO, impression 3D, études mécaniques et automatisation en Nouvelle-Aquitaine.">
   <title>Services - 3DPANNE</title>
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/style.css">
@@ -11,12 +11,88 @@
 </head>
 <body>
 
- <div data-include="includes/header.html"></div>
+<div data-include="includes/header.html"></div>
 
-  <main class="page-content">
-    <section class="services-intro">
-      <h2>💼 Nos services professionnels</h2>
-      <p>Nous intervenons à distance ou sur site autour de La Rochelle pour la conception, la réparation
-        et l’industrialisation de pièces techniques. Chaque accompagnement est dimensionné sur mesure.
-        Découvrez nos offres principales ci-dessous.</p>
-    </section>
+<main class="page-content services-page">
+  <section class="page-hero">
+    <p class="eyebrow">Services 3DPANNE</p>
+    <h1>Prolongez la vie de vos équipements</h1>
+    <p class="lead">Modélisation, impression 3D, rétrofit et automatisation pour les industriels, maintenance et makers exigeants.
+      Nous intervenons autour de La Rochelle et à distance avec un accompagnement documenté.</p>
+    <div class="hero-actions">
+      <a href="commandes.html" class="cta-button">Discuter de mon besoin</a>
+      <a href="savoir-faire.html" class="button-secondary">Voir les équipements</a>
+    </div>
+  </section>
+
+  <section class="services-cards" aria-live="polite" aria-busy="true">
+    <h2>💼 Nos expertises</h2>
+    <div class="services-grid" data-services>
+      <div class="loading">Chargement des services…</div>
+    </div>
+  </section>
+
+  <section class="services-process">
+    <h2>Notre méthode en 4 étapes</h2>
+    <ol class="process-steps">
+      <li>
+        <strong>Diagnostic détaillé.</strong>
+        <span>Visio, photos ou visite sur site pour comprendre les contraintes.</span>
+      </li>
+      <li>
+        <strong>Proposition transparente.</strong>
+        <span>Compte-rendu, devis, planning et livrables attendus.</span>
+      </li>
+      <li>
+        <strong>Production & suivi.</strong>
+        <span>Points d’avancement, prototypage rapide, itérations documentées.</span>
+      </li>
+      <li>
+        <strong>Livraison maîtrisée.</strong>
+        <span>Pièces ou fichiers testés, guide d’utilisation et support post-projet.</span>
+      </li>
+    </ol>
+  </section>
+
+  <section class="services-highlights">
+    <div>
+      <h2>📋 Ce que vous obtenez</h2>
+      <ul>
+        <li>Livrables normés (plans, fichiers CAO, rapports PDF).</li>
+        <li>Option de confidentialité & signature NDA sur demande.</li>
+        <li>Support par e-mail ou téléphone sous 24&nbsp;h ouvrées.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>🛠️ Outils & matériaux</h2>
+      <ul>
+        <li>Parc impression 3D FDM, résine et TPU.</li>
+        <li>Logiciels CAO : SolidWorks, Fusion 360, Onshape.</li>
+        <li>Résines techniques, PLA+, PETG, PA12, composites.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="services-cta">
+    <div class="cta-text">
+      <h2>Prêt à lancer votre projet ?</h2>
+      <p>Expliquez-nous votre besoin via le formulaire de commande ou programmez un appel découverte. Nous revenons vers vous avec une proposition claire.</p>
+      <div class="cta-actions">
+        <a href="commandes.html" class="cta-button">Passer commande</a>
+        <a href="contact.html" class="button-secondary">Programmer un appel</a>
+      </div>
+    </div>
+    <div class="cta-aside">
+      <h3>Besoin d’un exemple ?</h3>
+      <p>Découvrez comment nous avons prolongé la durée de vie de lignes de production grâce à des pièces imprimées sur-mesure.</p>
+      <a class="button-tertiary" href="projects.html">Voir les projets</a>
+    </div>
+  </section>
+</main>
+
+<div data-include="includes/footer.html"></div>
+<script src="scripts/include.js"></script>
+<script src="scripts/site.js"></script>
+</body>
+</html>
+shop.html
