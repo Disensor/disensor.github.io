@@ -1,26 +1,46 @@
 [
   {
-    "question": "Quels fichiers fournissez-vous ?",
-    "answer": "Nous livrons les formats demandés (STL, STEP, PDF, DXF…). Les projets de conception incluent un rapport de validation et, si nécessaire, les fichiers source natifs." 
+    "question": "📁 Quels fichiers fournissez-vous ?",
+    "answer": "Nous livrons les formats nécessaires à l’impression ou à la modification :\n• STL (impression 3D)\n• STEP (modélisation modifiable)\n• PDF ou DXF (plans)\n• Fichier natif FreeCAD (open source)\n\n➡️ Aucun rapport de validation ou plan de fabrication n’est fourni sauf demande spécifique."
   },
   {
-    "question": "Quels sont vos délais moyens ?",
-    "answer": "Une commande standard de fichier est livrée sous 2 à 3 jours ouvrés. Pour un projet sur mesure, compte 1 à 2 semaines selon la complexité. Nous t’informons du planning précis lors du devis." 
+    "question": "⏱️ Quels sont vos délais moyens ?",
+    "answer": "• Fichiers standards : 2 à 3 jours ouvrés\n• Création sur mesure : 1 à 2 semaines selon la complexité\n\n📌 Tu reçois un planning précis lors de la validation du devis."
   },
   {
-    "question": "Puis-je demander des ajustements ?",
-    "answer": "Oui, chaque commande inclut un aller-retour de corrections léger. Pour des modifications importantes, nous proposons un avenant transparent." 
+    "question": "🛠️ Puis-je demander des ajustements après livraison ?",
+    "answer": "Oui ✅ Un aller-retour de correction simple est inclus.\n🔁 En cas de modifications importantes ou nouvelles contraintes, un devis complémentaire est proposé en toute transparence."
   },
   {
-    "question": "Comment se passe le paiement ?",
-    "answer": "Nous envoyons une facture payable par virement, carte bancaire sécurisée ou PayPal. Les fichiers sont transmis après réception du paiement." 
+    "question": "💳 Comment se passe le paiement ?",
+    "answer": "Tu reçois une facture à régler :\n• Par virement bancaire\n• Par Wero\n• Par PayPal\n\n📥 Les fichiers sont envoyés dès réception du paiement."
   },
   {
-    "question": "Livrez-vous à l’international ?",
-    "answer": "Oui pour les fichiers numériques. Les pièces physiques sont expédiées depuis la France métropolitaine avec suivi." 
+    "question": "🌍 Livrez-vous à l’international ?",
+    "answer": "✅ Oui pour tous les fichiers numériques.\n📦 Les pièces imprimées physiquement sont envoyées depuis la France métropolitaine, avec suivi."
   },
   {
-    "question": "Que faire si je n’ai pas de plan ?",
-    "answer": "Pas de souci ! Nous pouvons partir de photos, croquis, ou de la pièce cassée. Pense à mesurer les dimensions principales ou nous envoyer l’objet." 
+    "question": "❓ Que faire si je n’ai pas de plan ou de fichier ?",
+    "answer": "Aucun souci !\nTu peux nous transmettre :\n• Une photo ou croquis\n• Une pièce cassée ou à modifier\n• Les dimensions clés\n\n📐 Nous recréons le fichier à partir d'une idée."
+  },
+  {
+    "question": "📄 Quelles infos donner pour un projet sur mesure ?",
+    "answer": "✅ Voici ce qu’il est utile de préciser :\n• À quoi sert la pièce\n• Dimensions et tolérances si connues\n• Contrainte : température, choc, extérieur, effort mécanique ?\n• Doit-elle s’adapter à une autre pièce ?\n\n🧠 Plus tu donnes de détails, plus la pièce sera fidèle à ton besoin."
+  },
+  {
+    "question": "🛒 Puis-je acheter un fichier immédiatement en ligne ?",
+    "answer": "Pas encore. Pour l’instant :\n• Tu choisis la référence ou tu décris ton besoin\n• Nous échangeons par mail\n• Tu reçois une facture et le fichier après règlement\n\n🧾 Une boutique avec paiement direct est en préparation !"
+  },
+  {
+    "question": "📬 Comment vous contacter ?",
+    "answer": "Tu peux utiliser le formulaire de contact sur le site.\n📧 N’oublie d’indiquer :\n• Ton adresse mail\n• La référence ou description du fichier\n• Et ton besoin précis (commande ou simple info)."
+  },
+  {
+    "question": "👨‍🔧 Que propose 3DPANNE exactement ?",
+    "answer": "• Modélisation 3D de pièces sur mesure 🧩\n• Création de fichiers à imprimer soi-même\n• Fourniture de pièces imprimées à la demande (unitaire ou série)\n• Réparation, personnalisation, remplacement"
+  },
+  {
+    "question": "📦 Que puis-je réparer ou améliorer ?",
+    "answer": "Des centaines d’usages ! Exemples :\n• ⚙️ Coulisseau ou poignée cassée\n• 🚐 Pièce de camping-car, caravane, bateau\n• 📷 Fixation caméra, support téléphone\n• 🚗 Élément intérieur de voiture\n• 🏠 Accessoire maison, mode, électroménager\n\n➡️ Tout est modifiable, sur mesure et réimprimable !"
   }
 ]
