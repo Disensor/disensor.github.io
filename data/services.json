@@ -49,20 +49,20 @@
     "title": "Impression 3D professionnelle",
     "icon": "🖨️",
     "tagline": "Production de pièces prêtes à être montées",
-    "summary": "Pièces sur-mesure en PLA+, PETG, TPU ou résine technique.",
-    "details": "Nous gérons la préparation, l’orientation, l’impression et le contrôle qualité. Option de post-traitement, peinture ou assemblage.",
+    "summary": "Pièces sur-mesure en PLA, PLA+, PETG, TPU ou matériau spécifique sur demande. Monocolore.",
+    "details": "Nous gérons la préparation, l’orientation, l’impression et le contrôle qualité. Option de post-traitement, inserts filetés ou assemblage à venir.",
     "price": "Devis personnalisé",
     "turnaround": "48 h à 7 jours",
     "deliverables": [
       "Pièces imprimées prêtes à monter",
-      "Fiche de réglages et matériaux",
-      "Option de conditionnement professionnel"
+      "Documentation d'étude, réglage, assemblage",
+      "Conditionnement",
+      "Expédition"
     ],
     "tools": [
-      "Creality Ender 3",
-      "Anycubic Photon",
-      "Bambu Lab X1"
+      "Creality Ender 3"
     ],
+    "image": "",
     "cta": "Obtenir un tarif",
     "ctaLink": "commandes.html?type=impression"
   },
