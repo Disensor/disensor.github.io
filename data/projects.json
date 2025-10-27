@@ -20,8 +20,10 @@
     ],
     "cta": "Commander une pièce similaire",
     "ctaLink": "commandes.html?type=remplacement"
-  }
+  },
 
+
+  
   {
     "id": "proj-hobbytech-bx10",
     "title": "Réparation d’un triangle avant de voiture RC Hobbytech Survolt BX10",
@@ -47,6 +49,10 @@
     "cta": "Commander une pièce RC similaire",
     "ctaLink": "commandes.html?type=rc"
   },
+
+
+
+  
   {
     "id": "proj-hotte-smeg",
     "title": "Modélisation d’un cache lumière de hotte aspirante SMEG",
@@ -69,6 +75,10 @@
     "cta": "Commander une pièce de hotte sur mesure",
     "ctaLink": "commandes.html?type=hotte"
   },
+
+
+
+  
   {
     "id": "proj-bouton-fagor",
     "title": "Bouton de lave-vaisselle Fagor renforcé",
