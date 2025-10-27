@@ -25,8 +25,8 @@
     "title": "Étude mécanique & prototypage",
     "icon": "⚙️",
     "tagline": "Réaliser un projet",
-    "summary": "Conseils techniques, choix des matériaux, simulations simples et prototypage rapide.",
-    "details": "Analyse fonctionnelle, dimensionnement, revue de conception, création de prototypes fonctionnels avec rapport synthétique.",
+    "summary": "Conseils techniques, choix des matériaux, simulations simples et prototypage rapide. Inspection du besoin, reverse engineering, conception sur-mesure.",
+    "details": "Analyse fonctionnelle, dimensionnement, revue de conception, création de prototypes fonctionnels. Remplacement de pièces introuvables, adaptation sur machines existantes.",
     "price": "Sur devis uniquement",
     "turnaround": "1 à 3 semaines",
     "deliverables": [
