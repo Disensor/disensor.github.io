@@ -21,4 +21,74 @@
     "cta": "Commander une pièce similaire",
     "ctaLink": "commandes.html?type=remplacement"
   }
+
+  {
+    "id": "proj-hobbytech-bx10",
+    "title": "Réparation d’un triangle avant de voiture RC Hobbytech Survolt BX10",
+    "thumbnail": "images/projects/hobbytech-card.jpg",
+    "gallery": [
+      "images/projects/hobbytech-1.jpg",
+      "images/projects/hobbytech-2.jpg",
+      "images/projects/hobbytech-3.jpg"
+    ],
+    "summary": "Reconstitution complète d’un triangle de suspension avant gauche sur un buggy Hobbytech Survolt BX10 accidenté.",
+    "description": "Suite à un choc, le triangle avant gauche de la voiture RC Hobbytech Survolt BX10 était cassé et introuvable en pièce détachée. Nous avons procédé à la reconstitution complète de la pièce à partir des éléments restants. Les cotes ont été relevées manuellement, puis modélisées en 3D sous FreeCAD. Un premier prototype a été imprimé en PLA afin de valider les ajustements mécaniques et les tolérances de montage. Après corrections, la version finale a été produite en PLA+ puis en PETG pour une meilleure résistance. Une étude d’amélioration est en cours pour un modèle renforcé en composite.",
+    "highlights": [
+      "Mesure manuelle et reconstitution à partir d’une pièce d’origine cassée",
+      "Modélisation CAO complète sur FreeCAD",
+      "Prototypage en PLA puis version finale en PLA+ et PETG",
+      "Projet évolutif : étude d’un renfort structurel"
+    ],
+    "services": [
+      "Rétro-conception",
+      "Modélisation 3D",
+      "Impression 3D"
+    ],
+    "cta": "Commander une pièce RC similaire",
+    "ctaLink": "commandes.html?type=rc"
+  },
+  {
+    "id": "proj-hotte-smeg",
+    "title": "Modélisation d’un cache lumière de hotte aspirante SMEG",
+    "thumbnail": "images/projects/hotte-card.jpg",
+    "gallery": [
+      "images/projects/hotte-1.jpg",
+      "images/projects/hotte-2.jpg"
+    ],
+    "summary": "Reproduction fidèle d’un cache de hotte SMEG des années 2000, pièce d’origine usée et introuvable.",
+    "description": "Une cliente possédant une hotte encastrée SMEG ancienne génération avait un cache lumière cassé et déformé par le temps. Nous avons modélisé en 3D la pièce dans ses deux positions (ouverte et fermée) à partir de la pièce abîmée. Le fichier source, le modèle 3D et les plans techniques ont été fournis pour impression et archivage. Le design a été optimisé pour durer davantage que la pièce d’origine.",
+    "highlights": [
+      "Relevé de cotes sur pièce usée et modélisation fidèle",
+      "Création de deux configurations (ouverte / fermée)",
+      "Export des fichiers STEP, STL et mise en plan PDF"
+    ],
+    "services": [
+      "Modélisation 3D",
+      "Rétro-ingénierie"
+    ],
+    "cta": "Commander une pièce de hotte sur mesure",
+    "ctaLink": "commandes.html?type=hotte"
+  },
+  {
+    "id": "proj-bouton-fagor",
+    "title": "Bouton de lave-vaisselle Fagor renforcé",
+    "thumbnail": "images/projects/bouton-card.jpg",
+    "gallery": [
+      "images/projects/bouton-1.jpg",
+      "images/projects/bouton-2.jpg"
+    ],
+    "summary": "Conception et impression d’un bouton de lave-vaisselle Fagor renforcé, après rupture du modèle d’origine.",
+    "description": "Une cliente nous a contactés après la casse du bouton de commande de son lave-vaisselle Fagor, fragilisé par un plastique trop fin. Nous avons modélisé une nouvelle version plus épaisse et résistante, imprimée en PLA pour validation. Le résultat s’est avéré parfaitement fonctionnel dès le premier essai, et plusieurs exemplaires de rechange ont été produits pour constituer un stock de pièces de secours.",
+    "highlights": [
+      "Analyse de la rupture et renforcement du design",
+      "Impression d’un prototype fonctionnel en PLA",
+      "Livraison de plusieurs exemplaires de rechange"
+    ],
+    "services": [
+      "Modélisation CAO",
+      "Impression 3D"
+    ],
+    "cta": "Commander une pièce électroménager similaire",
+    "ctaLink": "commandes.html?type=electromenager"
+  }
 ]
