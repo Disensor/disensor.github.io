@@ -70,21 +70,20 @@
     "title": "Maintenance & rétrofit",
     "icon": "🔧",
     "tagline": "Remettre en service une machine ou un outillage",
-    "summary": "Remplacement de pièces introuvables, adaptation sur machines existantes, amélioration continue.",
-    "details": "Inspection du besoin, reverse engineering, documentation de montage et recommandations d’utilisation.",
+    "summary": "Remplacement de pièces introuvables, adaptation sur machines existantes.",
+    "details": "Inspection du besoin, reverse engineering, conception sur-mesure.",
     "price": "Projet sur devis",
     "turnaround": "Planning défini ensemble",
     "deliverables": [
       "Audit et plan d’action",
-      "Pièces adaptées ou fichiers",
-      "Guide d’entretien et checklist"
+      "Pièces adaptées ou fichiers"
     ],
     "tools": [
-      "Analyse vibratoire",
       "Mesures manuelles",
       "CAO 3D"
     ],
-    "cta": "Parler d’un retrofit",
+    "image": "",
+    "cta": "Créer ma pièce",
     "ctaLink": "commandes.html?type=maintenance"
   }
 ]
