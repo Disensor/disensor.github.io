@@ -20,27 +20,5 @@
     ],
     "cta": "Commander une pièce similaire",
     "ctaLink": "commandes.html?type=remplacement"
-  },
-  {
-    "id": "proj-interface-hmi",
-    "title": "Modernisation d’une interface opérateur",
-    "summary": "Conception d’un pupitre tactile robuste et documenté pour une ligne semi-automatisée.",
-    "thumbnail": "images/projects/interface-card.svg",
-    "description": "Réalisation d’une interface homme-machine sur mesure : étude des flux, intégration d’un écran industriel, création du boîtier imprimé en 3D et câblage complet. Livraison d’une documentation opérateur et maintenance.",
-    "highlights": [
-      "Audit ergonomique et électrique",
-      "Boîtier sur-mesure résistant en PETG",
-      "Documentation PDF + formation opérateur"
-    ],
-    "services": [
-      "Étude mécanique",
-      "Automatisation"
-    ],
-    "gallery": [
-      "images/projects/interface-detail.svg",
-      "images/projects/interface-install.svg"
-    ],
-    "cta": "Discuter d’une modernisation",
-    "ctaLink": "commandes.html?type=automatisation"
   }
 ]
