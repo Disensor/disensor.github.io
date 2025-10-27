@@ -25,21 +25,22 @@
     "slug": "etude-meca",
     "title": "Étude mécanique & prototypage",
     "icon": "⚙️",
-    "tagline": "Sécuriser un projet avant production",
+    "tagline": "Réaliser un projet",
     "summary": "Conseils techniques, choix des matériaux, simulations simples et prototypage rapide.",
     "details": "Analyse fonctionnelle, dimensionnement, revue de conception, création de prototypes fonctionnels avec rapport synthétique.",
-    "price": "À partir de 40 € / h",
+    "price": "Sur devis uniquement",
     "turnaround": "1 à 3 semaines",
     "deliverables": [
       "Note de calcul simplifiée",
-      "Plan d’assemblage et éclatés",
+      "Plan et éclatés",
       "Prototype fonctionnel et retour d’expérience"
     ],
     "tools": [
-      "SolidWorks Simulation",
-      "Inventor",
+      "FreeCAD",
+      "LibreCAD",
       "Excel avancé"
     ],
+    "image": "",
     "cta": "Planifier un appel",
     "ctaLink": "commandes.html?type=etude"
   },
