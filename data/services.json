@@ -3,21 +3,20 @@
     "slug": "cao",
     "title": "Modélisation & assistance CAO",
     "icon": "🧠",
-    "tagline": "Fichiers 3D fiables pour fabrication et documentation",
-    "summary": "Création, adaptation ou réparation de vos fichiers 3D (STL, STEP, SolidWorks).",
-    "details": "Nous modélisons ou ajustons vos fichiers 3D pour l’impression, la production ou l’intégration mécanique. Livrables natifs et échanges réguliers pour valider les itérations.",
-    "price": "À partir de 30 € / h",
+    "tagline": "Modèles 3D pour l'impression",
+    "summary": "Création, adaptation ou réparation de vos fichiers 3D (STL, STEP, DXF, PDF).",
+    "details": "Nous modélisons ou ajustons vos fichiers 3D pour l’impression, la découpe ou la gravure. Livrables sous différents formats avec suivi de l'avancement.",
+    "price": "Sur devis uniquement",
     "turnaround": "1 à 5 jours selon complexité",
     "deliverables": [
-      "Fichiers STL, STEP, DXF, PDF",
-      "Rapport de contrôle avec captures",
-      "Session de prise en main ou vidéos"
+      "Fichiers STL, STEP, DXF, PDF"
     ],
     "tools": [
-      "SolidWorks",
-      "Fusion 360",
-      "Onshape"
+      "FreeCAD",
+      "LibreCAD",
+      "Cura (Ultimaker)"
     ],
+    "image": "",
     "cta": "Demander un devis",
     "ctaLink": "commandes.html?type=cao"
   },
