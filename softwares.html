@@ -11,47 +11,75 @@
 <body class="softwares">
 <div data-include="includes/header.html"></div>
 
-<main>
-  <section class="hero">
-    <h1>🛠️ Nos logiciels professionnels</h1>
-    <p>Chez <strong>3DPANNE</strong>, nous utilisons uniquement des <strong>outils libres ou open source</strong> autorisés pour un usage professionnel et commercial. Cela garantit une transparence totale, une indépendance technologique, et une compatibilité avec vos besoins.</p>
+<main class="page-content softwares-page">
+  <section class="page-hero">
+    <p class="eyebrow">Suite logicielle</p>
+    <h1>Logiciels libres utilisés au quotidien</h1>
+    <p class="lead">Toutes nos prestations sont réalisées avec des outils open source éprouvés. Cela garantit la
+      transparence des fichiers, la pérennité de vos données et l’absence de coûts cachés liés aux licences.</p>
   </section>
 
-  <section class="tools-section">
-    <h2>🧰 1. CAO 3D Mécanique</h2>
-    <ul>
-      <li><strong>✅ FreeCAD</strong> – Modélisation paramétrique mécanique.<br>📦 Formats : STEP, STL, OBJ, DXF…<br>📜 Licence : LGPL (usage commercial autorisé).</li>
-      <li><strong>✅ SolveSpace</strong> – Léger, rapide, CAO 2D/3D minimaliste.<br>📦 Formats : STEP, STL, DXF<br>📜 Licence : GPL (vente autorisée).</li>
-    </ul>
+  <section class="software-overview">
+    <h2>Des outils adaptés à chaque étape</h2>
+    <div class="software-category-grid">
+      <article class="software-card">
+        <h3>CAO 3D mécanique</h3>
+        <ul>
+          <li><strong>FreeCAD</strong> – Modélisation paramétrique, assemblages mécaniques, plans TechDraw.</li>
+          <li><strong>SolveSpace</strong> – Études rapides et contraintes cinématiques légères.</li>
+        </ul>
+      </article>
+      <article class="software-card">
+        <h3>Plans & découpe 2D</h3>
+        <ul>
+          <li><strong>LibreCAD</strong> – Dessins normés DXF, gabarits de tôlerie.</li>
+          <li><strong>QCAD CE</strong> – Schémas d’implantation et documentation de montage.</li>
+        </ul>
+      </article>
+      <article class="software-card">
+        <h3>Préparation impression 3D</h3>
+        <ul>
+          <li><strong>Cura</strong> – Profils FDM multi-matériaux, support des machines clients.</li>
+          <li><strong>PrusaSlicer</strong> &amp; <strong>OrcaSlicer</strong> – Optimisation supports et contrôle du flux.</li>
+        </ul>
+      </article>
+      <article class="software-card">
+        <h3>Électronique & intégration</h3>
+        <ul>
+          <li><strong>KiCad</strong> – Cartes électroniques, nomenclatures et typons.</li>
+          <li><strong>Fritzing</strong> – Prototypage pédagogique et documentation câblage.</li>
+        </ul>
+      </article>
+      <article class="software-card">
+        <h3>Rendu & communication</h3>
+        <ul>
+          <li><strong>Blender</strong> – Visualisations photoréalistes et animations.</li>
+          <li><strong>OnlyOffice Docs</strong> – Guides PDF et comptes rendus illustrés.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
 
-    <h2>✏️ 2. CAO 2D / Dessin technique</h2>
-    <ul>
-      <li><strong>✅ LibreCAD</strong> – DAO 2D libre.<br>📦 Format : DXF<br>📜 Licence : GPL</li>
-      <li><strong>✅ QCAD CE</strong> – Version communautaire gratuite, interface moderne.<br>📜 Licence : GPL</li>
-    </ul>
-
-    <h2>💡 3. Électronique / PCB</h2>
-    <ul>
-      <li><strong>✅ KiCad</strong> – Conception de circuits imprimés, utilisé en industrie.<br>📜 Licence : GPL</li>
-      <li><strong>✅ Fritzing</strong> – Schémas électroniques simples.<br>📜 Licence : Creative Commons + GPL</li>
-    </ul>
-
-    <h2>🖨️ 4. Impression 3D / Trancheurs</h2>
-    <ul>
-      <li><strong>✅ PrusaSlicer</strong> – Trancheur complet et puissant.<br>📜 Licence : GPL</li>
-      <li><strong>✅ Cura</strong> – Intuitif, profils machines intégrés.<br>📜 Licence : LGPL</li>
-    </ul>
-
-    <h2>👁️ 5. Rendu & Visualisation</h2>
-    <ul>
-      <li><strong>✅ Blender</strong> – Rendu réaliste, animations, présentation de projets.<br>📜 Licence : GPL (vente des rendus autorisée)</li>
-      <li><strong>✅ FreeCAD Viewer</strong> – Lecture STEP/STL<br><strong>✅ GLC-Player</strong> – Visualiseur rapide</li>
+  <section class="software-policies">
+    <h2>Conformité & compatibilité</h2>
+    <ul class="software-policy-list">
+      <li>📄 <strong>Licences ouvertes</strong> : GPL, LGPL ou AGPL, compatibles avec la production commerciale.</li>
+      <li>🔁 <strong>Échanges facilités</strong> : export STEP, STL, DXF, SVG, Gerber et PDF sans perte.</li>
+      <li>🔒 <strong>Sécurité</strong> : stockage sur Nextcloud hébergé en France et sauvegardes chiffrées.</li>
+      <li>🧩 <strong>Interopérabilité</strong> : intégration avec vos outils (OnlyOffice, Mattermost, Matrix…).</li>
     </ul>
   </section>
 
-  <section class="call-to-action">
-    <h2>🔧 Besoin d’un devis ou d’un fichier ?</h2>
-    <p>Nous utilisons ces logiciels pour concevoir et produire des fichiers techniques personnalisés. N’hésitez pas à <a href="commandes.html">passer commande</a> ou à <a href="contact.html">nous contacter</a> pour toute question.</p>
+  <section class="software-cta">
+    <div class="software-cta__content">
+      <h2>Un besoin spécifique ?</h2>
+      <p>Nous pouvons préparer des profils d’impression, adapter des modèles FreeCAD existants ou livrer des
+        documentations complètes. Parlons-en.</p>
+      <div class="cta-actions">
+        <a href="commandes.html" class="cta-button">Passer commande</a>
+        <a href="contact.html" class="button-secondary">Contacter l’équipe</a>
+      </div>
+    </div>
   </section>
 </main>
 
