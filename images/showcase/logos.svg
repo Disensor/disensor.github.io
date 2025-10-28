@@ -7,9 +7,9 @@
   </defs>
   <rect width="720" height="320" rx="28" fill="url(#sc4)" />
   <g fill="#ffffff" font-family="'Segoe UI',sans-serif" font-weight="600" text-anchor="middle" font-size="42">
-    <text x="120" y="160">SolidWorks</text>
-    <text x="280" y="160">Fusion 360</text>
-    <text x="440" y="160">Onshape</text>
-    <text x="600" y="160">TwinCAT</text>
+    <text x="120" y="160">FreeCAD</text>
+    <text x="280" y="160">LibreCAD</text>
+    <text x="440" y="160">KiCad</text>
+    <text x="600" y="160">Cura</text>
   </g>
 </svg>
