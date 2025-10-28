@@ -140,17 +140,33 @@ function openAccessibleModal(modal, { initialFocus } = {}) {
         status.classList.remove('error', 'success');
       }
 
-      try {
+           try {
         const formData = new FormData(form);
-        const response = await fetch(form.action, {
+        const target = (() => {
+          try {
+            const url = new URL(form.action, window.location.href);
+            if (url.hostname === 'formsubmit.co' && !url.pathname.startsWith('/ajax/')) {
+              url.pathname = `/ajax${url.pathname}`;
+            }
+            return url.toString();
+          } catch (error) {
+            console.warn('URL de formulaire invalide, utilisation de l\'action telle quelle.', error);
+            return form.action;
+          }
+        })();
+        const response = await fetch(target, {
           method: form.method || 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: formData
+          headers: { Accept: 'application/json' },
+          body: formData,
+          mode: 'cors'
         });
 
         if (response.ok) {
           if (status) {
-            status.textContent = '✅ Merci ! Nous revenons vers toi sous 24 h.';
+            const hasDownload = Boolean(form.dataset.download);
+            status.textContent = hasDownload
+              ? '✅ Le téléchargement démarre et un e-mail de rappel vous est envoyé.'
+              : '✅ Merci ! Nous revenons vers vous sous 24 h.';
             status.classList.add('success');
           }
           if (form.dataset.store) {
@@ -175,6 +191,19 @@ function openAccessibleModal(modal, { initialFocus } = {}) {
             const field = form.querySelector(`[name="${CSS.escape(key)}"]`);
             if (field) field.value = value;
           });
+             if (form.dataset.download) {
+            try {
+              const link = document.createElement('a');
+              link.href = form.dataset.download;
+              link.rel = 'noopener';
+              link.setAttribute('download', '');
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            } catch (err) {
+              console.warn('Impossible de lancer le téléchargement automatique', err);
+            }
+          }
           if (typeof form.__onSuccess === 'function') {
             form.__onSuccess();
           }
@@ -210,8 +239,9 @@ function openAccessibleModal(modal, { initialFocus } = {}) {
          const isPreview = variant === 'preview';
    const card = document.createElement('article');
         const hasMedia = Boolean(service.image);
+        const icon = service.icon || '🛠️';
         card.className = `card service-card ${isPreview ? 'service-card--compact' : ''} ${hasMedia ? 'service-card--with-media' : ''}`;
-        card.dataset.icon = service.icon || '🛠️';
+ 
 
         const description = isPreview ? service.summary || service.details : service.details;
         const deliverables = !isPreview && Array.isArray(service.deliverables)
@@ -228,11 +258,16 @@ function openAccessibleModal(modal, { initialFocus } = {}) {
           ? `<figure class="service-card__media"><img src="${service.image}" alt="${service.title}" loading="lazy" onerror="this.remove()"></figure>`
           : '';
 
-        card.innerHTML = `
+         card.innerHTML = `
           ${media}
           <div class="service-card__body">
-            <h3>${service.title}</h3>
-            ${service.tagline ? `<p class="service-tagline">${service.tagline}</p>` : ''}
+            <header class="service-card__header">
+              <span class="service-card__icon" aria-hidden="true">${icon}</span>
+              <div class="service-card__heading">
+                <h3>${service.title}</h3>
+                ${service.tagline ? `<p class="service-tagline">${service.tagline}</p>` : ''}
+              </div>
+            </header>
             <p>${description}</p>
             ${deliverables}
             ${tools}
@@ -755,7 +790,13 @@ function openAccessibleModal(modal, { initialFocus } = {}) {
     slugInput.dataset.preserve = 'true';
     preview.innerHTML = `<img src="${freebie.preview || 'images/doc.jpg'}" alt="${freebie.title}" loading="lazy" onerror="this.src='images/doc.jpg'">`;
 
-     const closeModal = openAccessibleModal(modal, {
+   if (freebie.download) {
+      form.dataset.download = freebie.download;
+    } else {
+      delete form.dataset.download;
+    }
+
+    const closeModal = openAccessibleModal(modal, {
       initialFocus: () => form.querySelector('input[name="nom"]') || modal.querySelector('.close-button')
     });
 
