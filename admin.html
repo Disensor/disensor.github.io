@@ -12,7 +12,10 @@
 <body class="admin-page">
   <main class="admin-wrapper">
     <header class="admin-header">
-      <h1>Espace d’administration</h1>
+        <div class="admin-header__top">
+        <h1>Espace d’administration</h1>
+        <a class="admin-back-link" href="index.html">← Retour au site</a>
+        </div>
       <p>Connecte-toi avec un token GitHub disposant des droits d’écriture sur le dépôt <code>Disensor/disensor.github.io</code> afin de gérer les produits, projets, services, téléchargements gratuits et retours clients.</p>
     </header>
 
@@ -187,6 +190,60 @@
         </div>
       </section>
 
+ <section class="panel" id="mediaPanel" aria-labelledby="mediaPanelTitle">
+        <div>
+          <h2 id="mediaPanelTitle">Bibliothèque médias</h2>
+          <p>Importe, renomme ou supprime les images du site et ajuste leur crédit d’affichage.</p>
+        </div>
+
+        <form id="mediaUploadForm" class="media-upload" novalidate>
+          <div class="form-grid">
+            <label for="mediaFolder">Dossier cible
+              <input type="text" id="mediaFolder" name="mediaFolder" value="images/" required />
+            </label>
+            <label for="mediaFiles">Images à téléverser
+              <input type="file" id="mediaFiles" name="mediaFiles" accept="image/*" multiple required />
+            </label>
+            <label for="mediaCustomName">Nom personnalisé (optionnel)
+              <input type="text" id="mediaCustomName" name="mediaCustomName" placeholder="visuel-projet.png" />
+            </label>
+          </div>
+          <div class="button-row">
+            <button type="submit" class="primary">Uploader</button>
+            <button type="button" class="secondary" id="mediaRefresh">Actualiser le dossier</button>
+          </div>
+          <p id="mediaStatus" class="status-message" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="media-browser">
+          <div class="media-browser__header">
+            <strong>Dossier courant :</strong>
+            <nav id="mediaBreadcrumb" class="media-breadcrumb" aria-label="Fil d’Ariane médias"></nav>
+          </div>
+          <div id="mediaList" class="media-list" aria-live="polite" aria-busy="true">Connecte-toi pour afficher les fichiers…</div>
+        </div>
+
+        <div class="media-credits">
+          <h3>Crédits d’image</h3>
+          <form id="mediaCreditForm" novalidate>
+            <div class="form-grid">
+              <label for="mediaCreditPath">Chemin de l’image
+                <input type="text" id="mediaCreditPath" name="mediaCreditPath" placeholder="images/showcase/machines.svg" required />
+              </label>
+              <label for="mediaCreditValue">Crédit affiché
+                <input type="text" id="mediaCreditValue" name="mediaCreditValue" value="3DPANNE" required />
+              </label>
+            </div>
+            <div class="button-row">
+              <button type="submit" class="primary">Enregistrer</button>
+              <button type="button" class="secondary" id="mediaCreditCancel">Réinitialiser</button>
+            </div>
+            <p id="mediaCreditStatus" class="status-message" role="status" aria-live="polite"></p>
+          </form>
+          <div id="mediaCreditList" class="admin-list">Connecte-toi pour gérer les crédits…</div>
+        </div>
+      </section>
+      
       <section class="panel" id="servicePanel" aria-labelledby="servicePanelTitle">
         <div>
           <h2 id="servicePanelTitle">Services proposés</h2>
