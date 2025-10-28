@@ -16,125 +16,164 @@
 <main class="page-content savoir-faire-page">
   <section class="page-hero">
     <p class="eyebrow">Savoir-faire</p>
-    <h1>Équipements & méthodes</h1>
-    <p class="lead">Un atelier mobile orienté impression 3D, rétrofit et automatisation. Nous combinons outils numériques et contrôle qualité pour livrer des pièces fiables.</p>
+    <h1>Atelier de prototypage et rétrofit à taille humaine</h1>
+    <p class="lead">Nous travaillons avec une Creality Ender 3 fiabilisée, un poste d’ajustage manuel et quatre stations CAO pour concevoir, réparer et documenter vos pièces unitaires avec des outils 100&nbsp;% libres.</p>
+  </section>
+
+  <section>
+    <h2>Une organisation agile pour vos urgences techniques</h2>
+    <p>Chaque mission combine modélisation open source, fabrication additive et finitions manuelles afin de livrer rapidement des pièces prêtes à monter.</p>
+    <ul>
+      <li>Documentation versionnée (plans, notices, photos) partagée sur demande.</li>
+      <li>Échanges fluides par e-mail, téléphone ou Mattermost selon votre préférence.</li>
+      <li>Archivage des fichiers FreeCAD, LibreCAD et profils Cura / PrusaSlicer pour faciliter les itérations.</li>
+    </ul>
   </section>
 
   <section class="equipment-grid">
     <article>
-      <h2>Parc impression 3D</h2>
+      <h2>Structure de l’atelier</h2>
       <ul>
-        <li><strong>Creality Ender 3 modifiée</strong> – PLA+, PETG, TPU 95A, volume 220×220×250 mm.</li>
-        <li><strong>Bambu Lab X1</strong> – Production rapide multi-matériaux, capteurs intégrés.</li>
-        <li><strong>Anycubic Photon Mono</strong> – Résines techniques haute définition.</li>
+        <li>Creality Ender 3 entretenue (buses 0,4 / 0,6&nbsp;mm, plateau PEI magnétique).</li>
+        <li>Poste de montage pour petits systèmes de précision et essais fonctionnels.</li>
+        <li>Espace photo dédié pour documenter chaque envoi.</li>
       </ul>
     </article>
     <article>
-      <h2>Logiciels & préparation</h2>
+      <h2>Informatique & logiciels</h2>
       <ul>
-        <li>CAO 3D : FreeCAD pour la modélisation paramétrique</li>
-        <li>CAO 2D : LibreCAD et QCAD CE pour les plans et découpes.</li>
-        <li>Slicing : Cura, PrusaSlicer et OrcaSlicer selon les matériaux.</li>
-        <li>Gestion : Nextcloud, OnlyOffice Docs et Mattermost pour suivre les échanges.</li>
+        <li>4 ordinateurs Linux équipés de FreeCAD, LibreCAD, KiCad et OnlyOffice.</li>
+        <li>Préparation impression sous Cura et PrusaSlicer avec profils maison.</li>
+        <li>Stockage et partage via Nextcloud auto-hébergé en France.</li>
       </ul>
     </article>
     <article>
-      <h2>Qualité & contrôle</h2>
+      <h2>Contrôle & expédition</h2>
       <ul>
-        <li>Mesures au pied à coulisse digital 0,01 mm.</li>
-        <li>Checklists de montage et photos haute résolution.</li>
-        <li>Rapports PDF et vidéos explicatives selon besoin.</li>
+        <li>Contrôle visuel et mesure au pied à coulisse digital (0,01&nbsp;mm).</li>
+        <li>Ébavurage, perçage de précision, Dremel, touret et limes pour les finitions.</li>
+        <li>Conditionnement soigné, impression ticket de reçu et suivi colis.</li>
+      </ul>
+    </article>
+  </section>
+  <section class="equipment-grid">
+    <article>
+      <h2>Matériel de production</h2>
+      <ul>
+        <li>Creality Ender 3 (PLA, PLA+, PETG, TPU 95A).</li>
+        <li>Plateau PEI flexible, détection filament et enceinte souple.</li>
+        <li>Préparation des inserts filetés et aimants néodyme à venir.</li>
+      </ul>
+    </article>
+    <article>
+      <h2>Outillage manuel</h2>
+      <ul>
+        <li>Perceuse colonne de précision, touret, Dremel et mini-outils.</li>
+        <li>Jeux de clés, tournevis, pinces, serre-joints et étau.</li>
+        <li>Limes, abrasifs, colles techniques, visserie inox et gaines thermo.</li>
+      </ul>
+    </article>
+    <article>
+      <h2>Postes informatiques</h2>
+      <ul>
+        <li>Quatre postes (fixes & portables) dédiés à la CAO/DAO et bureautique.</li>
+        <li>Automatisation des exports STEP, STL, DXF et PDF.</li>
+        <li>Sauvegardes chiffrées et synchronisation quotidienne.</li>
       </ul>
     </article>
   </section>
 
- < section class = "section-table-logiciel" > 
-    <h2>Suite logicielle open source</h2>
-    <p>Nous privilégions des outils libres pour garantir la traçabilité et la réutilisation de vos fichiers. <ahref="softwares.html">Découvrir la fiche détaillée des logiciels</a>.</p> 
-    < div class = "software-table-wrapper" > 
-      < table class = "table-logicielle" > 
-        < tête >
-          < tr >
-            < th scope = "col" > Logo </ th > 
-            <thscope="col">Logiciel</th> 
-            < th scope = "col" > Principal d'utilisation </ th > 
-            < th scope = "col" > Licence </ th > 
-          </ tr >
-        </ tête >
-        < corps >
-          < tr >
-            < td > < img src = "images/logos/freecad.svg" alt = "Logo FreeCAD" loading = "lazy" > </ td >   
-            < td > < fort > FreeCAD </ fort > </ td >
-            <td>Modélisation 3D paramétrique et assemblages mécaniques.</td>
-            < td > LGPL   2.1 </ td >
-          </ tr >
-          < tr >
-            < td > < img src = "images/logos/librecad.svg" alt = "Logo LibreCAD" chargement = "lazy" > </ td >   
-            < td > < fort > LibreCAD </ fort > </ td >
-            <td>Dessins 2D normés, plans de découpe et gabarits.</td>
-            < td > GPL   v2 </ td >
-          </ tr >
-          < tr >
-            < td > < img src = "images/logos/kicad.svg" alt = "Logo KiCad" loading = "lazy" > </ td >   
-            < td > < fort > KiCad </ fort > </ td >
-            <td>Schémas électroniques et circuits imprimés.</td>
-            < td > GPL   v3 </ td >
-          </ tr >
-          < tr >
-            < td > < img src = "images/logos/cura.svg" alt = "Logo Cura" loading = "lazy" > </ td >   
-            < td > < strong > Cura </ strong > </ td >
-            <td>Préparation d’impression 3D FDM et profils matériaux.</td>
-            < td > LGPL   v3 </ td >
-          </ tr >
-          < tr >
-            < td > < img src = "images/logos/prusaslicer.svg" alt = "Logo PrusaSlicer" loading = "lazy" > </ td >   
-            < td > < fort > PrusaSlicer </ fort > </ td >
-            <td>Tranchage avancé multi-extrudeurs et optimisation supports.</td>
-            < td > AGPL   v3 </ td >
-          </ tr >
-        </ tbody >
-      </table>​​
-    </div>​​
-  </ section >
-  
-<section class="equipment-gallery" aria-labelledby="equipmentGalleryTitle">
-    <h2 id="equipmentGalleryTitle">Le parc machine en images</h2>
-    <div class="real-gallery">
-      <figure>
-        <img src="images/showcase/machines.svg" alt="Imprimantes FDM alignées et prêtes à produire" loading="lazy" />
-        <figcaption>Production FDM : pièces techniques en PLA+ et PETG renforcé.</figcaption>
-      </figure>
-      <figure>
-        <img src="images/projects/interface-card.svg" alt="Pupitre tactile modernisé" loading="lazy" />
-        <figcaption>Pupitre opérateur conçu sur-mesure et installé sur ligne.</figcaption>
-      </figure>
-      <figure>
-        <img src="images/showcase/atelier.svg" alt="Poste de contrôle dimensionnel" loading="lazy" />
-        <figcaption>Contrôle qualité et rapport photo avant livraison.</figcaption>
-      </figure>
-    </div>
-  </section>
-  
   <section class="process-timeline">
-    <h2>Process maîtrisé</h2>
+    <h2>Process en quatre étapes</h2>
     <ol>
-      <li><strong>Capture du besoin</strong> – Atelier visio, prise de mesures, analyse des risques.</li>
-      <li><strong>Modélisation & validation</strong> – Itérations rapides, aperçu 3D partagé, ajustements.</li>
-      <li><strong>Fabrication</strong> – Paramètres adaptés, matériaux certifiés, suivi en temps réel.</li>
-      <li><strong>Contrôle & livraison</strong> – Contrôle dimensionnel, emballage soigné, support.</li>
+      <li><strong>Diagnostic.</strong> Collecte des mesures, photos et contraintes d’usage.</li>
+      <li><strong>Modélisation libre.</strong> Conception ou rétrofit sous FreeCAD / LibreCAD avec validation visuelle.</li>
+      <li><strong>Fabrication Ender 3.</strong> Impression, ajustage manuel et préparation d’assemblage.</li>
+      <li><strong>Contrôle & livraison.</strong> Vérification visuelle, pied à coulisse, reportage photo, emballage et expédition.</li>
     </ol>
   </section>
 
-  <section class="callout">
-    <h3>Besoin d’en voir plus ?</h3>
-    <p>Demandez un portfolio ou planifiez une visite virtuelle de l’atelier.</p>
-    <a href="contact.html" class="cta-button">Organiser un rendez-vous</a>
+  <section class="software-table-section">
+    <h2>Suite logicielle open source</h2>
+    <p>Nous nous appuyons uniquement sur des outils libres pour garantir la traçabilité de vos fichiers et leur réutilisation. <a href="softwares.html">Consulter la fiche détaillée des logiciels</a>.</p>
+    <div class="software-table-wrapper">
+      <table class="software-table">
+        <thead>
+          <tr>
+            <th scope="col">Logo</th>
+            <th scope="col">Logiciel</th>
+            <th scope="col">Usage principal</th>
+            <th scope="col">Licence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><img src="images/logos/freecad.svg" alt="Logo FreeCAD" loading="lazy"></td>
+            <td><strong>FreeCAD</strong></td>
+            <td>Modélisation paramétrique, assemblages et plans.</td>
+            <td>LGPL&nbsp;2.1</td>
+          </tr>
+          <tr>
+            <td><img src="images/logos/librecad.svg" alt="Logo LibreCAD" loading="lazy"></td>
+            <td><strong>LibreCAD</strong></td>
+            <td>Plans 2D normés, gabarits de découpe.</td>
+            <td>GPL&nbsp;v2</td>
+          </tr>
+          <tr>
+            <td><img src="images/logos/kicad.svg" alt="Logo KiCad" loading="lazy"></td>
+            <td><strong>KiCad</strong></td>
+            <td>Schémas et circuits imprimés.</td>
+            <td>GPL&nbsp;v3</td>
+          </tr>
+          <tr>
+            <td><img src="images/logos/cura.svg" alt="Logo Cura" loading="lazy"></td>
+            <td><strong>Cura</strong></td>
+            <td>Préparation impression FDM sur Ender 3.</td>
+            <td>LGPL&nbsp;v3</td>
+          </tr>
+          <tr>
+            <td><img src="images/logos/prusaslicer.svg" alt="Logo PrusaSlicer" loading="lazy"></td>
+            <td><strong>PrusaSlicer</strong></td>
+            <td>Profils alternatifs et ajustement des supports.</td>
+            <td>AGPL&nbsp;v3</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
- <sectionclass="software-strip"aria-label="Logiciels utilisés">  
-    < img src = "images/showcase/logos.svg" alt = "Logos FreeCAD, LibreCAD, KiCad et Cura " loading = "lazy" />   
-  </ section >
-  
+  <section class="equipment-gallery" aria-labelledby="equipmentGalleryTitle">
+    <h2 id="equipmentGalleryTitle">L’atelier en images</h2>
+    <div class="real-gallery">
+      <figure>
+        <img src="images/showcase/atelier.svg" alt="Poste d’outillage manuel et zone de contrôle" loading="lazy" />
+        <figcaption>Outillage manuel pour ajustage, ébavurage et finitions.</figcaption>
+        <p class="image-credit" data-credit-for="images/showcase/atelier.svg">Crédit image : 3DPANNE</p>
+      </figure>
+      <figure>
+        <img src="images/projects/interface-card.svg" alt="Carte pupitre modernisée" loading="lazy" />
+        <figcaption>Exemple de rétrofit : pupitre de commande modernisé.</figcaption>
+        <p class="image-credit" data-credit-for="images/projects/interface-card.svg">Crédit image : 3DPANNE</p>
+      </figure>
+      <figure>
+        <img src="images/showcase/machines.svg" alt="Creality Ender 3 prête pour une production" loading="lazy" />
+        <figcaption>Production FDM sur Creality Ender 3 calibrée chaque jour.</figcaption>
+        <p class="image-credit" data-credit-for="images/showcase/machines.svg">Crédit image : 3DPANNE</p>
+      </figure>
+    </div>
+  </section>
+
+  <section class="callout">
+    <h3>Planifier une intervention</h3>
+    <p>Partagez votre besoin : nous répondons sous 48&nbsp;h avec un diagnostic, un devis et un planning réaliste.</p>
+    <a href="contact.html" class="cta-button">Contacter l’atelier</a>
+  </section>
+
+  <section class="software-strip" aria-label="Logiciels utilisés">
+    <img src="images/showcase/logos.svg" alt="Logos FreeCAD, LibreCAD, KiCad et Cura" loading="lazy" />
+    <p class="image-credit" data-credit-for="images/showcase/logos.svg">Crédit image : 3DPANNE</p>
+  </section>
+
 </main>
 
 <div data-include="includes/footer.html"></div>
