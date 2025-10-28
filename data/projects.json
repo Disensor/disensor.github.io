@@ -2,12 +2,8 @@
   {
     "id": "proj-coulisseau",
     "title": "Remplacement d’un coulisseau de lève-vitre cassé",
-    "thumbnail": "images/projects/leve-vitre-card.jpg",
-    "gallery": [
-      "images/projects/leve-vitre-1.jpg",
-      "images/projects/leve-vitre-2.jpg"
-    ],
     "summary": "Recréation sur-mesure d’un coulisseau de fenêtre pour camping-car Ford Challenger avec validation fonctionnelle.",
+    "thumbnail": "images/projects/leve-vitre-card.jpg",
     "description": "Un propriétaire de camping-car ne trouvait plus la pièce de rechange pour son coulisseau de lève-vitre électrique. Nous avons reconstitué la pièce d’origine à partir de mesures et d’un scan 3D, conçu un modèle optimisé puis produit une version renforcée en impression FDM. Après plusieurs itérations de tests, la pièce a été validée et réinstallée dans le mécanisme d’origine.",
     "highlights": [
       "Prise de cotes et rétro-conception complète",
@@ -18,12 +14,13 @@
       "Modélisation CAO",
       "Impression 3D"
     ],
+    "gallery": [
+      "images/projects/coulisseau-1.jpg",
+      "images/projects/coulisseau-2.jpg"
+    ],
     "cta": "Commander une pièce similaire",
     "ctaLink": "commandes.html?type=remplacement"
   },
-
-
-  
   {
     "id": "proj-hobbytech-bx10",
     "title": "Réparation d’un triangle avant de voiture RC Hobbytech Survolt BX10",
@@ -49,10 +46,6 @@
     "cta": "Commander une pièce RC similaire",
     "ctaLink": "commandes.html?type=rc"
   },
-
-
-
-  
   {
     "id": "proj-hotte-smeg",
     "title": "Modélisation d’un cache lumière de hotte aspirante SMEG",
@@ -75,10 +68,6 @@
     "cta": "Commander une pièce de hotte sur mesure",
     "ctaLink": "commandes.html?type=hotte"
   },
-
-
-
-  
   {
     "id": "proj-bouton-fagor",
     "title": "Bouton de lave-vaisselle Fagor renforcé",
