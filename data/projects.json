@@ -3,7 +3,7 @@
     "id": "proj-coulisseau",
     "title": "Remplacement d’un coulisseau de lève-vitre cassé",
     "summary": "Recréation sur-mesure d’un coulisseau de fenêtre pour camping-car Ford Challenger avec validation fonctionnelle.",
-    "thumbnail": "images/projects/leve-vitre-card.jpg",
+    "thumbnail": "images/projects/camping-car.webp",
     "description": "Un propriétaire de camping-car ne trouvait plus la pièce de rechange pour son coulisseau de lève-vitre électrique. Nous avons reconstitué la pièce d’origine à partir de mesures et d’un scan 3D, conçu un modèle optimisé puis produit une version renforcée en impression FDM. Après plusieurs itérations de tests, la pièce a été validée et réinstallée dans le mécanisme d’origine.",
     "highlights": [
       "Prise de cotes et rétro-conception complète",
