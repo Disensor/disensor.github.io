@@ -18,5 +18,5 @@
     <path d="M440 260h80" opacity="0.35" />
     <path d="M440 300h60" opacity="0.2" />
   </g>
-  <text x="50%" y="70" fill="#ffffff" font-family="'Segoe UI',sans-serif" font-size="38" font-weight="600" text-anchor="middle">Captures SolidWorks & Fusion</text>
+  <text x="50%" y="70" fill="#ffffff" font-family="'Segoe UI',sans-serif" font-size="38" font-weight="600" text-anchor="middle">Tableau FreeCAD & Cura</text>
 </svg>
