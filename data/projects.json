@@ -89,5 +89,17 @@
     ],
     "cta": "Commander une pièce électroménager similaire",
     "ctaLink": "commandes.html?type=electromenager"
+  },
+  {
+    "id": "essai1",
+    "title": "essai1",
+    "summary": "",
+    "thumbnail": "",
+    "description": "test",
+    "highlights": [],
+    "services": [],
+    "gallery": [],
+    "cta": "",
+    "ctaLink": ""
   }
 ]
